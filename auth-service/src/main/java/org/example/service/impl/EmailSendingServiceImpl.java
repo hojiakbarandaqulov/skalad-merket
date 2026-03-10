@@ -86,6 +86,7 @@ public class EmailSendingServiceImpl implements EmailSendingService {
         body = String.format(body, verificationUrl);
 //        body = String.format(body, serverDomain,JwtUtil.encode(profileId, email));
 
+
         sendMimeEmail(email, subject, body);
     }
 
@@ -127,9 +128,9 @@ public class EmailSendingServiceImpl implements EmailSendingService {
             helper.setTo(email);
             helper.setSubject(subject);
             helper.setText(body, true);
-//            CompletableFuture.runAsync(() -> {
+            CompletableFuture.runAsync(() -> {
                 mailSender.send(msg);
-//            });
+            });
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }

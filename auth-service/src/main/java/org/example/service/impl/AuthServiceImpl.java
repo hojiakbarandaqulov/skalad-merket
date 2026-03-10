@@ -2,12 +2,14 @@ package org.example.service.impl;
 
 import io.jsonwebtoken.JwtException;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.example.dto.ApiResponse;
 import org.example.dto.RegistrationDTO;
 import org.example.dto.auth.LoginDTO;
 import org.example.dto.auth.ProfileDTO;
 import org.example.dto.auth.ResetPasswordDTO;
 import org.example.dto.auth.UpdatePasswordDTO;
+import org.example.dto.kafka.UserRegisteredEvent;
 import org.example.entity.Users;
 import org.example.enums.AppLanguage;
 import org.example.enums.GeneralStatus;
@@ -16,6 +18,7 @@ import org.example.exp.AppBadException;
 import org.example.repository.UserRepository;
 import org.example.service.AuthService;
 import org.example.service.EmailSendingService;
+import org.example.service.KafkaProducerService;
 import org.example.service.ResourceBundleService;
 import org.example.utils.EmailUtil;
 import org.example.utils.JwtUtil;
@@ -26,19 +29,16 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final ResourceBundleService messageService;
+    private final KafkaProducerService kafkaProducerService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final EmailSendingService emailSendingService;
 
-    public AuthServiceImpl(UserRepository userRepository, ResourceBundleService messageService, BCryptPasswordEncoder bCryptPasswordEncoder, EmailSendingService emailSendingService) {
-        this.userRepository = userRepository;
-        this.messageService = messageService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.emailSendingService = emailSendingService;
-    }
+
 
     @Override
     public ApiResponse<String> registration(RegistrationDTO dto, AppLanguage language) {
@@ -59,6 +59,14 @@ public class AuthServiceImpl implements AuthService {
         entity.setRole(Roles.ROLE_USER);
         userRepository.save(entity);
 
+        kafkaProducerService.sendUserRegistered(UserRegisteredEvent.builder()
+                        .userId(entity.getId())
+                        .username(entity.getUsername())
+                        .fullName(entity.getFullName())
+                        .role(entity.getRole())
+                        .status(entity.getStatus())
+                .build());
+
         if (EmailUtil.isEmail(dto.getUsername())) {
             emailSendingService.sendRegistrationEmail(dto.getUsername(), entity.getId());
         } else if (PhoneUtil.isPhone(dto.getUsername())) {
@@ -74,6 +82,7 @@ public class AuthServiceImpl implements AuthService {
             Users profile = userRepository.getReferenceById(profileId);
             if (profile.getStatus().equals(GeneralStatus.IN_REGISTRATION)) {
                 userRepository.changeStatus(profileId, GeneralStatus.ACTIVE);
+                kafkaProducerService.sendUserVerified(profileId);
                 return new ApiResponse<>(messageService.getMessage("verification.successful", lang));
             }
         } catch (JwtException e) {
@@ -130,11 +139,6 @@ public class AuthServiceImpl implements AuthService {
         if (!profile.getStatus().equals(GeneralStatus.ACTIVE)) {
             throw new AppBadException(messageService.getMessage("wrong.status", language));
         }
-       /* if (PhoneUtil.isPhone(dto.getUsername())) {
-//            smsService.sendSms(dto.getUsername());
-        } else if (EmailUtil.isEmail(dto.getUsername())) {
-            emailSendingService.sentResetPasswordEmail(dto.getUsername(), language);
-        }*/
         userRepository.updatePassword(profile.getId(), bCryptPasswordEncoder.encode(dto.getNewPassword()));
         return new ApiResponse<>(messageService.getMessage("reset.password.success", language));
     }
