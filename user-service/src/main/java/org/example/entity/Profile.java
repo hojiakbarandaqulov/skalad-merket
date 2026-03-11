@@ -1,9 +1,6 @@
 package org.example.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import lombok.*;
 import org.example.entity.base.BaseEntity;
 import org.example.enums.GeneralStatus;
@@ -20,18 +17,19 @@ public class Profile extends BaseEntity {
     @Column(unique = true, nullable = false)
     private Long userId;
 
-
     private String username;
     private String fullName;
-
-
-    @Enumerated(EnumType.STRING)
-    private Roles role;
+    private String position;
+    private String telegram;
+    @Column(length = 13)
+    private String extraPhone;
+    private String password;
 
     @Enumerated(EnumType.STRING)
     private GeneralStatus status;
 
-
-   /* @OneToOne(mappedBy = "profile", cascade = CascadeType.ALL)
-    private Attach avatar;*/
+    @Enumerated(EnumType.STRING)
+    private Roles roles;
+    @ManyToOne
+    private Attach photo;
 }

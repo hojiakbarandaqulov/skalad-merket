@@ -9,6 +9,7 @@ import org.example.enums.GeneralStatus;
 import org.example.repository.ProfileRepository;
 import org.example.service.KafkaConsumerService;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -40,8 +41,8 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
                 .userId(event.getUserId())
                 .username(event.getUsername())
                 .fullName(event.getFullName())
-                .role(event.getRole())
-
+                .password(event.getPassword())
+                .roles(event.getRoles())
                 .status(event.getStatus())
                 .build();
 
@@ -54,15 +55,14 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
             groupId = "user-service-group",
             properties = {"spring.json.value.default.type=org.example.dto.kafka.UserVerifiedEvent"}
     )
-    @Override
     public void onUserVerified(UserVerifiedEvent event) {
-        log.info("Kafka ← user.verified keldi, userId={}", event.getUserId());
+        log.info("Kafka ← user.verified keldi, userId={}",
+                event.getUserId());
         Optional<Profile> profile = profileRepository.findByUserId(event.getUserId());
         if (profile.isPresent()) {
-            Profile profileVerified = profile.get();
-            profileVerified.setStatus(GeneralStatus.ACTIVE);
-            profileRepository.save(profileVerified);
-            log.info("✓ Profil ACTIVE bo'ldi, userId={}", event.getUserId());
+            Profile verifiedProfile = profile.get();
+            verifiedProfile.setStatus(GeneralStatus.ACTIVE);
+            profileRepository.save(verifiedProfile);
         }
     }
 }

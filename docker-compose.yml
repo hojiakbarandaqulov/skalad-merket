@@ -42,3 +42,17 @@ services:
       POSTGRES_PASSWORD: 1234
     ports:
       - "5434:5432"     # 2 ta bo'sh joy (indent)
+
+  minio:
+    image: quay.io/minio/minio
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    volumes:
+      - ./data:/data
+    command: server /data --console-address ":9001"
+    restart: unless-stopped

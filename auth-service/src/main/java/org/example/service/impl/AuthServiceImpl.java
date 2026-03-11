@@ -16,17 +16,16 @@ import org.example.enums.GeneralStatus;
 import org.example.enums.Roles;
 import org.example.exp.AppBadException;
 import org.example.repository.UserRepository;
-import org.example.service.AuthService;
-import org.example.service.EmailSendingService;
-import org.example.service.KafkaProducerService;
-import org.example.service.ResourceBundleService;
+import org.example.service.*;
 import org.example.utils.EmailUtil;
 import org.example.utils.JwtUtil;
 import org.example.utils.PhoneUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -37,7 +36,7 @@ public class AuthServiceImpl implements AuthService {
     private final KafkaProducerService kafkaProducerService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final EmailSendingService emailSendingService;
-
+    private final LoginAttemptService loginAttemptService;
 
 
     @Override
@@ -56,15 +55,16 @@ public class AuthServiceImpl implements AuthService {
         entity.setUsername(dto.getUsername());
         entity.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
         entity.setStatus(GeneralStatus.IN_REGISTRATION);
-        entity.setRole(Roles.ROLE_USER);
+        entity.setRole(Roles.ROLE_BUYER);
         userRepository.save(entity);
 
         kafkaProducerService.sendUserRegistered(UserRegisteredEvent.builder()
-                        .userId(entity.getId())
-                        .username(entity.getUsername())
-                        .fullName(entity.getFullName())
-                        .role(entity.getRole())
-                        .status(entity.getStatus())
+                .userId(entity.getId())
+                .username(entity.getUsername())
+                .fullName(entity.getFullName())
+                .password(entity.getPassword())
+                .roles(entity.getRole())
+                .status(entity.getStatus())
                 .build());
 
         if (EmailUtil.isEmail(dto.getUsername())) {
@@ -92,27 +92,44 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional(noRollbackFor = AppBadException.class)
     public ApiResponse<ProfileDTO> login(LoginDTO dto, AppLanguage language) {
         Optional<Users> optional = userRepository.findByUsernameAndDeletedFalse(dto.getUsername());
         if (optional.isEmpty()) {
-            throw new AppBadException(messageService.getMessage("username.password.wrong", language));
+            throw new AppBadException(messageService.getMessage("username.not.found", language));
         }
         Users profile = optional.get();
+
+        if (profile.getLockedUntil() != null && profile.getLockedUntil().isAfter(LocalDateTime.now())) {
+            long minutesLeft = ChronoUnit.MINUTES.between(LocalDateTime.now(), profile.getLockedUntil()) + 1;
+            throw new AppBadException(
+                    messageService.getMessage("account.locked", language) + " " + minutesLeft + " " + messageService.getMessage("minute", language)
+            );
+        }
+
         if (!bCryptPasswordEncoder.matches(dto.getPassword(), profile.getPassword())) {
+            loginAttemptService.handleFailedAttempt(profile);
             throw new AppBadException(messageService.getMessage("wrong.password", language));
         }
         if (!profile.getStatus().equals(GeneralStatus.ACTIVE)) {
             throw new AppBadException(messageService.getMessage("wrong.status", language));
         }
+
+        profile.setFailedLoginCount(0);
+        profile.setLockedUntil(null);
+        profile.setLastLoginAt(LocalDateTime.now());
+        userRepository.save(profile);
+
         ProfileDTO response = new ProfileDTO();
         response.setFullName(profile.getFullName());
         response.setUsername(profile.getUsername());
         response.setRole(profile.getRole());
         response.setJwt(JwtUtil.encode(profile.getId(), profile.getUsername(), response.getRole()));
-//        response.setPhoto(attachService.attachDTO(profile.getPhotoId()));
+
+        profile.setLastLoginAt(LocalDateTime.now());
+        userRepository.save(profile);
         return new ApiResponse<>(response);
     }
-
 
 
     @Override
@@ -142,5 +159,6 @@ public class AuthServiceImpl implements AuthService {
         userRepository.updatePassword(profile.getId(), bCryptPasswordEncoder.encode(dto.getNewPassword()));
         return new ApiResponse<>(messageService.getMessage("reset.password.success", language));
     }
+
 }
 

@@ -13,6 +13,7 @@ public class UserRegisteredEvent {
     private Long userId;
     private String username;
     private String fullName;
-    private Roles role;
+    private String password;
     private GeneralStatus status;
+    private Roles roles;
 }

@@ -6,5 +6,5 @@ import org.example.dto.kafka.UserVerifiedEvent;
 public interface KafkaConsumerService {
 
      void onUserRegistered(UserRegisteredEvent event);
-    void onUserVerified(UserVerifiedEvent event);
+     void onUserVerified(UserVerifiedEvent event);
 }

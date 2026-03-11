@@ -1,7 +1,6 @@
 package org.example.service.impl;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.kafka.UserRegisteredEvent;
 import org.example.dto.kafka.UserVerifiedEvent;
@@ -27,7 +26,8 @@ public class KafkaProducerServiceImpl implements KafkaProducerService {
 
     @Override
     public void sendUserVerified(Long userId) {
-        kafkaTemplate.send(USER_VERIFIED,userId.toString(),new UserVerifiedEvent(userId));
+        kafkaTemplate.send(USER_VERIFIED,userId.toString(), new UserVerifiedEvent(userId));
         log.info("Kafka -> User verified yuborildi: {}", userId);
     }
+
 }
