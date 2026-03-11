@@ -1,0 +1,9 @@
+### attach upload
+POST http://localhost:8082/api/v1/attach/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb2RldXo5MUBnbWFpbC5jb20iLCJyb2xlcyI6IlJPTEVfQlVZRVIiLCJpZCI6IjIiLCJpYXQiOjE3NzMyMTMzNTcsImV4cCI6MTc3MzM4NjE1N30.J61CW44gs16SM6IpztIoBi3jEkGwHsHa3l4UWa0wWNu0k9T7DPkJhW27oXc4hf6o
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="logo1.jpg"
+
+< C:\Users\hojia\Pictures\logo1.jpg
