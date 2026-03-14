@@ -8,7 +8,11 @@ import lombok.Setter;
 @Setter
 public class ProfileUpdateRequestDTO {
     @NotBlank(message = "fullName required")
-    private String fullName;
+    private String firstName;
+
+    @NotBlank(message = "fullName required")
+    private String lastName;
+
     @NotBlank(message = "position required")
     private String position;
     @NotBlank(message = "telegram required")

@@ -21,4 +21,5 @@ public class EmailHistory extends BaseEntity {
     private EmailType emailType;
 
     private Integer attemptCount;
+
 }

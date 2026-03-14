@@ -2,7 +2,9 @@ package org.example.service;
 
 import io.jsonwebtoken.JwtException;
 import org.example.dto.ApiResponse;
+import org.example.dto.RefreshTokenDTO;
 import org.example.dto.RegistrationDTO;
+import org.example.dto.TokenResponseDTO;
 import org.example.dto.auth.LoginDTO;
 import org.example.dto.auth.ProfileDTO;
 import org.example.dto.auth.ResetPasswordDTO;
@@ -24,4 +26,5 @@ public interface AuthService {
 
      ApiResponse<String> resetPasswordConfirm(UpdatePasswordDTO dto, AppLanguage language);
 
+     ApiResponse<TokenResponseDTO> refresh(RefreshTokenDTO dto);
 }

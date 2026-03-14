@@ -29,5 +29,4 @@ public class KafkaProducerServiceImpl implements KafkaProducerService {
         kafkaTemplate.send(USER_VERIFIED,userId.toString(), new UserVerifiedEvent(userId));
         log.info("Kafka -> User verified yuborildi: {}", userId);
     }
-
 }

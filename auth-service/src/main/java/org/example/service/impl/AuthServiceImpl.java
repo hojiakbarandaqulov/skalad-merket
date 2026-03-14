@@ -4,7 +4,9 @@ import io.jsonwebtoken.JwtException;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.ApiResponse;
+import org.example.dto.RefreshTokenDTO;
 import org.example.dto.RegistrationDTO;
+import org.example.dto.TokenResponseDTO;
 import org.example.dto.auth.LoginDTO;
 import org.example.dto.auth.ProfileDTO;
 import org.example.dto.auth.ResetPasswordDTO;
@@ -37,8 +39,9 @@ public class AuthServiceImpl implements AuthService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final EmailSendingService emailSendingService;
     private final LoginAttemptService loginAttemptService;
+    private final KeycloakService keycloakService;
 
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public ApiResponse<String> registration(RegistrationDTO dto, AppLanguage language) {
         Optional<Users> optional = userRepository.findByUsernameAndDeletedFalse(dto.getUsername());
@@ -50,18 +53,27 @@ public class AuthServiceImpl implements AuthService {
                 throw new AppBadException(messageService.getMessage("email.phone.exists", language));
             }
         }
+        String keycloakId = keycloakService.createUser(
+                dto.getFirstName(), dto.getLastName(), dto.getUsername(), dto.getPassword()
+        );
+
         Users entity = new Users();
-        entity.setFullName(dto.getFullName());
+        entity.setFirstName(dto.getFirstName());
+        entity.setLastName(dto.getLastName());
         entity.setUsername(dto.getUsername());
         entity.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
         entity.setStatus(GeneralStatus.IN_REGISTRATION);
         entity.setRole(Roles.ROLE_BUYER);
-        userRepository.save(entity);
+        entity.setKeycloakId(keycloakId);
+        Users save = userRepository.save(entity);
 
+
+        keycloakService.addProfileIdAttribute(keycloakId, save.getId(), dto.getFirstName(), dto.getLastName(), dto.getUsername(), dto.getPassword());
         kafkaProducerService.sendUserRegistered(UserRegisteredEvent.builder()
                 .userId(entity.getId())
                 .username(entity.getUsername())
-                .fullName(entity.getFullName())
+                .firstName(entity.getFirstName())
+                .lastName(entity.getLastName())
                 .password(entity.getPassword())
                 .roles(entity.getRole())
                 .status(entity.getStatus())
@@ -83,6 +95,7 @@ public class AuthServiceImpl implements AuthService {
             if (profile.getStatus().equals(GeneralStatus.IN_REGISTRATION)) {
                 userRepository.changeStatus(profileId, GeneralStatus.ACTIVE);
                 kafkaProducerService.sendUserVerified(profileId);
+//                keycloakService.verifyUserEmail(profile.getUsername());
                 return new ApiResponse<>(messageService.getMessage("verification.successful", lang));
             }
         } catch (JwtException e) {
@@ -92,7 +105,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    @Transactional(noRollbackFor = AppBadException.class)
+    @Transactional(noRollbackFor = Exception.class)
     public ApiResponse<ProfileDTO> login(LoginDTO dto, AppLanguage language) {
         Optional<Users> optional = userRepository.findByUsernameAndDeletedFalse(dto.getUsername());
         if (optional.isEmpty()) {
@@ -115,17 +128,20 @@ public class AuthServiceImpl implements AuthService {
             throw new AppBadException(messageService.getMessage("wrong.status", language));
         }
 
+        TokenResponseDTO token = keycloakService.getToken(dto.getUsername(), dto.getPassword());
         profile.setFailedLoginCount(0);
         profile.setLockedUntil(null);
         profile.setLastLoginAt(LocalDateTime.now());
         userRepository.save(profile);
 
         ProfileDTO response = new ProfileDTO();
-        response.setFullName(profile.getFullName());
+        response.setFirstName(profile.getFirstName());
+        response.setLastName(profile.getLastName());
         response.setUsername(profile.getUsername());
         response.setRole(profile.getRole());
-        response.setJwt(JwtUtil.encode(profile.getId(), profile.getUsername(), response.getRole()));
-
+        response.setAccessToken(token.getAccessToken());
+        response.setRefreshToken(token.getRefreshToken());
+        response.setExpiresIn(token.getExpiresIn());
         profile.setLastLoginAt(LocalDateTime.now());
         userRepository.save(profile);
         return new ApiResponse<>(response);
@@ -158,6 +174,16 @@ public class AuthServiceImpl implements AuthService {
         }
         userRepository.updatePassword(profile.getId(), bCryptPasswordEncoder.encode(dto.getNewPassword()));
         return new ApiResponse<>(messageService.getMessage("reset.password.success", language));
+    }
+
+    @Override
+    public ApiResponse<TokenResponseDTO> refresh(RefreshTokenDTO dto) {
+        try {
+            TokenResponseDTO token = keycloakService.refreshToken(dto.getRefreshToken());
+            return new ApiResponse<>(token);
+        } catch (Exception e) {
+            throw new AppBadException("refresh.token.invalid.expired");
+        }
     }
 
 }

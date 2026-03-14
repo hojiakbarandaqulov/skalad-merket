@@ -3,7 +3,9 @@ package org.example.controller;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.example.dto.ApiResponse;
+import org.example.dto.RefreshTokenDTO;
 import org.example.dto.RegistrationDTO;
+import org.example.dto.TokenResponseDTO;
 import org.example.dto.auth.LoginDTO;
 import org.example.dto.auth.ProfileDTO;
 import org.example.dto.auth.ResetPasswordDTO;
@@ -39,6 +41,10 @@ public class AuthController {
                                                          @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         ApiResponse<ProfileDTO> ok = authService.login(dto, language);
         return ResponseEntity.ok(ok);
+    }
+    @PostMapping("/refresh")
+    public ApiResponse<TokenResponseDTO> refresh(@RequestBody @Valid RefreshTokenDTO dto) {
+        return authService.refresh(dto);
     }
 
     @PostMapping("/registration/reset")

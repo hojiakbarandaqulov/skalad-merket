@@ -12,7 +12,8 @@ import org.example.enums.Roles;
 public class UserRegisteredEvent {
     private Long userId;
     private String username;
-    private String fullName;
+    private String firstName;
+    private String lastName;
     private String password;
     private Roles roles;
     private GeneralStatus status;

@@ -6,7 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProfileDTO {
-    private String fullName;
+    private String firstName;
+    private String lastName;
     private String position;
     private String telegram;
     private String extraPhone;

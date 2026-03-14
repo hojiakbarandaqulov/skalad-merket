@@ -7,6 +7,13 @@ spring:
   profiles:
     active: local
 
+  # Flyway
+  flyway:
+    enabled: false
+    baseline-on-migrate: true
+    baseline-version: 0
+    locations: classpath:db/migration
+
 # Eureka Client
 eureka:
   client:

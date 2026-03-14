@@ -1,3 +1,232 @@
+POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 115
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+grant_type=password&client_id=market-client&client_secret=your-secret&username=codeuz91%40gmail.com&password=123456
+
+<> 2026-03-12T155703.401.json
+
+###
+
+POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 115
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+grant_type=password&client_id=market-client&client_secret=your-secret&username=codeuz91%40gmail.com&password=123456
+
+<> 2026-03-12T155648.401.json
+
+###
+
+POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 147
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+client_id=market-backend&client_secret=Pi5lwDJnYn9TWcc1iLQzJsUGaHeEx8FK&username=hojiakbarandaqulov5%40gmail.com&password=12345&grant_type=password
+
+<> 2026-03-12T124318.200.json
+
+###
+
+POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 144
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+client_id=market-backend&client_secret=Pi5lwDJnYn9TWcc1iLQzJsUGaHeEx8FK&email=hojiakbarandaqulov5%40gmail.com&password=12345&grant_type=password
+
+<> 2026-03-12T124307.401.json
+
+###
+
+POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 147
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+client_id=market-backend&client_secret=Pi5lwDJnYn9TWcc1iLQzJsUGaHeEx8FK&username=hojiakbarandaqulov5%40gmail.com&password=12345&grant_type=password
+
+<> 2026-03-12T124244.200.json
+
+###
+
+POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 125
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+client_id=market-backend&client_secret=Pi5lwDJnYn9TWcc1iLQzJsUGaHeEx8FK&username=hojiakbar&password=12345&grant_type=password
+
+<> 2026-03-12T124223.401.json
+
+###
+
+POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 147
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+client_id=market-backend&client_secret=Pi5lwDJnYn9TWcc1iLQzJsUGaHeEx8FK&username=hojiakbarandaqulov5%40gmail.com&password=12345&grant_type=password
+
+<> 2026-03-12T123734.400.json
+
+###
+
+POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 100
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+client_id=market-backend&username=hojiakbarandaqulov5%40gmail.com&password=12345&grant_type=password
+
+<> 2026-03-12T123332.401.json
+
+###
+
+POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 100
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+client_id=market-backend&username=hojiakbarandaqulov5%40gmail.com&password=12345&grant_type=password
+
+<> 2026-03-12T123016.401.json
+
+###
+
+POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 112
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+client_id=market-backend%0Ausername%3Dhojiakbarandaqulov5%40gmail.com%0Apassword%3D12345%0Agrant_type%3Dpassword
+
+<> 2026-03-12T122645.400.json
+
+###
+
+POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 104
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+client_id=market-backend&username=hojiakbarandaqulov5%40gmail.com%0Apassword%3D12345&grant_type=password
+
+<> 2026-03-12T122637.401.json
+
+###
+
+POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 100
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+client_id=market-backend&username=hojiakbarandaqulov5%40gmail.com&password=12345&grant_type=password
+
+<> 2026-03-12T122621.401.json
+
+###
+
+POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+Content-Type: x-www-form-urlencoded
+Content-Length: 126
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+client_id=market-backend
+client_secret=CLIENT_SECRET
+username=hojiakbarandaqulov5@gmail.com
+password=12345
+grant_type=password
+
+<> 2026-03-12T122614.500.json
+
+###
+
+POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+Content-Type: x-www-form-urlencoded
+Content-Length: 130
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+client_id=market-backend
+client_secret=CLIENT_SECRET
+username=hojiakbarandaqulov5@gmail.com
+password=12345
+grant_type=password
+}
+
+<> 2026-03-12T122428.500.json
+
+###
+
+POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+Content-Length: 130
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+client_id=market-backend
+client_secret=CLIENT_SECRET
+username=hojiakbarandaqulov5@gmail.com
+password=12345
+grant_type=password
+}
+
+<> 2026-03-12T122406.400.json
+
+###
+
+POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+Content-Type: x-www-form-urlencoded
+Content-Length: 130
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+client_id=market-backend
+client_secret=CLIENT_SECRET
+username=hojiakbarandaqulov5@gmail.com
+password=12345
+grant_type=password
+}
+
+<> 2026-03-12T122353.500.json
+
+###
+
 POST http://localhost:8082/api/v1/attach/upload
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb2RldXo5MUBnbWFpbC5jb20iLCJyb2xlcyI6IlJPTEVfQlVZRVIiLCJpZCI6IjIiLCJpYXQiOjE3NzMyMTMzNTcsImV4cCI6MTc3MzM4NjE1N30.J61CW44gs16SM6IpztIoBi3jEkGwHsHa3l4UWa0wWNu0k9T7DPkJhW27oXc4hf6o

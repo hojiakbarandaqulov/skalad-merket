@@ -9,7 +9,6 @@ import org.example.enums.GeneralStatus;
 import org.example.repository.ProfileRepository;
 import org.example.service.KafkaConsumerService;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -36,17 +35,20 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
             log.warn("Profil allaqachon bor: {}", event.getUserId());
             return;
         }
+        Optional<Profile> profile = profileRepository.findByUsernameAndDeletedFalse(event.getUsername());
+        profile.ifPresent(profileRepository::delete);
 
-        Profile profile = Profile.builder()
+        Profile profileMap = Profile.builder()
                 .userId(event.getUserId())
                 .username(event.getUsername())
-                .fullName(event.getFullName())
+                .firstName(event.getFirstName())
+                .lastName(event.getLastName())
                 .password(event.getPassword())
                 .roles(event.getRoles())
                 .status(event.getStatus())
                 .build();
 
-        profileRepository.save(profile);
+        profileRepository.save(profileMap);
         log.info("✓ Profil yaratildi, userId={}", event.getUserId());
     }
 

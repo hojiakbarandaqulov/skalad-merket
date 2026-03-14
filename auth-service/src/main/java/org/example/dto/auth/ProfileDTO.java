@@ -5,8 +5,11 @@ import org.example.enums.Roles;
 
 @Data
 public class ProfileDTO {
-    private String fullName;
+    private String firstName;
+    private String lastName;
     private String username;
     private Roles role;
-    private String jwt;
+    private String accessToken;
+    private String refreshToken;
+    private Integer expiresIn;
 }

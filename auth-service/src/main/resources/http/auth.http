@@ -1,0 +1,30 @@
+POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=market-backend&client_secret=Pi5lwDJnYn9TWcc1iLQzJsUGaHeEx8FK&username=hojiakbarandaqulov5@gmail.com&password=12345&grant_type=password
+
+
+
+
+
+###
+# curl -X POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+#  -H "Content-Type: application/x-www-form-urlencoded"
+#  -d "grant_type=password"
+#  -d "client_id=market-client"
+#  -d "client_secret=your-secret"
+#  -d "username=codeuz91@gmail.com"
+#  -d "password=123456"
+POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type = password &
+client_id = market-client &
+client_secret = your-secret &
+username = codeuz91@gmail.com &
+password = 123456
+
+###
+
+
+

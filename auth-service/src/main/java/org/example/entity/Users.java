@@ -17,13 +17,18 @@ import java.time.LocalDateTime;
 @Entity
 public class Users extends BaseEntity {
 
-    private String fullName;
+    private String firstName;
+
+    private String lastName;
 
     @Column(unique = true)
     private String username;
 
     @Column(nullable = false)
     private String password;
+
+    @Column(unique = true)
+    private String keycloakId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

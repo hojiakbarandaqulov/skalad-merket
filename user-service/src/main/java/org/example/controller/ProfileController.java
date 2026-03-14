@@ -42,5 +42,4 @@ public class ProfileController {
         return profileService.getProfilePhoto();
     }
 
-
 }

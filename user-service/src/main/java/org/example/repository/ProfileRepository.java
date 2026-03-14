@@ -22,7 +22,7 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
 
     Profile findByUserIdAndDeletedFalse(Long profileId);
 
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     @Modifying
     @Query("update Profile p set p.photo = :photo where p.id = ?1")
     void updatePhoto(Long id, @Param("photo") Attach photo);

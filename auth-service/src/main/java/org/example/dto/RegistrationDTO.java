@@ -8,8 +8,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RegistrationDTO {
-    @NotBlank(message = "fullName required")
-    private String fullName;
+    @NotBlank(message = "firstName required")
+    private String firstName;
+
+    @NotBlank(message = "lastName required")
+    private String lastName;
 
     @NotBlank(message = "username required")
     private String username;

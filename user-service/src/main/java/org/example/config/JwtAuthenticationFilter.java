@@ -1,3 +1,4 @@
+/*
 package org.example.config;
 
 import io.jsonwebtoken.Claims;
@@ -57,3 +58,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 }
 
+*/
