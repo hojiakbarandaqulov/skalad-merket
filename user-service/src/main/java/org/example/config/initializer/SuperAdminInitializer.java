@@ -1,3 +1,4 @@
+/*
 package org.example.config.initializer;
 
 import lombok.RequiredArgsConstructor;
@@ -58,3 +59,4 @@ public class SuperAdminInitializer implements ApplicationRunner {
         }
     }
 }
+*/

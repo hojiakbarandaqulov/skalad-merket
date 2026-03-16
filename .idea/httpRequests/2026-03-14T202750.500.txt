@@ -1,0 +1,8 @@
+ModelMapper configuration errors:
+
+1) The destination property org.example.entity.base.BaseEntity.setId() matches multiple source property hierarchies:
+
+	org.example.dto.CompanyRequestDTO.getRegionId()
+	org.example.dto.CompanyRequestDTO.getDistrictId()
+
+1 error

@@ -1,0 +1,7 @@
+server:
+  url: ${server.domain}:${server.port}
+spring:
+  application:
+    name: auth-service
+  profiles:
+    active: local

@@ -84,7 +84,6 @@ public class EmailSendingServiceImpl implements EmailSendingService {
                 </html>
                 """;
         body = String.format(body, verificationUrl);
-//        body = String.format(body, serverDomain,JwtUtil.encode(profileId, email));
 
 
         sendMimeEmail(email, subject, body);
@@ -108,17 +107,6 @@ public class EmailSendingServiceImpl implements EmailSendingService {
         emailHistoryService.create(email, code, EmailType.RESET_PASSWORD);
     }
 
-
-   /* private void sendSimpleMessage(String email, String subject, String body) {
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setFrom(fromAccount);
-        msg.setTo(email);
-        msg.setSubject(subject);
-        msg.setText(body);
-        CompletableFuture.runAsync(() -> {
-            mailSender.send(msg);
-        });
-    }*/
 
     private void sendMimeEmail(String email, String subject, String body) {
         try {

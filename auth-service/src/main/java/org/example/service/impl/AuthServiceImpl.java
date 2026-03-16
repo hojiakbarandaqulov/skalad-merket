@@ -22,6 +22,7 @@ import org.example.service.*;
 import org.example.utils.EmailUtil;
 import org.example.utils.JwtUtil;
 import org.example.utils.PhoneUtil;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +42,6 @@ public class AuthServiceImpl implements AuthService {
     private final LoginAttemptService loginAttemptService;
     private final KeycloakService keycloakService;
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public ApiResponse<String> registration(RegistrationDTO dto, AppLanguage language) {
         Optional<Users> optional = userRepository.findByUsernameAndDeletedFalse(dto.getUsername());
@@ -54,7 +54,7 @@ public class AuthServiceImpl implements AuthService {
             }
         }
         String keycloakId = keycloakService.createUser(
-                dto.getFirstName(), dto.getLastName(), dto.getUsername(), dto.getPassword()
+                dto.getFirstName(), dto.getLastName(), dto.getUsername(), dto.getPassword(),Roles.BUYER
         );
 
         Users entity = new Users();
@@ -63,7 +63,7 @@ public class AuthServiceImpl implements AuthService {
         entity.setUsername(dto.getUsername());
         entity.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
         entity.setStatus(GeneralStatus.IN_REGISTRATION);
-        entity.setRole(Roles.ROLE_BUYER);
+        entity.setRole(Roles.BUYER);
         entity.setKeycloakId(keycloakId);
         Users save = userRepository.save(entity);
 

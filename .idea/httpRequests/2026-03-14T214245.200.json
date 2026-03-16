@@ -1,0 +1,22 @@
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "name": "Programmer uz",
+    "slug": "programmer-uz",
+    "shortDescription": "dfgdfgergergege",
+    "description": "dfdfdfgsdfdfg",
+    "logoUrl": null,
+    "stir": "Java",
+    "phonePrimary": "dfgdfg",
+    "phoneSecondary": "dfgvdgf",
+    "website": "dfvdgf",
+    "regionId": 0,
+    "districtId": 0,
+    "address": "dfgdgrdeg",
+    "verificationStatus": "DRAFT",
+    "isBlocked": false,
+    "verifiedAt": null,
+    "createdAt": null
+  }
+}

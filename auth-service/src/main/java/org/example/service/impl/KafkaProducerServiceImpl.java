@@ -6,6 +6,7 @@ import org.example.dto.kafka.UserRegisteredEvent;
 import org.example.dto.kafka.UserVerifiedEvent;
 import org.example.service.KafkaProducerService;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +19,7 @@ public class KafkaProducerServiceImpl implements KafkaProducerService {
     public static final String USER_REGISTERED = "user.registered";
     public static final String USER_VERIFIED = "user.verified";
 
+    @Async
     @Override
     public void sendUserRegistered(UserRegisteredEvent event) {
         kafkaTemplate.send(USER_REGISTERED,event.getUserId().toString(), event);

@@ -38,7 +38,8 @@ public class SuperAdminInitializer implements ApplicationRunner {
                     users.getFirstName(),
                     users.getLastName(),
                     users.getUsername(),
-                    "12345"
+                    "12345",
+                    users.getRole()
             );
 
             users.setKeycloakId(keycloakId);

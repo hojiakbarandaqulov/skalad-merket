@@ -1,0 +1,1 @@
+Cannot invoke "org.springframework.kafka.core.KafkaTemplate.send(String, Object, Object)" because "this.kafkaTemplate" is null
