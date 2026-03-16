@@ -19,10 +19,11 @@ public class AttachController {
 
     private final AttachService attachService;
 
+    @PermitAll
     @PostMapping(value = "upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ApiResponse<AttachDTO> upload(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<AttachDTO> upload(@RequestParam("file") MultipartFile file) {
         AttachDTO dto = attachService.uploadFile(file);
-        return ApiResponse.successResponse(dto);
+        return ResponseEntity.ok(dto);
     }
 
     @PermitAll
