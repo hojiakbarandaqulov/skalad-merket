@@ -22,11 +22,11 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/company-servcie" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/category-service" />
         <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/company-servcie" />
+            <option value="$PROJECT_DIR$/category-service" />
           </set>
         </option>
       </GradleProjectSettings>

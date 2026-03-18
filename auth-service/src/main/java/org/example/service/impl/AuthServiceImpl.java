@@ -177,12 +177,12 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ApiResponse<TokenResponseDTO> refresh(RefreshTokenDTO dto) {
+    public ApiResponse<TokenResponseDTO> refresh(RefreshTokenDTO dto,AppLanguage language) {
         try {
             TokenResponseDTO token = keycloakService.refreshToken(dto.getRefreshToken());
             return new ApiResponse<>(token);
         } catch (Exception e) {
-            throw new AppBadException("refresh.token.invalid.expired");
+            throw new AppBadException(messageService.getMessage("refresh.token.invalid.expired",language));
         }
     }
 

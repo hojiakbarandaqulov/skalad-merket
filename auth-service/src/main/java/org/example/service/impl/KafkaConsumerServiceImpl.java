@@ -17,8 +17,10 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class KafkaConsumerServiceImpl implements KafkaConsumerService {
+
     private final UserRepository userRepository;
     private final KeycloakService keycloakService;
+
 
     @KafkaListener(
             topics = "user.role.update",

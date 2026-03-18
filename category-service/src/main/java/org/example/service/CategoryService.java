@@ -1,0 +1,23 @@
+package org.example.service;
+
+import org.example.dto.categoryAtribute.CategoryCreateRequest;
+import org.example.dto.CategoryResponse;
+import org.example.dto.CategoryUpdateRequest;
+import org.example.enums.AppLanguage;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+public interface CategoryService {
+
+
+    CategoryResponse create(CategoryCreateRequest request, AppLanguage language);
+
+    CategoryResponse update(Long id, CategoryUpdateRequest request,AppLanguage language);
+
+    Boolean delete(Long id,AppLanguage language);
+
+    Page<CategoryResponse> getCategory(Pageable pageable,AppLanguage language);
+
+    CategoryResponse getCategoryBySlug(String slug, AppLanguage language);
+
+}

@@ -31,8 +31,6 @@ public class LoginAttemptServiceImpl implements LoginAttemptService {
             freshUser.setLockedUntil(LocalDateTime.now().plusMinutes(15));
             freshUser.setFailedLoginCount(0);
         }
-
         userRepository.save(freshUser);
     }
-
 }

@@ -26,5 +26,5 @@ public interface AuthService {
 
      ApiResponse<String> resetPasswordConfirm(UpdatePasswordDTO dto, AppLanguage language);
 
-     ApiResponse<TokenResponseDTO> refresh(RefreshTokenDTO dto);
+     ApiResponse<TokenResponseDTO> refresh(RefreshTokenDTO dto,AppLanguage language);
 }
