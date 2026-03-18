@@ -43,7 +43,7 @@ public class CompanyServiceImpl implements CompanyService {
         Long userId = SpringSecurityUtil.getProfileId();
         long count = companyRepository.countByOwnerUserIdAndDeletedAtIsNull(userId);
         if (count >= MAX_COMPANIES_PER_SELLER) {
-            throw new AppBadException("maximum.of.5.companies.can.be.created");
+            throw new AppBadException("Maksimal 5 ta kompaniya yaratish mumkin");
         }
         Company companyMap = modelMapper.map(requestDTO, Company.class);
 
@@ -154,7 +154,7 @@ public class CompanyServiceImpl implements CompanyService {
         );
         UploadDTO uploadDTO = response.getBody();
         if (uploadDTO == null) {
-            throw new AppBadException("logo.not.download");
+            throw new AppBadException("Logo yuklanmadi");
         }
         Company company = companyOptional.get();
         company.setLogoPath(uploadDTO.getUrl());

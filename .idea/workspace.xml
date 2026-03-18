@@ -4,61 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="db21a683-eacb-49fd-afa4-a62f94ff9031" name="Changes" comment="Keycloack config successfully">
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/config/AppConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/config/SecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/config/SwaggerConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/controller/CategoryController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/dto/ApiResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/dto/CategoryAttributeCreateRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/dto/CategoryResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/dto/CategoryUpdateRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/dto/categoryAtribute/CategoryAttributeResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/dto/categoryAtribute/CategoryCreateRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/entity/Category.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/entity/CategoryAttribute.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/entity/base/BaseEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/entity/base/BaseTime.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/enums/AppLanguage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/enums/DataType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/exp/AppBadException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/exp/IllegalArgumentException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/exp/handle/CustomGlobalExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/exp/handle/ExceptionHandleController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/repository/CategoryRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/service/CategoryService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/service/ResourceBundleService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/service/impl/CategoryServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/service/impl/ResourceBundleServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/utils/SpringSecurityUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/resources/messages/message_en.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/resources/messages/message_ru.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/category-service/src/main/resources/messages/message_uz.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Skalad-market.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Skalad-market.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-client.cookies" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-client.cookies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="db21a683-eacb-49fd-afa4-a62f94ff9031" name="Changes" comment="category  service successfully">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/org/example/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/org/example/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/KafkaConsumerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/KafkaConsumerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/KafkaProducerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/KafkaProducerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/impl/AuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/impl/AuthServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/impl/KafkaConsumerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/impl/KafkaConsumerServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/impl/LoginAttemptServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/impl/LoginAttemptServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/category-service/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/category-service/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/category-service/src/main/java/org/example/CategoryServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/CategoryServiceApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/company-service/src/main/java/org/example/CompanyServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/company-service/src/main/java/org/example/CompanyServiceApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/company-service/src/main/java/org/example/service/impl/CompanyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/company-service/src/main/java/org/example/service/impl/CompanyServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/company-service/src/main/resources/messages/message_en.properties" beforeDir="false" afterPath="$PROJECT_DIR$/company-service/src/main/resources/messages/message_en.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/company-service/src/main/resources/messages/message_ru.properties" beforeDir="false" afterPath="$PROJECT_DIR$/company-service/src/main/resources/messages/message_ru.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/company-service/src/main/resources/messages/message_uz.properties" beforeDir="false" afterPath="$PROJECT_DIR$/company-service/src/main/resources/messages/message_uz.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/.bloomcycle.bin/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/.bloomcycle.bin/xl.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage-cache.bin.bkp/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage-cache.bin.bkp/xl.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage-cache.bin/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage-cache.bin/xl.meta" afterDir="false" />
@@ -67,8 +14,6 @@
       <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad-market/.usage-cache.bin/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad-market/.usage-cache.bin/xl.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin.bkp/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin.bkp/xl.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin/xl.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/.minio.sys/tmp/81fea9ab-5d8c-4c4d-bfb3-cd781f0d3a28" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/discovery-service/src/main/java/org/example/DiscoveryServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/discovery-service/src/main/java/org/example/DiscoveryServiceApplication.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,9 +25,6 @@
       <ProjectState />
     </projectState>
     <projectState path="$PROJECT_DIR$/auth-service">
-      <ProjectState />
-    </projectState>
-    <projectState path="$PROJECT_DIR$/category-service">
       <ProjectState />
     </projectState>
     <projectState path="$PROJECT_DIR$/company-servcie">
@@ -108,9 +50,6 @@
           <activation />
         </task>
         <task path="$PROJECT_DIR$/company-service">
-          <activation />
-        </task>
-        <task path="$PROJECT_DIR$/company-servcie">
           <activation />
         </task>
         <projects_view>
@@ -167,72 +106,66 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Docker.docker-compose.yml.minio: Compose Deployment.executor": "Run",
-    "Docker.docker-compouse.yml.skalad-market-user-db: Compose Deployment.executor": "Run",
-    "Docker.docker-compouse.yml: Compose Deployment.executor": "Run",
-    "Gradle.Build api-gateway.executor": "Run",
-    "Gradle.Build auth-service.executor": "Run",
-    "Gradle.Build category-service.executor": "Run",
-    "Gradle.Build company-servcie.executor": "Run",
-    "Gradle.Build company-service.executor": "Run",
-    "Gradle.Build discovery-service.executor": "Run",
-    "Gradle.Build user-service.executor": "Run",
-    "Gradle.auth-service [build].executor": "Run",
-    "Gradle.company-servcie [buildDependents].executor": "Run",
-    "Gradle.company-servcie [build].executor": "Run",
-    "Gradle.company-service [build].executor": "Run",
-    "Gradle.company-service [clean].executor": "Run",
-    "Gradle.user-service [buildDependents].executor": "Run",
-    "Gradle.user-service [build].executor": "Run",
-    "HTTP Request.attach | attach upload.executor": "Run",
-    "HTTP Request.auth | #1.executor": "Run",
-    "HTTP Request.auth | #2.executor": "Run",
-    "HTTP Request.auth | #3.executor": "Run",
-    "HTTP Request.generated-requests | #47.executor": "Run",
-    "HTTP Request.generated-requests | #48.executor": "Run",
-    "HTTP Request.generated-requests | #49.executor": "Run",
-    "HTTP Request.generated-requests | #52.executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.ApiGatewayApplication.executor": "Run",
-    "Spring Boot.AuthServiceApplication.executor": "Run",
-    "Spring Boot.CategoryServiceApplication.executor": "Run",
-    "Spring Boot.CompanyServiceApplication.executor": "Run",
-    "Spring Boot.DiscoveryServiceApplication.executor": "Run",
-    "Spring Boot.UserServiceApplication.executor": "Run",
-    "extract.method.default.visibility": "private",
-    "git-widget-placeholder": "main",
-    "go.import.settings.migrated": "true",
-    "ignore.virus.scanning.warn.message": "true",
-    "jdk.selected.JAVA_MODULE": "17",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/hojia/Documents/sklad-market",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "run.configurations.included.in.services": "true",
-    "settings.editor.selected.configurable": "vcs.Git",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Docker.docker-compose.yml.minio: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compouse.yml.skalad-market-user-db: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compouse.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build api-gateway.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build auth-service.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build company-servcie.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build company-service.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build discovery-service.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build user-service.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.auth-service [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.company-service [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.company-service [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.user-service [buildDependents].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.user-service [build].executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.attach | attach upload.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.auth | #1.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.auth | #2.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.auth | #3.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #47.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #48.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #49.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.ApiGatewayApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.AuthServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.CompanyServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.DiscoveryServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.UserServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/JavaProject/Microservice/Skalad-market/company-service/src/main/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -243,54 +176,31 @@
       <recent name="org.example.dto.kafka" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\JavaProject\Microservice\Skalad-market\category-service\src\main\resources" />
-      <recent name="D:\JavaProject\Microservice\Skalad-market\category-service\src\main\java\org\example" />
       <recent name="D:\JavaProject\Microservice\Skalad-market\company-service\src\main\resources" />
       <recent name="D:\JavaProject\Microservice\Skalad-market\company-service\src\main\java\org\example\entity" />
       <recent name="D:\JavaProject\Microservice\Skalad-market\company-service\src\main\java\org\example" />
+      <recent name="D:\JavaProject\Microservice\Skalad-market\company-service\src\main\java\org\example\config" />
+      <recent name="D:\JavaProject\Microservice\Skalad-market\user-service\src\main\java\org\example" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="org.example.service.impl" />
-      <recent name="org.example.service" />
-      <recent name="org.example.enums" />
       <recent name="org.example.dto.kafka" />
       <recent name="org.example.config" />
+      <recent name="org.example.enums" />
+      <recent name="org.example.utils" />
+      <recent name="org.example.dto" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.CategoryServiceApplication">
+  <component name="RunManager" selected="Spring Boot.ApiGatewayApplication">
     <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
       <deployment type="docker-compose.yml">
         <settings />
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="company-servcie [buildDependents]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="auth-service [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/company-servcie" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="buildDependents" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <EXTENSION ID="com.haulmont.jmixstudio.buildsystem.runconfiguration.JmixRunConfigurationExtension" isNew="true" />
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="company-servcie [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/company-servcie" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/auth-service" />
         <option name="externalSystemIdString" value="GRADLE" />
         <option name="scriptParameters" />
         <option name="taskDescriptions">
@@ -356,57 +266,13 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="generated-requests | #52" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="52" requestIdentifier="#52" runType="Run single request">
+    <configuration name="auth | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/auth-service/src/main/resources/http/auth.http" index="3" requestIdentifier="#3" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="company-servcie.test" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="company-servcie.test" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
-      <module name="company-servcie.test" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+    <configuration name="generated-requests | #48" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="48" requestIdentifier="#48" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration default="true" type="Python.FlaskServer">
-      <module name="company-servcie.test" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="launchJavascriptDebuger" value="false" />
+    <configuration name="generated-requests | #49" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="49" requestIdentifier="#49" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="ApiGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
@@ -426,13 +292,6 @@
     <configuration name="AuthServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="auth-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.AuthServiceApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CategoryServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="category-service.main" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.CategoryServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -479,85 +338,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="Tox" factoryName="Tox">
-      <module name="company-servcie.test" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <method v="2" />
-    </configuration>
     <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
       <deployment type="docker-compose.yml">
         <settings />
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration default="true" type="docs" factoryName="Docutils task">
-      <module name="company-servcie.test" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="docutils_input_file" value="" />
-      <option name="docutils_output_file" value="" />
-      <option name="docutils_params" value="" />
-      <option name="docutils_task" value="" />
-      <option name="docutils_open_in_browser" value="false" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="docs" factoryName="Sphinx task">
-      <module name="company-servcie.test" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="docutils_input_file" value="" />
-      <option name="docutils_output_file" value="" />
-      <option name="docutils_params" value="" />
-      <option name="docutils_task" value="" />
-      <option name="docutils_open_in_browser" value="false" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Doctests">
-      <module name="company-servcie.test" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="HTTP Request.generated-requests | #52" />
+        <item itemvalue="HTTP Request.generated-requests | #49" />
+        <item itemvalue="HTTP Request.auth | #3" />
+        <item itemvalue="HTTP Request.generated-requests | #48" />
         <item itemvalue="Gradle.company-service [build]" />
-        <item itemvalue="Gradle.company-servcie [buildDependents]" />
-        <item itemvalue="Gradle.company-servcie [build]" />
         <item itemvalue="Gradle.company-service [clean]" />
       </list>
     </recent_temporary>
@@ -585,12 +377,6 @@
       <workItem from="1773474811905" duration="8378000" />
       <workItem from="1773491356660" duration="25542000" />
       <workItem from="1773654568943" duration="713000" />
-      <workItem from="1773755116399" duration="3119000" />
-      <workItem from="1773758484939" duration="18000" />
-      <workItem from="1773758514846" duration="2087000" />
-      <workItem from="1773764329778" duration="1755000" />
-      <workItem from="1773766453799" duration="736000" />
-      <workItem from="1773767429881" duration="9060000" />
     </task>
     <task id="LOCAL-00001" summary="Merge remote changes">
       <option name="closed" value="true" />
@@ -670,7 +456,9 @@
     <MESSAGE value="kafka connection successfully" />
     <MESSAGE value="MinIO connection successfully" />
     <MESSAGE value="Keycloack config successfully" />
-    <option name="LAST_COMMIT_MESSAGE" value="Keycloack config successfully" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/compiler.xml&#10;#&#9;.idea/dataSources.local.xml&#10;#&#9;.idea/dataSources.xml&#10;#&#9;.idea/httpRequests/http-requests-log.http&#10;#&#9;.idea/workspace.xml&#10;#&#9;api-gateway/src/main/resources/application.yml&#10;#&#9;auth-service/src/main/java/org/example/service/KafkaConsumerService.java&#10;#&#9;auth-service/src/main/java/org/example/service/impl/KafkaConsumerServiceImpl.java&#10;#&#9;company-service/src/main/java/org/example/service/impl/CompanyServiceImpl.java&#10;#&#9;company-service/src/main/resources/messages/message_en.properties&#10;#&#9;company-service/src/main/resources/messages/message_ru.properties&#10;#&#9;company-service/src/main/resources/messages/message_uz.properties&#10;#&#9;data/.minio.sys/buckets/.bloomcycle.bin/xl.meta&#10;#&#9;data/.minio.sys/buckets/.usage-cache.bin.bkp/xl.meta&#10;#&#9;data/.minio.sys/buckets/.usage-cache.bin/xl.meta&#10;#&#9;data/.minio.sys/buckets/.usage.json/xl.meta&#10;#&#9;data/.minio.sys/buckets/skalad-market/.usage-cache.bin.bkp/xl.meta&#10;#&#9;data/.minio.sys/buckets/skalad-market/.usage-cache.bin/xl.meta" />
+    <MESSAGE value="category  service successfully" />
+    <option name="LAST_COMMIT_MESSAGE" value="category  service successfully" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
