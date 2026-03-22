@@ -5,13 +5,15 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.UUID;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
@@ -19,16 +21,16 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
                                                                   HttpHeaders headers,
                                                                   HttpStatusCode status,
                                                                   WebRequest request) {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", new Date());
-        body.put("status", status.value());
-
-        List<String> errors = new LinkedList<>();
+        Map<String, String> errors = new LinkedHashMap<>();
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-            errors.add(error.getDefaultMessage());
+            errors.put(error.getField(), error.getDefaultMessage());
         }
 
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("success", false);
+        body.put("message", "Validation failed");
         body.put("errors", errors);
+        body.put("trace_id", UUID.randomUUID().toString());
         return new ResponseEntity<>(body, headers, status);
     }
 }

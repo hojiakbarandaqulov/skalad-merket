@@ -1,23 +1,26 @@
 package org.example.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.entity.base.BaseEntity;
-import org.example.enums.ModerationStatus;
+import org.example.enums.Currency;
 import org.example.enums.PriceType;
-import org.springframework.data.annotation.CreatedDate;
+import org.example.enums.ProductModerationStatus;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
-@Entity
 @Getter
 @Setter
-public class Products extends BaseEntity {
+@Entity
+@Table(name = "products")
+public class Product extends BaseEntity {
+
     @Column(nullable = false)
     private Long companyId;
 
@@ -27,7 +30,7 @@ public class Products extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false, unique = true)
     private String slug;
 
     private String shortDescription;
@@ -41,31 +44,34 @@ public class Products extends BaseEntity {
 
     private BigDecimal price;
 
-    private String currency;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Currency currency;
 
-    private String unitLabel;
-
-    private BigDecimal quantity;
-
+    @Column(nullable = false)
     private Long regionId;
 
     private Long districtId;
 
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
-    private String attributesJsonb;
+    private Map<String, Object> attributesJsonb = new HashMap<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ModerationStatus moderationStatus = ModerationStatus.PENDING;
+    private ProductModerationStatus moderationStatus = ProductModerationStatus.PENDING;
 
     private Boolean isActive = Boolean.TRUE;
+
     private Boolean isPromoted = Boolean.FALSE;
-    private Instant promotedUntil;
+
+    private LocalDateTime promotedUntil;
+
     private String rejectReason;
+
     private Long viewsCountCache = 0L;
 
     private Long favoritesCountCache = 0L;
 
-    private Instant deletedAt;
-
+    private LocalDateTime deletedAt;
 }

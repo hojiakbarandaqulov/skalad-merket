@@ -9,11 +9,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableJpaAuditing
 @SpringBootApplication
 @EnableFeignClients
-public class UserServiceApplication {
+public class    UserServiceApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(UserServiceApplication.class, args);
       /*  BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         System.out.println(bCryptPasswordEncoder.encode("12345"));*/
+
     }
 }

@@ -2,10 +2,7 @@ package org.example.entity.base;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.ColumnDefault;
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -20,22 +17,10 @@ public class BaseEntity {
     private Long id;
 
     @CreatedDate
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
     @LastModifiedDate
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime modifiedDate;
-
-    @CreatedBy
-    private Long createdBy;
-
-    @LastModifiedBy
-    private Long modifiedBy;
-
-
-    @Column(nullable = false)
-    @ColumnDefault(value = "false")
-    private Boolean deleted = false;
-
 }

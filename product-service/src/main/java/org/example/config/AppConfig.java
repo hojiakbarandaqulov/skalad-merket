@@ -23,16 +23,14 @@ public class AppConfig {
     }
 
     @Bean
-    public RestTemplate restTemplate(){
+    public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.STRICT); // ← STRICT strategy
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         return modelMapper;
     }
-
 }

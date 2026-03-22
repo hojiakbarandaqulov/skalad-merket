@@ -6,7 +6,7 @@ plugins {
 
 group = 'org.example'
 version = ''
-description = 'company-service'
+description = 'product-service'
 
 java {
     toolchain {
@@ -34,23 +34,20 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+//    implementation 'org.flywaydb:flyway-core'
+//    implementation 'org.flywaydb:flyway-database-postgresql:10.20.1'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'org.springframework.kafka:spring-kafka'
-
     implementation 'org.modelmapper:modelmapper:3.2.0'
+    implementation 'io.minio:minio:8.5.7'
     implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
-
-    implementation 'io.minio:minio:8.5.7'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
-
-
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
-    runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
-    implementation 'org.modelmapper:modelmapper:3.2.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
