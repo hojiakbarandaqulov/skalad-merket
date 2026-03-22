@@ -1,0 +1,18 @@
+server:
+  url: ${server.domain}:${server.port}
+spring:
+  application:
+    name: lead-service
+  profiles:
+    active: local
+
+
+  # Eureka Client
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+services:
+  product-service:
+    url: http://product-service

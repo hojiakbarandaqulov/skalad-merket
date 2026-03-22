@@ -14,33 +14,35 @@ spring:
         - id: auth-service
           uri: lb://auth-service
           predicates:
-            - Path=/auth/**
-          filters:
-            - StripPrefix=1
-
+            - Path=/api/v1/auth/**
         # User Service
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/users/**
-          filters:
-            - StripPrefix=1
+            - Path=/api/v1/users/**
 
         # Company Service
         - id: company-service
           uri: lb://company-service
           predicates:
-            - Path=/companies/**
-          filters:
-            - StripPrefix=1
-
+            - Path=/api/v1/companies/**
         #Category
         - id: category-service
           uri: lb://category-service
           predicates:
-            - Path=/category/**
-          filters:
-            - StripPrefix=1
+            - Path=/api/v1/category/**
+        #Product
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/api/v1/product/**, /api/v1/favorites/**,  /api/v1/catalog
+
+        #Lead
+        - id: lead-service
+          uri: lb://lead-service
+          predicates:
+            - Path=/api/v1/lead/**
+
 
 eureka:
   client:
@@ -52,3 +54,4 @@ eureka:
 
 server:
   port: 8080
+

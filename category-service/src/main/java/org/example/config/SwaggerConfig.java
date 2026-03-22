@@ -32,15 +32,11 @@ public class SwaggerConfig {
         devServer.setUrl(url);
         devServer.setDescription("Server URL");
 
-        Info info = new Info()
-                .title("Company Service API")
-                .version("1.0");
 
         SecurityRequirement securityRequirement = new SecurityRequirement()
                 .addList("bearerAuth");
 
         return new OpenAPI()
-                .info(info)
                 .servers(List.of(devServer))
                 .addSecurityItem(securityRequirement); // ← qo'shing
     }
