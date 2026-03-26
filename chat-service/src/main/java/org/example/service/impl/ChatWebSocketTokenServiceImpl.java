@@ -1,0 +1,67 @@
+package org.example.service.impl;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import org.example.dto.chat.WsTokenResponse;
+import org.example.exp.AppBadException;
+import org.example.service.ChatWebSocketTokenService;
+import org.example.utils.SpringSecurityUtil;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.util.Date;
+
+@Service
+public class ChatWebSocketTokenServiceImpl implements ChatWebSocketTokenService {
+
+    @Value("${chat.websocket.token-secret}")
+    private String tokenSecret;
+
+    @Value("${chat.websocket.token-expiration-seconds}")
+    private long expiresInSeconds;
+
+    @Override
+    public WsTokenResponse issueToken() {
+        Long userId = SpringSecurityUtil.getProfileId();
+        if (userId == null) {
+            throw new AppBadException("Unauthorized");
+        }
+
+        Instant now = Instant.now();
+        String token = Jwts.builder()
+                .subject(userId.toString())
+                .claim("purpose", "chat-ws")
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(now.plusSeconds(expiresInSeconds)))
+                .signWith(getSecretKey())
+                .compact();
+
+        return new WsTokenResponse(token, expiresInSeconds);
+    }
+
+    @Override
+    public Long parseToken(String token) {
+        try {
+            var claims = Jwts.parser()
+                    .verifyWith(getSecretKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+
+            if (!"chat-ws".equals(claims.get("purpose"))) {
+                throw new AppBadException("Invalid websocket token");
+            }
+
+            return Long.valueOf(claims.getSubject());
+        } catch (Exception e) {
+            throw new AppBadException("Invalid websocket token");
+        }
+    }
+
+    private SecretKey getSecretKey() {
+        return Keys.hmacShaKeyFor(tokenSecret.getBytes(StandardCharsets.UTF_8));
+    }
+}

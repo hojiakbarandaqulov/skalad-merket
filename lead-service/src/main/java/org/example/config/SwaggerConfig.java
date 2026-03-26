@@ -33,7 +33,7 @@ public class SwaggerConfig {
         devServer.setDescription("Server URL");
 
         Info info = new Info()
-                .title("Product Service API")
+                .title("Leads Service API")
                 .version("1.0");
 
         SecurityRequirement securityRequirement = new SecurityRequirement()

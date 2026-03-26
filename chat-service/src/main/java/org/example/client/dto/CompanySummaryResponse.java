@@ -1,0 +1,13 @@
+package org.example.client.dto;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class CompanySummaryResponse {
+    private Long id;
+    private String name;
+    private String slug;
+    private String logoPath;
+}

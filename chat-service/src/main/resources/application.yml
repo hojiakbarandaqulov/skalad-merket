@@ -1,0 +1,21 @@
+server:
+  url: ${server.domain}:${server.port}
+
+spring:
+  application:
+    name: chat-service
+  profiles:
+    active: local
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+media:
+  base-url: ${aws.url}/${aws.bucket-name}
+
+chat:
+  websocket:
+    token-expiration-seconds: 60
+    token-secret: change-this-chat-websocket-secret-in-production

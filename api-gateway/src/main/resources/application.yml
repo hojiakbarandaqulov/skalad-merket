@@ -19,7 +19,7 @@ spring:
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/api/v1/users/**
+            - Path=/api/v1/users/** /api/v1/attach/** /api/v1/location/**
 
         # Company Service
         - id: company-service
@@ -31,6 +31,31 @@ spring:
           uri: lb://category-service
           predicates:
             - Path=/api/v1/category/**
+        #Product
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/api/v1/products/** /api/v1/favorites/** /api/v1/catalog/**
+        #Lead
+        - id: lead-service
+          uri: lb://lead-service
+          predicates:
+            - Path=/api/v1/leads/**
+        # Chat REST
+        - id: chat-service
+          uri: lb://chat-service
+          predicates:
+            - Path=/api/v1/chats/**
+        # Chat WebSocket
+        - id: chat-service-ws
+          uri: lb:ws://chat-service
+          predicates:
+            - Path=/api/v1/ws/chat,/api/v1/ws/chat/**
+        # Notification
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/v1/notifications/**
 
 eureka:
   client:
