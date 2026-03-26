@@ -6,7 +6,6 @@ import org.example.dto.product.ProductResponse;
 import org.example.entity.Product;
 import org.example.enums.AppLanguage;
 import org.example.enums.Currency;
-import org.example.enums.ModerationStatus;
 import org.example.enums.ProductModerationStatus;
 import org.example.repository.ProductRepository;
 import org.example.service.CatalogService;
@@ -85,7 +84,7 @@ public class CatalogServiceImpl implements CatalogService {
 
     private PagedResponse<ProductResponse> queryProducts(String q, String category, Long regionId, String currency, int page, int perPage) {
         Specification<Product> spec = (root, query, cb) -> cb.and(
-                cb.equal(root.get("moderationStatus"), ModerationStatus.APPROVED),
+                cb.equal(root.get("moderationStatus"), ProductModerationStatus.APPROVED),
                 cb.isTrue(root.get("isActive")),
                 cb.isFalse(root.get("deleted"))
         );
