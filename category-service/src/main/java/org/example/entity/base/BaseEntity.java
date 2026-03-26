@@ -33,4 +33,6 @@ public class BaseEntity {
     @LastModifiedBy
     private Long modifiedBy;
 
+
+
 }

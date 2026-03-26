@@ -31,18 +31,6 @@ spring:
           uri: lb://category-service
           predicates:
             - Path=/api/v1/category/**
-        #Product
-        - id: product-service
-          uri: lb://product-service
-          predicates:
-            - Path=/api/v1/product/**, /api/v1/favorites/**,  /api/v1/catalog
-
-        #Lead
-        - id: lead-service
-          uri: lb://lead-service
-          predicates:
-            - Path=/api/v1/lead/**
-
 
 eureka:
   client:

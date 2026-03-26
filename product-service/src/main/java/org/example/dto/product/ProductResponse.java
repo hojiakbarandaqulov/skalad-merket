@@ -66,8 +66,8 @@ public class ProductResponse {
     @JsonProperty("favorites_count_cache")
     private Long favoritesCountCache;
 
-    @JsonProperty("created_by")
-    private Long createdBy;
+    @JsonProperty("created_at")
+    private LocalDateTime createdAt;
 
     @JsonProperty("updated_at")
     private LocalDateTime updatedAt;

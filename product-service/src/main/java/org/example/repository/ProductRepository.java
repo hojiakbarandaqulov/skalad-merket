@@ -1,12 +1,15 @@
 package org.example.repository;
 
 import org.example.entity.Product;
+import org.example.enums.ModerationStatus;
 import org.example.enums.ProductModerationStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +31,4 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
 
     Page<Product> findAll(Specification<Product> specification, Pageable pageable);
-
-    Optional<Product> findByIdAndIsActiveTrue(Long productId);
 }

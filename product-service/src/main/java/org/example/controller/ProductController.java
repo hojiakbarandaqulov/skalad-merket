@@ -45,9 +45,9 @@ public class ProductController {
 
     @DeleteMapping("/{id}/images/{imageId}")
     @PreAuthorize("hasRole('SELLER')")
-    public ApiResponse<Map<String, Boolean>> deleteImage(@PathVariable Long id, @PathVariable String imageId) {
-        boolean result = productService.deleteImage(id, imageId);
-        return ApiResponse.successResponse(Map.of("message", result));
+    public ApiResponse<Map<String, String>> deleteImage(@PathVariable Long id, @PathVariable String imageId) {
+        productService.deleteImage(id, imageId);
+        return ApiResponse.successResponse(Map.of("message", "Image deleted"));
     }
 
     @GetMapping("/my")
@@ -60,19 +60,12 @@ public class ProductController {
         return ApiResponse.successResponse(productService.getMyProducts(companyId, status, page, perPage));
     }
 
-    @GetMapping("slug/{slug}")
+    @GetMapping("/{slug}")
     @PreAuthorize("permitAll()")
     public ApiResponse<ProductDetailResponse> getBySlug(
             @PathVariable String slug,
             @RequestHeader(value = "X-SESSION-ID", required = false) String sessionId) {
         return ApiResponse.successResponse(productService.getPublicDetail(slug, sessionId));
-    }
-
-    @GetMapping("/{id}")
-    @PreAuthorize("permitAll()")
-    public ApiResponse<ProductResponse> getById(
-            @PathVariable Long id) {
-        return ApiResponse.successResponse(productService.getById(id));
     }
 
     @PutMapping("/{id}")

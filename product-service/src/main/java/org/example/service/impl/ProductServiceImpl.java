@@ -81,7 +81,6 @@ public class ProductServiceImpl implements ProductService {
         product.setSlug(generateUniqueSlug(request.getName()));
         product.setModerationStatus(ProductModerationStatus.PENDING);
         product.setIsActive(Boolean.TRUE);
-        product.setSellerId(sellerId);
 
         Product saved = productRepository.save(product);
 
@@ -341,12 +340,6 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
-    @Override
-    public ProductResponse getById(Long id) {
-        Optional<Product> byIdAndIsActiveTrue = productRepository.findByIdAndIsActiveTrue(id);
-        return byIdAndIsActiveTrue.map(this::toResponse).orElse(null);
-    }
-
     private BigDecimal normalizePrice(PriceType priceType, BigDecimal price) {
         if (priceType == PriceType.NEGOTIABLE) {
             return null;
@@ -541,7 +534,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse toResponse(Product product) {
         ProductResponse response = new ProductResponse();
         response.setId(product.getId());
-        response.setSellerId(product.getSellerId());
+//        response.setSellerId(product.get());
         response.setCompanyId(product.getCompanyId());
         response.setCategoryId(product.getCategoryId());
         response.setName(product.getName());

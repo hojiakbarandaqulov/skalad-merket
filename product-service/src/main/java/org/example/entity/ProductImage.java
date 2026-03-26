@@ -9,6 +9,7 @@ import org.example.entity.base.BaseTime;
 @Getter
 @Setter
 @Entity
+@Table(name = "product_images")
 public class ProductImage extends BaseTime {
 
     @ManyToOne(fetch = FetchType.LAZY)

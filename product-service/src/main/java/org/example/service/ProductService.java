@@ -26,6 +26,4 @@ public interface ProductService {
     void archive(Long id);
 
     void delete(Long id);
-
-    ProductResponse getById(Long id);
 }
