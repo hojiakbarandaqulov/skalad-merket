@@ -5,5 +5,4 @@ public enum Roles {
     SUPER_ADMIN,
     BUYER,
     SELLER,
-    MODERATOR
 }

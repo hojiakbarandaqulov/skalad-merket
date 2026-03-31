@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
     Optional<Product> findByIdAndDeletedAtIsNull(Long id);
 
     Optional<Product> findBySlugAndModerationStatusAndIsActiveTrueAndDeletedAtIsNull(String slug, ProductModerationStatus moderationStatus);
@@ -28,8 +28,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findTop8ByModerationStatusAndIsActiveTrueAndIsPromotedTrueAndDeletedAtIsNullOrderByCreatedDateDesc(ProductModerationStatus moderationStatus);
 
-
-    Page<Product> findAll(Specification<Product> specification, Pageable pageable);
 
      Optional<Product> findByIdAndIsActiveTrue(Long productId);
 }

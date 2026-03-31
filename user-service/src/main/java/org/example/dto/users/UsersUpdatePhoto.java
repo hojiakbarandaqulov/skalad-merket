@@ -1,10 +1,10 @@
-package org.example.dto.profile;
+package org.example.dto.users;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class ProfileUpdatePhoto {
+public class UsersUpdatePhoto {
     @NotBlank(message = "photoId required")
     private String photoId;
 }

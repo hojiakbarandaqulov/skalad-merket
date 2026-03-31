@@ -27,8 +27,8 @@ public class ChatController {
         return ApiResponse.successResponse(chatService.getThreads(page, perPage));
     }
 
-    @PostMapping("create")
     @PreAuthorize("hasRole('BUYER')")
+    @PostMapping("/create")
     public ApiResponse<ChatCreateResponse> createThread(@RequestBody @Valid CreateChatRequest request) {
         return ApiResponse.successResponse(chatService.createThread(request));
     }

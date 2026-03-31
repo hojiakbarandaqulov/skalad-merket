@@ -4,10 +4,12 @@ package org.example.config.initializer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.entity.Profile;
-import org.example.repository.ProfileRepository;
+import org.example.repository.UsersRepository;
 import org.example.service.KeycloakService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -15,13 +17,13 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class SuperAdminInitializer implements ApplicationRunner {
+public class SuperAdminInitializer{
 
-    private final ProfileRepository profileRepository;
+    private final UsersRepository profileRepository;
     private final KeycloakService keycloakService;
 
-    @Override
-    public void run(ApplicationArguments args) {
+    @EventListener(ApplicationReadyEvent.class)
+    public void run() {
         Optional<Profile> superAdmin = profileRepository.findByUsernameAndDeletedFalse(
                 "xojiakbarandaqulov@gmail.com"
         );
@@ -39,7 +41,8 @@ public class SuperAdminInitializer implements ApplicationRunner {
                     users.getFirstName(),
                     users.getLastName(),
                     users.getUsername(),
-                    "12345"
+                    "super-admin",
+                    users.getRoles()
             );
 
             users.setKeycloakId(keycloakId);
@@ -50,7 +53,8 @@ public class SuperAdminInitializer implements ApplicationRunner {
                     users.getId(),
                     users.getFirstName(),
                     users.getLastName(),
-                    users.getUsername()
+                    users.getUsername(),
+                    users.getPassword()
             );
 
             log.info("Super admin Keycloak ga muvaffaqiyatli qo'shildi");

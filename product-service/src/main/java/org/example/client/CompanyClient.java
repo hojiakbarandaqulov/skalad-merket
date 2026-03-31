@@ -16,7 +16,7 @@ import java.util.List;
 public interface CompanyClient {
 
     @GetMapping("/internal/companies/{companyId}/ownership-check")
-    CompanyOwnershipResponse checkOwnership(@PathVariable Long companyId, @RequestParam Long sellerId);
+    CompanyOwnershipResponse checkOwnership(@PathVariable Long companyId, @RequestParam Long buyerId);
 
     @GetMapping("/internal/companies/owned")
     List<Long> getOwnedCompanyIds(@RequestParam Long sellerId);

@@ -2,18 +2,20 @@ package org.example.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.dto.kafka.SuperAdminSendKeycloakId;
 import org.example.dto.kafka.UserRegisteredEvent;
 import org.example.dto.kafka.UserRoleUpdateEvent;
 import org.example.dto.kafka.UserVerifiedEvent;
 import org.example.entity.Profile;
 import org.example.enums.GeneralStatus;
 import org.example.enums.Roles;
-import org.example.repository.ProfileRepository;
+import org.example.repository.UsersRepository;
 import org.example.service.KafkaConsumerService;
 import org.example.service.KeycloakService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -21,7 +23,7 @@ import java.util.Optional;
 @Slf4j
 public class KafkaConsumerServiceImpl implements KafkaConsumerService {
 
-    private final ProfileRepository profileRepository;
+    private final UsersRepository profileRepository;
     private final KeycloakService keycloakService;
 
     @KafkaListener(
@@ -49,6 +51,7 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
                 .password(event.getPassword())
                 .roles(event.getRoles())
                 .status(event.getStatus())
+                .keycloakId(event.getKeycloakId())
                 .build();
 
         profileRepository.save(profileMap);
@@ -78,20 +81,43 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
     )
     @Override
     public void onUserRoleUpdate(UserRoleUpdateEvent event) {
-        log.info("Kafka ← user.role. update  keldi, userId ={}",
-                event.getUserId());
+        log.info("Kafka ← user.role.update keldi, userId={}", event.getUserId());
+
         Optional<Profile> profile = profileRepository.findByUserId(event.getUserId());
         if (profile.isPresent()) {
             Profile verifiedProfile = profile.get();
+
+            String keycloakId = verifiedProfile.getKeycloakId();
+
+            if (keycloakId == null) {
+                log.warn("Profile ning keycloakId si yo'q: userId={}", event.getUserId());
+                return;
+            }
+
+            keycloakService.removeRole(keycloakId, verifiedProfile.getRoles());
+
+            keycloakService.assignRoleToUser(keycloakId, Roles.SELLER);
+            log.info("Keycloak da role SELLER ga yangilandi: keycloakId={}", keycloakId);
+
             verifiedProfile.setRoles(Roles.SELLER);
             profileRepository.save(verifiedProfile);
-
-            if (verifiedProfile.getKeycloakId() != null){
-                keycloakService.assignRoleToUser(verifiedProfile.getKeycloakId(), Roles.SELLER);
-                log.info("Keycloak da role SELLER ga yangilandi: keycloakId={}", verifiedProfile.getKeycloakId());
-            } else {
-                log.warn("Profile ning keycloakId si yo'q: userId={}", event.getUserId());
-            }
         }
+    }
+
+    @KafkaListener(
+            topics = "super.admin.keycloak.id",
+            groupId = "user-service-group",
+            properties = {"spring.json.value.default.type=org.example.dto.kafka.SuperAdminSendKeycloakId"}
+    )
+    @Override
+    public void onKeycloakId(SuperAdminSendKeycloakId event) {
+        Profile profile = profileRepository.findByUserIdAndDeletedFalse(event.getUserId());
+        if (profile == null) {
+            log.warn("Profile topilmadi: userId={}", event.getUserId());
+            return;
+        }
+        profile.setKeycloakId(event.getKeycloakId());
+        profileRepository.save(profile);
+        log.info("Profile keycloakId yangilandi: userId={}", event.getUserId());
     }
 }

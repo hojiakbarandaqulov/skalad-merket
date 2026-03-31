@@ -34,6 +34,8 @@ public class Profile extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Roles roles;
 
+    private Integer warningCount=0;
+
     @ManyToOne
     private Attach photo;
 }

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.dto.internal.ProfileInternalSummaryResponse;
 import org.example.entity.Profile;
 import org.example.exp.AppBadException;
-import org.example.repository.ProfileRepository;
+import org.example.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/internal/profiles")
 public class ProfileInternalController {
 
-    private final ProfileRepository profileRepository;
+    private final UsersRepository profileRepository;
 
     @Value("${aws.url}")
     private String awsUrl;

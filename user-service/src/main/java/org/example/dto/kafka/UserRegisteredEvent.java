@@ -17,5 +17,5 @@ public class UserRegisteredEvent {
     private String password;
     private Roles roles;
     private GeneralStatus status;
-
+    private String keycloakId;
 }

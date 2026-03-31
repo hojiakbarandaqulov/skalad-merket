@@ -21,6 +21,7 @@ import org.example.repository.ChatMessageRepository;
 import org.example.repository.ChatThreadRepository;
 import org.example.service.ChatService;
 import org.example.service.ChatWebSocketTokenService;
+import org.example.utils.SpringSecurityUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -96,7 +97,7 @@ public class ChatServiceImpl implements ChatService {
     @Override
     @Transactional
     public ChatCreateResponse createThread(CreateChatRequest request) {
-        Long buyerId = requireCurrentUserId();
+        Long buyerId = SpringSecurityUtil.getProfileId();
         CompanyOwnershipResponse company = companyClient.checkOwnership(request.getSellerCompanyId(), buyerId);
 
         if (!company.isExists() || !company.isActive()) {

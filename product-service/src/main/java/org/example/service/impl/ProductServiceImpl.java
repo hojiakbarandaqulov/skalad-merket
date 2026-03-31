@@ -78,6 +78,7 @@ public class ProductServiceImpl implements ProductService {
 
         Product product = new Product();
         applyCommonFields(product, request);
+        product.setSellerId(sellerId);
         product.setSlug(generateUniqueSlug(request.getName()));
         product.setModerationStatus(ProductModerationStatus.PENDING);
         product.setIsActive(Boolean.TRUE);
@@ -534,36 +535,34 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse toResponse(Product product) {
         ProductResponse response = new ProductResponse();
         response.setId(product.getId());
-//        response.setSellerId(product.get());
+        response.setSellerId(product.getSellerId());
         response.setCompanyId(product.getCompanyId());
         response.setCategoryId(product.getCategoryId());
         response.setName(product.getName());
+        response.setSlug(product.getSlug());
         response.setShortDescription(product.getShortDescription());
         response.setDescription(product.getDescription());
         response.setPriceType(product.getPriceType());
         response.setPrice(product.getPrice());
-        if (product.getCurrency() != null) {
-            response.setCurrency(Currency.valueOf(String.valueOf(product.getCurrency())));
-        }
+        response.setCurrency(product.getCurrency());
         response.setRegionId(product.getRegionId());
         response.setDistrictId(product.getDistrictId());
         response.setStatus(resolveStatus(product));
-        response.setAttributes(ServiceHelper.readAttributes(product.getAttributesJsonb().toString()));
+        response.setAttributes(product.getAttributesJsonb());
+        response.setIsActive(product.getIsActive());
+        response.setIsPromoted(product.getIsPromoted());
+        response.setPromotedUntil(product.getPromotedUntil());
+        response.setRejectReason(product.getRejectReason());
+        response.setViewsCountCache(product.getViewsCountCache());
+        response.setFavoritesCountCache(product.getFavoritesCountCache());
+        response.setCreatedAt(product.getCreatedDate());
+        response.setUpdatedAt(product.getModifiedDate());
+        response.setImages(getImages(product.getId()));
         return response;
     }
 
     private ProductModerationStatus resolveStatus(Product product) {
-        if (Boolean.TRUE.equals(product.getIsActive())) {
-            return ProductModerationStatus.ARCHIVED;
-        }
-       else if (Boolean.TRUE.equals(product.getIsActive()) && product.getModerationStatus() == ProductModerationStatus.APPROVED) {
-            return ProductModerationStatus.APPROVED;
-        }
-        if (Boolean.FALSE.equals(product.getIsActive())) {
-            return ProductModerationStatus.ARCHIVED;
-        }
-
-        return ProductModerationStatus.PENDING;
+        return product.getModerationStatus() == null ? ProductModerationStatus.PENDING : product.getModerationStatus();
     }
 
     /*private void fillProduct(Product product, org.example.dto.CreateProductRequest request) {

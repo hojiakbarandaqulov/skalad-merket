@@ -135,6 +135,19 @@ public class KeycloakServiceImpl implements KeycloakService {
     }
 
 
+    @Override
+    public void removeRole(String keycloakId, Roles role) {
+        String adminToken = getAdminToken();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(adminToken);
+
+        removeRoleFromUser(keycloakId, role, adminToken, headers);
+
+        log.info("Role {} o'chirildi: keycloakId={}", role, keycloakId);
+    }
+
     private void createRoleIfNotExists(Roles roleName, String adminToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(adminToken);

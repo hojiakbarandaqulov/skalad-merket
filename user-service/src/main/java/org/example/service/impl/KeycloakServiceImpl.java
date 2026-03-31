@@ -87,6 +87,19 @@ public class KeycloakServiceImpl implements KeycloakService {
     }
 
     @Override
+    public void removeRole(String keycloakId, Roles role) {
+        String adminToken = getAdminToken();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(adminToken);
+
+        removeRoleFromUser(keycloakId, role, adminToken, headers);
+
+        log.info("Role {} o'chirildi: keycloakId={}", role, keycloakId);
+    }
+
+    @Override
     public String createUser(String firstName, String lastName, String username,
                              String password, Roles roleName) {
         try {
@@ -197,6 +210,41 @@ public class KeycloakServiceImpl implements KeycloakService {
     @Override
     public void deleteUser(String username) {
 
+    }
+
+    @Override
+    public void setUserEnabled(String keycloakId, boolean enabled) {
+        String adminToken = getAdminToken();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(adminToken);
+
+        Map<String, Object> userUpdate = new HashMap<>();
+        userUpdate.put("enabled", enabled);
+
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(userUpdate, headers);
+        restTemplate.exchange(
+                adminUrl + "/users/" + keycloakId,
+                HttpMethod.PUT,
+                request,
+                Void.class
+        );
+    }
+
+    @Override
+    public void revokeUserSessions(String keycloakId) {
+        String adminToken = getAdminToken();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(adminToken);
+
+        restTemplate.exchange(
+                adminUrl + "/users/" + keycloakId + "/logout",
+                HttpMethod.POST,
+                new HttpEntity<>(headers),
+                Void.class
+        );
     }
 
     @Override

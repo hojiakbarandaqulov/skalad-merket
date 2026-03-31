@@ -5,6 +5,48 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db21a683-eacb-49fd-afa4-a62f94ff9031" name="Changes" comment="lead-service added">
+      <change afterPath="$PROJECT_DIR$/.idea/modules/notification-service.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/org/example/dto/kafka/SuperAdminSendKeycloakId.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/config/KafkaProducerConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/controller/AdminUserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/dto/kafka/SuperAdminSendKeycloakId.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/dto/kafka/UserUpdateRole.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/dto/users/UsersResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/service/KafkaProducerService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/service/impl/KafkaProducerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/171270fc-6cdd-4829-bbf4-404bc155a658.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/171270fc-6cdd-4829-bbf4-404bc155a658.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/171270fc-6cdd-4829-bbf4-404bc155a658/storage_v2/_src_/database/skalad-market-user-db.9nXwyg/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/171270fc-6cdd-4829-bbf4-404bc155a658/storage_v2/_src_/database/skalad-market-user-db.9nXwyg/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/827e3549-8d53-47c8-9056-8d3cf08e8704.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/827e3549-8d53-47c8-9056-8d3cf08e8704.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/827e3549-8d53-47c8-9056-8d3cf08e8704/storage_v2/_src_/database/skalad-market-company-db.2JME9Q/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/827e3549-8d53-47c8-9056-8d3cf08e8704/storage_v2/_src_/database/skalad-market-company-db.2JME9Q/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/9cff7535-5b13-4f83-9e31-6a15fd6e7cf3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/9cff7535-5b13-4f83-9e31-6a15fd6e7cf3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/9cff7535-5b13-4f83-9e31-6a15fd6e7cf3/storage_v2/_src_/database/skalad-market-auth-db.-VosrQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/9cff7535-5b13-4f83-9e31-6a15fd6e7cf3/storage_v2/_src_/database/skalad-market-auth-db.-VosrQ/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/org/example/AuthServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/org/example/AuthServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/org/example/config/initializer/SuperAdminInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/org/example/config/initializer/SuperAdminInitializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/org/example/dto/kafka/UserRegisteredEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/org/example/dto/kafka/UserRegisteredEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/org/example/enums/Roles.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/org/example/enums/Roles.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/KafkaProducerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/KafkaProducerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/KeycloakService.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/KeycloakService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/impl/AuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/impl/AuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/impl/KafkaConsumerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/impl/KafkaConsumerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/impl/KafkaProducerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/impl/KafkaProducerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/impl/KeycloakServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/org/example/service/impl/KeycloakServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/resources/db/migration/V2__users-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/resources/db/migration/V2__users-create.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat-service/src/main/java/org/example/client/CompanyClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/chat-service/src/main/java/org/example/client/CompanyClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat-service/src/main/java/org/example/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/chat-service/src/main/java/org/example/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat-service/src/main/java/org/example/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/chat-service/src/main/java/org/example/controller/ChatController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat-service/src/main/java/org/example/service/impl/ChatServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/chat-service/src/main/java/org/example/service/impl/ChatServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat-service/src/main/java/org/example/service/impl/ChatWebSocketTokenServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/chat-service/src/main/java/org/example/service/impl/ChatWebSocketTokenServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/chat-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/company-service/src/main/java/org/example/controller/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/company-service/src/main/java/org/example/controller/CompanyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/company-service/src/main/java/org/example/controller/CompanyInternalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/company-service/src/main/java/org/example/controller/CompanyInternalController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/company-service/src/main/java/org/example/repository/CompanyRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/company-service/src/main/java/org/example/repository/CompanyRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/company-service/src/main/resources/application-prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/company-service/src/main/resources/application-prod.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/.bloomcycle.bin/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/.bloomcycle.bin/xl.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage-cache.bin.bkp/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage-cache.bin.bkp/xl.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage-cache.bin/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage-cache.bin/xl.meta" afterDir="false" />
@@ -13,6 +55,31 @@
       <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad-market/.usage-cache.bin/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad-market/.usage-cache.bin/xl.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin.bkp/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin.bkp/xl.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin/xl.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/.minio.sys/tmp/dce6f751-f079-459e-ab46-376d23ea1209" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/client/CompanyClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/client/CompanyClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/entity/ProductImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/entity/ProductImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/repository/ProductRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/impl/ProductServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/impl/ProductServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/config/CustomUserDetailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/config/CustomUserDetailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/config/initializer/SuperAdminInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/config/initializer/SuperAdminInitializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/controller/UsersController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/controller/ProfileInternalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/controller/ProfileInternalController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/dto/kafka/UserRegisteredEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/dto/kafka/UserRegisteredEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/dto/profile/ProfileDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/dto/users/UsersDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/dto/profile/ProfileUpdatePhoto.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/dto/users/UsersUpdatePhoto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/dto/profile/ProfileUpdateRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/dto/users/UsersUpdateRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/entity/Profile.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/entity/Profile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/enums/Roles.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/enums/Roles.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/repository/ProfileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/repository/UsersRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/service/KafkaConsumerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/service/KafkaConsumerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/service/KeycloakService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/service/KeycloakService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/service/ProfileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/service/UsersService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/service/impl/KafkaConsumerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/service/impl/KafkaConsumerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/service/impl/KeycloakServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/service/impl/KeycloakServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/service/impl/ProfileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/service/impl/UsersServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/db/migration/V2__users-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/db/migration/V2__users-create.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +100,9 @@
       <ProjectState />
     </projectState>
     <projectState path="$PROJECT_DIR$/discovery-service">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/notification-service">
       <ProjectState />
     </projectState>
     <projectState path="$PROJECT_DIR$/product-service">
@@ -59,23 +129,7 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="product-service" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="product-service" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="product-service" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -127,71 +181,71 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Docker.docker-compose.yml.minio: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.docker-compouse.yml.skalad-market-user-db: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.docker-compouse.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build api-gateway.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build auth-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build category-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build company-servcie.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build company-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build discovery-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build product-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build user-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.auth-service [build].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.company-service [build].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.company-service [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.product-service [build].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.user-service [buildDependents].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.user-service [build].executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.attach | attach upload.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.auth | #1.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.auth | #2.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.auth | #3.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.generated-requests | #47.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.generated-requests | #48.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.generated-requests | #49.executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.ApiGatewayApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.AuthServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.CategoryServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.CompanyServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.DiscoveryServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.ProductServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.UserServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/JavaProject/Microservice/Skalad-market/product-service/src/main/resources&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Docker.docker-compose.yml.minio: Compose Deployment.executor": "Run",
+    "Docker.docker-compouse.yml.skalad-market-user-db: Compose Deployment.executor": "Run",
+    "Docker.docker-compouse.yml: Compose Deployment.executor": "Run",
+    "Gradle.Build api-gateway.executor": "Run",
+    "Gradle.Build auth-service.executor": "Run",
+    "Gradle.Build category-service.executor": "Run",
+    "Gradle.Build company-servcie.executor": "Run",
+    "Gradle.Build company-service.executor": "Run",
+    "Gradle.Build discovery-service.executor": "Run",
+    "Gradle.Build product-service.executor": "Run",
+    "Gradle.Build user-service.executor": "Run",
+    "Gradle.auth-service [build].executor": "Run",
+    "Gradle.company-service [build].executor": "Run",
+    "Gradle.company-service [clean].executor": "Run",
+    "Gradle.product-service [build].executor": "Run",
+    "Gradle.user-service [buildDependents].executor": "Run",
+    "Gradle.user-service [build].executor": "Run",
+    "HTTP Request.attach | attach upload.executor": "Run",
+    "HTTP Request.auth | #1.executor": "Run",
+    "HTTP Request.auth | #2.executor": "Run",
+    "HTTP Request.auth | #3.executor": "Run",
+    "HTTP Request.generated-requests | #47.executor": "Run",
+    "HTTP Request.generated-requests | #48.executor": "Run",
+    "HTTP Request.generated-requests | #49.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.ApiGatewayApplication.executor": "Run",
+    "Spring Boot.AuthServiceApplication.executor": "Run",
+    "Spring Boot.CategoryServiceApplication.executor": "Run",
+    "Spring Boot.CompanyServiceApplication.executor": "Run",
+    "Spring Boot.DiscoveryServiceApplication.executor": "Run",
+    "Spring Boot.ProductServiceApplication.executor": "Run",
+    "Spring Boot.UserServiceApplication.executor": "Run",
+    "extract.method.default.visibility": "private",
+    "git-widget-placeholder": "main",
+    "go.import.settings.migrated": "true",
+    "jdk.selected.JAVA_MODULE": "17",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/JavaProject/Microservice/Skalad-market/notification-service/build.gradle",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -212,14 +266,14 @@
       <recent name="D:\JavaProject\Microservice\Skalad-market\product-service\src\main\resources\db" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="org.example.controller" />
       <recent name="org.example.dto.kafka" />
       <recent name="org.example.config" />
+      <recent name="org.example.controller" />
       <recent name="org.example.enums" />
       <recent name="org.example.utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.DiscoveryServiceApplication">
+  <component name="RunManager" selected="Spring Boot.AuthServiceApplication">
     <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
       <deployment type="docker-compose.yml">
         <settings />
@@ -317,6 +371,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="NotificationServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="notification-service.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.NotificationServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ProductServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="product-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.ProductServiceApplication" />
@@ -386,6 +447,7 @@
       <workItem from="1773907240368" duration="1109000" />
       <workItem from="1774166810232" duration="2360000" />
       <workItem from="1774189822722" duration="1138000" />
+      <workItem from="1774947339141" duration="6179000" />
     </task>
     <task id="LOCAL-00001" summary="Merge remote changes">
       <option name="closed" value="true" />

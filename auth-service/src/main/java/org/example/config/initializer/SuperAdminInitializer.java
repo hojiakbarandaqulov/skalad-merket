@@ -2,11 +2,15 @@ package org.example.config.initializer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.dto.kafka.SuperAdminSendKeycloakId;
 import org.example.entity.Users;
 import org.example.repository.UserRepository;
+import org.example.service.KafkaProducerService;
 import org.example.service.KeycloakService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -14,19 +18,23 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class SuperAdminInitializer implements ApplicationRunner {
+public class SuperAdminInitializer {
 
     private final UserRepository profileRepository;
     private final KeycloakService keycloakService;
+    private final KafkaProducerService kafkaProducerService;
 
-    @Override
-    public void run(ApplicationArguments args) {
+    @EventListener(ApplicationReadyEvent.class)
+    public void run() {
         Optional<Users> superAdmin = profileRepository.findByUsernameAndDeletedFalse(
                 "xojiakbarandaqulov@gmail.com"
         );
-        if (superAdmin.isEmpty()) return;
+        if (superAdmin.isEmpty()) {
+            log.info("Super admin does not exist");
+            return;
+        }
 
-        Users users=superAdmin.get();
+        Users users = superAdmin.get();
 
         if (users.getKeycloakId() != null) {
             log.info("Super admin allaqachon Keycloak da bor");
@@ -38,12 +46,16 @@ public class SuperAdminInitializer implements ApplicationRunner {
                     users.getFirstName(),
                     users.getLastName(),
                     users.getUsername(),
-                    "12345",
+                    "super-admin",
                     users.getRole()
             );
 
             users.setKeycloakId(keycloakId);
             profileRepository.save(users);
+            SuperAdminSendKeycloakId adminKeycloakId = new SuperAdminSendKeycloakId();
+            adminKeycloakId.setKeycloakId(keycloakId);
+            adminKeycloakId.setUserId(users.getId());
+            kafkaProducerService.sendKeycloakId(adminKeycloakId);
 
             keycloakService.addProfileIdAttribute(
                     keycloakId,
@@ -51,12 +63,12 @@ public class SuperAdminInitializer implements ApplicationRunner {
                     users.getFirstName(),
                     users.getLastName(),
                     users.getUsername(),
-                    "12345"
+                    "super-admin"
             );
 
             log.info("Super admin Keycloak ga muvaffaqiyatli qo'shildi");
         } catch (Exception e) {
-            log.error("Super admin Keycloak ga qo'shishda xato: {}", e.getMessage());
+            log.error("Super admin Keycloak ga qo'shishda xato", e);
         }
     }
 }

@@ -3,11 +3,12 @@ package org.example.repository;
 import org.example.entity.Company;
 import org.example.enums.VerificationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface CompanyRepository extends JpaRepository<Company, Long> {
+public interface CompanyRepository extends JpaRepository<Company, Long>, JpaSpecificationExecutor<Company> {
 
     Long countByOwnerUserIdAndDeletedAtIsNull(Long userId);
 

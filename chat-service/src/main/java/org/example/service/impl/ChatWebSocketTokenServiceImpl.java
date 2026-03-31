@@ -20,8 +20,8 @@ public class ChatWebSocketTokenServiceImpl implements ChatWebSocketTokenService 
     @Value("${chat.websocket.token-secret}")
     private String tokenSecret;
 
-    @Value("${chat.websocket.token-expiration-seconds}")
-    private long expiresInSeconds;
+    @Value("${chat.websocket.token-expiration-minutes}")
+    private long expiresInMinutes;
 
     @Override
     public WsTokenResponse issueToken() {
@@ -35,11 +35,11 @@ public class ChatWebSocketTokenServiceImpl implements ChatWebSocketTokenService 
                 .subject(userId.toString())
                 .claim("purpose", "chat-ws")
                 .issuedAt(Date.from(now))
-                .expiration(Date.from(now.plusSeconds(expiresInSeconds)))
+                .expiration(Date.from(now.plusSeconds(expiresInMinutes)))
                 .signWith(getSecretKey())
                 .compact();
 
-        return new WsTokenResponse(token, expiresInSeconds);
+        return new WsTokenResponse(token, expiresInMinutes);
     }
 
     @Override

@@ -77,6 +77,7 @@ public class AuthServiceImpl implements AuthService {
                 .password(entity.getPassword())
                 .roles(entity.getRole())
                 .status(entity.getStatus())
+                        .keycloakId(keycloakId)
                 .build());
 
         if (EmailUtil.isEmail(dto.getUsername())) {

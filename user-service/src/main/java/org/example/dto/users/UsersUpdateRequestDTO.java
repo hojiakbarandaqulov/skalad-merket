@@ -1,4 +1,4 @@
-package org.example.dto.profile;
+package org.example.dto.users;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProfileUpdateRequestDTO {
+public class UsersUpdateRequestDTO {
     @NotBlank(message = "fullName required")
     private String firstName;
 

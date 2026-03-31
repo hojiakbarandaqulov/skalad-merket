@@ -1,7 +1,7 @@
 package org.example.config;
 
 import org.example.entity.Profile;
-import org.example.repository.ProfileRepository;
+import org.example.repository.UsersRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,9 +11,9 @@ import java.util.Optional;
 
 @Service
 public class CustomUserDetailService implements UserDetailsService {
-    private final ProfileRepository repository;
+    private final UsersRepository repository;
 
-    public CustomUserDetailService(ProfileRepository repository) {
+    public CustomUserDetailService(UsersRepository repository) {
         this.repository = repository;
     }
 

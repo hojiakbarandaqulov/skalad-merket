@@ -1,2 +1,2 @@
 insert into users (first_name,last_name,username,password,role,status,created_date)
-values('Xojiakbar','Andaqulov','xojiakbarandaqulov@gmail.com','$2a$10$SifNW3FZfGkcDTkFD4KER.aEYZ7oOtvP6LiR2Yj.yrIEM1tRuvkry','SUPER_ADMIN','ACTIVE',now())
+values('Xojiakbar','Andaqulov','xojiakbarandaqulov@gmail.com','$2a$10$RJGLMmQ6mok5OYXD2njGdOp.9rA2xDCtmrJ/xaQyewjmPPp12xDG6','SUPER_ADMIN','ACTIVE',now())

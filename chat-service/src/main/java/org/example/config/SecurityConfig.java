@@ -27,7 +27,7 @@ public class SecurityConfig {
             "/v3/api-docs",
             "/swagger-resources/**",
             "/webjars/**",
-            "/api/v1/ws/chats/**"
+            "/api/v1/ws/chat/**"
     };
 
     @Bean
@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(AUTH_WHITELIST).permitAll()
-                        .requestMatchers("/api/v1/chats/create").hasRole("BUYER")
+                        .requestMatchers("/api/v1/ws/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));

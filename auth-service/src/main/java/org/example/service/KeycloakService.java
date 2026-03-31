@@ -8,6 +8,7 @@ import javax.management.relation.Role;
 
 public interface KeycloakService {
     TokenResponseDTO getToken(String username, String password);
+
     TokenResponseDTO refreshToken(String refreshToken);
 
     String createUser(String firstName, String lastName, String username, String password, Roles role);
@@ -15,9 +16,11 @@ public interface KeycloakService {
     void deleteUser(String username);
 
     void addProfileIdAttribute(String keycloakId, Long profileId,
-                              String firstName, String lastName, String email, String password);
+                               String firstName, String lastName, String email, String password);
 
     void assignRoleToUser(String keycloakId, Roles roleName);
-//    void verifyUserEmail(String username);
+
+    //    void verifyUserEmail(String username);
+    void removeRole(String keycloakId, Roles role);
 
 }

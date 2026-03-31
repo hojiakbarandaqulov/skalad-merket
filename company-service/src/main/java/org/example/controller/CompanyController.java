@@ -33,7 +33,6 @@ public class CompanyController {
         return companyService.getMyCompanies();
     }
 
-
     @GetMapping("/{slug}")
     public ApiResponse<CompanyResponseDTO> getBySlug(
             @PathVariable String slug) {

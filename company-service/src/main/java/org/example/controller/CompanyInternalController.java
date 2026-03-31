@@ -19,7 +19,7 @@ public class CompanyInternalController {
     private final CompanyRepository companyRepository;
 
     @GetMapping("/{companyId}/ownership-check")
-    public CompanyInternalOwnershipResponse ownershipCheck(@PathVariable Long companyId, @RequestParam Long sellerId) {
+    public CompanyInternalOwnershipResponse ownershipCheck(@PathVariable Long companyId, @RequestParam Long buyerId) {
         Company company = companyRepository.findByIdAndDeletedAtIsNull(companyId).orElse(null);
         if (company == null) {
             return CompanyInternalOwnershipResponse.builder()
@@ -32,12 +32,12 @@ public class CompanyInternalController {
 
         boolean active = !Boolean.TRUE.equals(company.getIsBlocked())
                 && company.getDeletedAt() == null
-                && company.getVerificationStatus() == VerificationStatus.VERIFIED;
+                && company.getVerificationStatus() == VerificationStatus.VERIFIED || company.getVerificationStatus() == VerificationStatus.PENDING_VERIFICATION;
 
         return CompanyInternalOwnershipResponse.builder()
                 .companyId(companyId)
                 .exists(true)
-                .owner(company.getOwnerUserId().equals(sellerId))
+                .owner(company.getOwnerUserId().equals(buyerId))
                 .active(active)
                 .build();
     }

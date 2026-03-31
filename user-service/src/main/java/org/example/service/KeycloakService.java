@@ -17,5 +17,10 @@ public interface KeycloakService {
 
     void assignRoleToUser(String keycloakId, Roles roleName);
 //    void verifyUserEmail(String username);
+    void removeRole(String keycloakId, Roles role);
+
+    void setUserEnabled(String keycloakId, boolean enabled);
+
+    void revokeUserSessions(String keycloakId);
 
 }
