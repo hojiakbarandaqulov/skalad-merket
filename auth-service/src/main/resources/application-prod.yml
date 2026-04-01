@@ -6,12 +6,30 @@ spring:
   application:
     name: auth-service
 
+
   # DATABASE
   datasource:
     url: jdbc:postgresql://localhost:5432/skalad-market-auth-db
     username: postgres
     password: 1234
     driver-class-name: org.postgresql.Driver
+
+  # Kafka Producer config
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+    # Kafka Consumer config
+    consumer:
+      group-id: auth-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+      properties:
+        spring.json.trusted.packages: "*"
 
   jpa:
     hibernate:
@@ -21,4 +39,19 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090/realms/market-realm
+
+keycloak:
+  token-url: http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+  client-id: market-backend
+  client-secret: Pi5lwDJnYn9TWcc1iLQzJsUGaHeEx8FK
+  admin-url: http://localhost:9090/admin/realms/market-realm
+  admin-username: admin
+  admin-password: admin
+
+
 

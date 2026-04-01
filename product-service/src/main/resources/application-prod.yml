@@ -4,21 +4,47 @@ server:
 
 spring:
   application:
-    name: auth-service
+    name: product-service
 
-  # DATABASE
   datasource:
-    url: jdbc:postgresql://localhost:5432/skalad-market-auth-db
+    url: jdbc:postgresql://localhost:5432/skalad-market-product-db
     username: postgres
     password: 1234
     driver-class-name: org.postgresql.Driver
 
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
         format_sql: true
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090/realms/market-realm
+
+app:
+  kafka:
+    topic:
+      product-created: product-created-topic
+
+  media:
+    base-url: http://localhost:9000/skalad-market
+
+aws:
+  url: http://localhost:9000
+  access-key: minioadmin
+  secret-key: minioadmin
+  bucket-name: skalad-market
