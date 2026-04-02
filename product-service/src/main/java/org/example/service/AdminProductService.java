@@ -16,6 +16,7 @@ import org.example.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -74,7 +75,7 @@ public class AdminProductService {
         Specification<Product> specification = Specification.where(notDeleted())
                 .and((root, query, cb) -> cb.equal(root.get("moderationStatus"), ProductModerationStatus.PENDING));
 
-        return productRepository.findAll(specification, Sort.by(Sort.Direction.ASC, "createdDate"))
+        return productRepository.findAll(specification, Pageable.unpaged(Sort.by(Sort.Direction.ASC, "createdDate")))
                 .stream()
                 .map(this::toResponse)
                 .toList();
