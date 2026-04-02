@@ -41,12 +41,15 @@ public class NotificationServiceImpl implements NotificationService {
         validatePage(page, perPage);
 
         PageRequest pageRequest = PageRequest.of(Math.max(page - 1, 0), perPage, Sort.by(Sort.Direction.DESC, "sentAt"));
-        Page<Notification> notificationPage = isRead == null
-                ? notificationRepository.findByUserIdAndDeletedFalse(userId, pageRequest)
-                : Boolean.TRUE.equals(isRead)
-                ? notificationRepository.findByUserIdAndReadAtIsNotNullAndDeletedFalse(userId, pageRequest)
-                : notificationRepository.findByUserIdAndReadAtIsNullAndDeletedFalse(userId, pageRequest);
+        Page<Notification> notificationPage;
 
+        if (isRead == null) {
+            notificationPage = notificationRepository.findByUserIdAndDeletedFalse(userId, pageRequest);
+        } else if (isRead) {
+            notificationPage = notificationRepository.findByUserIdAndReadAtIsNotNullAndDeletedFalse(userId, pageRequest);
+        } else {
+            notificationPage = notificationRepository.findByUserIdAndReadAtIsNullAndDeletedFalse(userId, pageRequest);
+        }
         List<NotificationResponse> items = notificationPage.getContent().stream()
                 .map(this::toResponse)
                 .toList();
