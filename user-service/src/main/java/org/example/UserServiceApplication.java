@@ -15,6 +15,5 @@ public class    UserServiceApplication {
         SpringApplication.run(UserServiceApplication.class, args);
       /*  BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         System.out.println(bCryptPasswordEncoder.encode("12345"));*/
-
     }
 }

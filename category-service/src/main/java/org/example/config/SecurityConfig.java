@@ -2,6 +2,7 @@ package org.example.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -37,10 +38,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(AUTH_WHITELIST).permitAll()
                         .requestMatchers("/internal/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/category").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/category/**").permitAll()
                         .anyRequest().authenticated()
                 ).oauth2ResourceServer(auth2 -> auth2
                         .jwt(jwt -> jwt
-                                .jwtAuthenticationConverter(jwtAuthenticationConverter()) // ← qo'shing
+                                .jwtAuthenticationConverter(jwtAuthenticationConverter())
                         ));
         return http.build();
     }

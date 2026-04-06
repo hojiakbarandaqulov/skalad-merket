@@ -13,19 +13,6 @@ spring:
     password: 1234
     driver-class-name: org.postgresql.Driver
 
-  # Kafka Consumer config
-  kafka:
-    bootstrap-servers: localhost:9092
-
-    consumer:
-      group-id: user-service-group
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-
-      properties:
-        spring.json.trusted.packages: "*"
-
   jpa:
     hibernate:
       ddl-auto: update

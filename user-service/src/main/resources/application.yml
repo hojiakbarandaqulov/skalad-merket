@@ -19,8 +19,3 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
-
-###
-yandex:
-  api:
-   key: fcc4869a-2b63-48f4-960f-f3fd2b6747ae

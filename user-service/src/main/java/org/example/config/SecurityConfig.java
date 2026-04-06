@@ -41,6 +41,7 @@ public class SecurityConfig {
                         .requestMatchers(AUTH_WHITELIST).permitAll()
                         .requestMatchers("/internal/**").permitAll()
                         .requestMatchers("/api/v1/attach/upload").permitAll()
+                        .requestMatchers("/api/v1/attach/open/**").permitAll()
                         .anyRequest().authenticated()
                 ).oauth2ResourceServer(auth2 -> auth2
                         .jwt(jwt -> jwt

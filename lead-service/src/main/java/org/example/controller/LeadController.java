@@ -55,5 +55,4 @@ public class LeadController {
                                                   @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         return ApiResponse.successResponse(leadService.updateStatus(id, request, language));
     }
-
 }

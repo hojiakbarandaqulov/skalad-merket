@@ -17,6 +17,7 @@ public class NotificationController {
 
     @GetMapping
     public ApiResponse<PagedResponse<NotificationResponse>> getNotifications(
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") String language,
             @RequestParam(value = "is_read", required = false) Boolean isRead,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(value = "per_page", defaultValue = "20") int perPage) {
@@ -24,24 +25,30 @@ public class NotificationController {
     }
 
     @PostMapping("/mark-read")
-    public ApiResponse<Void> markRead(@RequestBody MarkReadRequest request) {
+    public ApiResponse<Void> markRead(
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") String language,
+            @RequestBody MarkReadRequest request) {
         notificationService.markRead(request);
         return ApiResponse.successResponse();
     }
 
     @GetMapping("/preferences")
-    public ApiResponse<NotificationPreferencesResponse> getPreferences() {
+    public ApiResponse<NotificationPreferencesResponse> getPreferences(
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") String language) {
         return ApiResponse.successResponse(notificationService.getPreferences());
     }
 
     @PutMapping("/preferences")
     public ApiResponse<NotificationPreferencesResponse> updatePreferences(
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") String language,
             @RequestBody @Valid NotificationPreferencesRequest request) {
         return ApiResponse.successResponse(notificationService.updatePreferences(request));
     }
 
     @PostMapping("/push-token")
-    public ApiResponse<PushTokenResponse> registerPushToken(@RequestBody @Valid PushTokenRequest request) {
+    public ApiResponse<PushTokenResponse> registerPushToken(
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") String language,
+            @RequestBody @Valid PushTokenRequest request) {
         return ApiResponse.successResponse(notificationService.registerPushToken(request));
     }
 }

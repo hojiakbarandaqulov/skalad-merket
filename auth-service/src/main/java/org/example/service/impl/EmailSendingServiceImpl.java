@@ -18,6 +18,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Locale;
@@ -42,6 +43,7 @@ public class EmailSendingServiceImpl implements EmailSendingService {
     private final ResourceBundleService messageService;
 
 
+    @Async
     @Override
     public void sendRegistrationEmail(String email, Long profileId) {
         String subject = "Complete registration";

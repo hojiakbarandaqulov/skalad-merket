@@ -4,16 +4,16 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.ApiResponse;
 import org.example.dto.users.UsersDTO;
-import org.example.dto.users.UsersResponse;
 import org.example.dto.users.UsersUpdatePhoto;
 import org.example.dto.users.UsersUpdateRequestDTO;
 import org.example.enums.AppLanguage;
-import org.example.enums.GeneralStatus;
-import org.example.enums.Roles;
 import org.example.service.UsersService;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,13 +33,13 @@ public class UsersController {
     }
 
     @PutMapping("update/photo")
-    public ApiResponse<String> updateProfilePhoto(@RequestBody @Valid UsersUpdatePhoto photoId) {
-        return userService.updatePhoto(photoId);
+    public ApiResponse<String> updateProfilePhoto(@RequestBody @Valid UsersUpdatePhoto photoId,
+                                                  @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        return userService.updatePhoto(photoId, language);
     }
 
     @GetMapping("photo")
-    public ApiResponse<UsersUpdatePhoto> getProfilePhoto() {
-        return userService.getProfilePhoto();
+    public ApiResponse<UsersUpdatePhoto> getProfilePhoto(@RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        return userService.getProfilePhoto(language);
     }
-
 }

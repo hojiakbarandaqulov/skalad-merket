@@ -59,7 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         if (!category.getSlug().equals(request.getSlug()) &&
                 categoryRepository.existsBySlug(request.getSlug())) {
-            throw new AppBadException("category.slug.already.exists");
+            throw new AppBadException(messageService.getMessage("category.slug.exists", language));
         }
 
         if (request.getParentId() != null) {

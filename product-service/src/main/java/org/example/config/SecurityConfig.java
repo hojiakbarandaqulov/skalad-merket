@@ -44,6 +44,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(AUTH_WHITELIST).permitAll()
                         .requestMatchers("/internal/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/catalog").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/catalog/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/products/my").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/products/{slug}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/products/all").permitAll()
                         .anyRequest().authenticated()
                 ).oauth2ResourceServer(auth2 -> auth2
                         .jwt(Customizer.withDefaults()));

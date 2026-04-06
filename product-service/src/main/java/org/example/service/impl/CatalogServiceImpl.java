@@ -85,8 +85,7 @@ public class CatalogServiceImpl implements CatalogService {
     private PagedResponse<ProductResponse> queryProducts(String q, String category, Long regionId, String currency, int page, int perPage) {
         Specification<Product> spec = (root, query, cb) -> cb.and(
                 cb.equal(root.get("moderationStatus"), ProductModerationStatus.APPROVED),
-                cb.isTrue(root.get("isActive")),
-                cb.isFalse(root.get("deleted"))
+                cb.isTrue(root.get("isActive"))
         );
         if (q != null && !q.isBlank()) {
             spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("name")), "%" + q.toLowerCase() + "%"));
@@ -110,6 +109,6 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     private boolean isVisible(Product product) {
-        return product.getModerationStatus() == ProductModerationStatus.APPROVED && Boolean.TRUE.equals(product.getIsActive()) && Boolean.FALSE.equals(product.getIsActive());
+        return product.getModerationStatus() == ProductModerationStatus.APPROVED && Boolean.TRUE.equals(product.getIsActive());
     }
 }
