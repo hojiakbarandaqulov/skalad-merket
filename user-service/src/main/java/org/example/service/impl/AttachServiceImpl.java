@@ -1,5 +1,6 @@
 package org.example.service.impl;
 
+import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.RemoveObjectArgs;
@@ -7,9 +8,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.AttachDTO;
 import org.example.entity.Attach;
+import org.example.enums.AppLanguage;
 import org.example.exp.AppBadException;
 import org.example.repository.AttachRepository;
 import org.example.service.AttachService;
+import org.example.service.ResourceBundleService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +27,7 @@ import java.util.UUID;
 public class AttachServiceImpl implements AttachService {
     private final AttachRepository attachRepository;
     private final MinioClient minioClient;
+    private final ResourceBundleService messageService;
 
     @Value("${aws.bucket-name}")
     private String bucketName;
@@ -32,7 +36,7 @@ public class AttachServiceImpl implements AttachService {
     private String url;
 
     @Override
-    public AttachDTO uploadFile(MultipartFile file) {
+    public AttachDTO uploadFile(MultipartFile file, AppLanguage language) {
         try {
             String originalName = file.getOriginalFilename();
             assert originalName != null;
@@ -50,7 +54,7 @@ public class AttachServiceImpl implements AttachService {
                 );
             }
             Attach entity = new Attach();
-            entity.setId(key+"."+extension);
+            entity.setId(key + "." + extension);
             entity.setOriginalName(originalName);
             entity.setExtension(extension);
             entity.setSize(file.getSize());
@@ -63,13 +67,13 @@ public class AttachServiceImpl implements AttachService {
             dto.setUrl(url + "/" + bucketName + "/" + key);
             return dto;
         } catch (Exception e) {
-            throw new RuntimeException("File upload error: " + e.getMessage(), e);
+            throw new AppBadException(messageService.getMessage("file.upload.failed", language));
         }
     }
+
     @Override
-    public boolean delete(String id) {
-        Attach attach = attachRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("File not found: " + id));
+    public boolean delete(String id, AppLanguage language) {
+        Attach attach = get(id, language);
 
         try {
             minioClient.removeObject(
@@ -83,22 +87,23 @@ public class AttachServiceImpl implements AttachService {
             return true;
         } catch (Exception e) {
             log.error("Error deleting file from MinIO: {}", e.getMessage());
-            throw new RuntimeException("File delete error: " + e.getMessage());
+            throw new AppBadException(messageService.getMessage("file.delete.failed", language));
         }
     }
 
-    public Attach get(String id) {
-        return attachRepository.findById(id).orElseThrow(()->new AppBadException("Attach not found"));
+    @Override
+    public Attach get(String id, AppLanguage language) {
+        return attachRepository.findById(id)
+                .orElseThrow(() -> new AppBadException(messageService.getMessage("attach.not.found", language)));
     }
 
     @Override
-    public byte[] open(String fileId) {
+    public byte[] open(String fileId, AppLanguage language) {
+        Attach attach = get(fileId, language);
         try {
-            Attach attach = attachRepository.findById(fileId)
-                    .orElseThrow(() -> new AppBadException("Attach not found"));
-            String objectName = attach.getId().split("\\.")[0]; // id = uuid.extension
+            String objectName = attach.getId().split("\\.")[0];
             try (InputStream stream = minioClient.getObject(
-                    io.minio.GetObjectArgs.builder()
+                    GetObjectArgs.builder()
                             .bucket(bucketName)
                             .object(objectName)
                             .build()
@@ -107,7 +112,7 @@ public class AttachServiceImpl implements AttachService {
             }
         } catch (Exception e) {
             log.error("Error reading file from MinIO: {}", e.getMessage());
-            throw new RuntimeException("File open error: " + e.getMessage(), e);
+            throw new AppBadException(messageService.getMessage("file.open.failed", language));
         }
     }
 

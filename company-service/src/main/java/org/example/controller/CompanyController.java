@@ -7,6 +7,7 @@ import org.example.dto.ApiResponse;
 import org.example.dto.CompanyRequestDTO;
 import org.example.dto.CompanyResponseDTO;
 import org.example.dto.CompanyShortDTO;
+import org.example.enums.AppLanguage;
 import org.example.service.CompanyService;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,44 +24,49 @@ public class CompanyController {
     private final CompanyService companyService;
 
     @PostMapping("create")
-    public ApiResponse<CompanyResponseDTO> createCompany(@RequestBody @Valid CompanyRequestDTO company) {
-        return companyService.create(company);
+    public ApiResponse<CompanyResponseDTO> createCompany(@RequestBody @Valid CompanyRequestDTO company,
+                                                         @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        return companyService.create(company, language);
     }
 
     @GetMapping
     @PreAuthorize("hasRole('SELLER')")
-    public ApiResponse<List<CompanyShortDTO>> getMyCompanies() {
-        return companyService.getMyCompanies();
+    public ApiResponse<List<CompanyShortDTO>> getMyCompanies(@RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        return companyService.getMyCompanies(language);
     }
 
     @GetMapping("/{slug}")
     public ApiResponse<CompanyResponseDTO> getBySlug(
-            @PathVariable String slug) {
-        return companyService.getBySlug(slug);
+            @PathVariable String slug,
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        return companyService.getBySlug(slug, language);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('SELLER')")
     public ApiResponse<CompanyResponseDTO> update(
             @PathVariable Long id,
-            @RequestBody @Valid CompanyRequestDTO dto) {
-        return companyService.update(id, dto);
+            @RequestBody @Valid CompanyRequestDTO dto,
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        return companyService.update(id, dto, language);
     }
 
     @PostMapping(value = "/{id}/logo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('SELLER')")
     public ApiResponse<String> uploadLogo(
             @PathVariable Long id,
-            @RequestParam("file") MultipartFile file) {
-        String logoUrl = companyService.uploadLogo(id, file);
+            @RequestParam("file") MultipartFile file,
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        String logoUrl = companyService.uploadLogo(id, file, language);
         return ApiResponse.successResponse(logoUrl);
     }
 
     @PostMapping("/{id}/submit-verification")
     @PreAuthorize("hasRole('SELLER')")
     public ApiResponse<Map<String, String>> submitVerification(
-            @PathVariable Long id) {
-        companyService.submitVerification(id);
+            @PathVariable Long id,
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        companyService.submitVerification(id, language);
         return ApiResponse.successResponse(Map.of(
                 "message", "Moderatsiyaga yuborildi",
                 "status", "PENDING_VERIFICATION"
@@ -69,8 +75,9 @@ public class CompanyController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('SELLER')")
-    public ApiResponse<Boolean> delete(@PathVariable Long id) {
-        companyService.delete(id);
+    public ApiResponse<Boolean> delete(@PathVariable Long id,
+                                       @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        companyService.delete(id, language);
         return ApiResponse.successResponse(true);
     }
 

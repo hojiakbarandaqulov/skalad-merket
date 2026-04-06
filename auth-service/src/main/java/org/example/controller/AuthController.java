@@ -30,7 +30,7 @@ public class AuthController {
 
     @GetMapping("/verification/{token}")
     public ApiResponse<String> registrationVerification(@PathVariable("token") String token,
-                                                                        @RequestParam(value = "Accept-Language",defaultValue = "UZ") AppLanguage lang) {
+                                                                        @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang) {
         return authService.regVerification(token, lang);
     }
 

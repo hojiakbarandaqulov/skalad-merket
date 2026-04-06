@@ -7,13 +7,20 @@ import org.example.dto.admin.PromotionRequest;
 import org.example.dto.admin.ReasonRequest;
 import org.example.dto.product.ProductListResponse;
 import org.example.dto.product.ProductResponse;
+import org.example.enums.AppLanguage;
 import org.example.enums.ProductModerationStatus;
 import org.example.service.AdminProductService;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,8 +36,9 @@ public class AdminProductController {
             @RequestParam(value = "company_id", required = false) Long companyId,
             @RequestParam(required = false) String q,
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(value = "per_page", defaultValue = "20") int perPage) {
-        return ApiResponse.successResponse(adminProductService.getProducts(status, companyId, q, page, perPage));
+            @RequestParam(value = "per_page", defaultValue = "20") int perPage,
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        return ApiResponse.successResponse(adminProductService.getProducts(status, companyId, q, page, perPage, language));
     }
 
     @GetMapping("/moderation-queue")
@@ -41,32 +49,36 @@ public class AdminProductController {
 
     @PutMapping("/{id}/approve")
     @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
-    public ApiResponse<Map<String, String>> approve(@PathVariable Long id) {
-        adminProductService.approve(id);
-        return ApiResponse.successResponse(Map.of("message", "Product approved", "status", ProductModerationStatus.APPROVED.name()));
+    public ApiResponse<ProductModerationStatus> approve(@PathVariable Long id,
+                                                        @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        adminProductService.approve(id, language);
+        return ApiResponse.successResponse(ProductModerationStatus.APPROVED);
     }
 
     @PutMapping("/{id}/reject")
     @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
-    public ApiResponse<Map<String, String>> reject(@PathVariable Long id,
-                                                   @RequestBody(required = false) ModerationDecisionRequest request) {
-        adminProductService.reject(id, request);
-        return ApiResponse.successResponse(Map.of("message", "Product rejected", "status", ProductModerationStatus.REJECTED.name()));
+    public ApiResponse<ProductModerationStatus> reject(@PathVariable Long id,
+                                                       @RequestBody(required = false) ModerationDecisionRequest request,
+                                                       @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        adminProductService.reject(id, request, language);
+        return ApiResponse.successResponse(ProductModerationStatus.REJECTED);
     }
 
     @PutMapping("/{id}/block")
     @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
-    public ApiResponse<Map<String, String>> block(@PathVariable Long id,
-                                                  @RequestBody(required = false) ReasonRequest request) {
-        adminProductService.block(id, request);
-        return ApiResponse.successResponse(Map.of("message", "Product blocked", "blocked", Boolean.TRUE.toString()));
+    public ApiResponse<Boolean> block(@PathVariable Long id,
+                                      @RequestBody(required = false) ReasonRequest request,
+                                      @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        adminProductService.block(id, request, language);
+        return ApiResponse.successResponse(true);
     }
 
     @PutMapping("/{id}/promote")
     @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
-    public ApiResponse<Map<String, String>> promote(@PathVariable Long id,
-                                                    @RequestBody(required = false) PromotionRequest request) {
-        adminProductService.promote(id, request);
-        return ApiResponse.successResponse(Map.of("message", "Product promoted", "promoted", Boolean.TRUE.toString()));
+    public ApiResponse<Boolean> promote(@PathVariable Long id,
+                                        @RequestBody(required = false) PromotionRequest request,
+                                        @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        adminProductService.promote(id, request, language);
+        return ApiResponse.successResponse(true);
     }
 }

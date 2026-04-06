@@ -1,0 +1,21 @@
+server:
+  url: ${server.domain}:${server.port}
+
+spring:
+  application:
+    name: report-service
+  profiles:
+    active: local
+
+  # Flyway
+  flyway:
+    enabled: false
+    baseline-on-migrate: true
+    baseline-version: 0
+    locations: classpath:db/migration
+
+# Eureka Client
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

@@ -22,6 +22,7 @@ public class ChatController {
 
     @GetMapping
     public ApiResponse<PagedResponse<ChatThreadResponse>> getThreads(
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") String language,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(value = "per_page", defaultValue = "20") int perPage) {
         return ApiResponse.successResponse(chatService.getThreads(page, perPage));
@@ -29,12 +30,15 @@ public class ChatController {
 
     @PreAuthorize("hasRole('BUYER')")
     @PostMapping("/create")
-    public ApiResponse<ChatCreateResponse> createThread(@RequestBody @Valid CreateChatRequest request) {
+    public ApiResponse<ChatCreateResponse> createThread(
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") String language,
+            @RequestBody @Valid CreateChatRequest request) {
         return ApiResponse.successResponse(chatService.createThread(request));
     }
 
     @GetMapping("/{threadId}/messages")
     public ApiResponse<PagedResponse<ChatMessageResponse>> getMessages(
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") String language,
             @PathVariable Long threadId,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(value = "per_page", defaultValue = "20") int perPage,
@@ -43,25 +47,30 @@ public class ChatController {
     }
 
     @GetMapping("/unread-count")
-    public ApiResponse<UnreadCountResponse> getUnreadCount() {
+    public ApiResponse<UnreadCountResponse> getUnreadCount(
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") String language) {
         return ApiResponse.successResponse(chatService.getUnreadCount());
     }
 
     @PostMapping(value = "/{threadId}/messages/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<UploadAttachmentResponse> uploadImage(
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") String language,
             @PathVariable Long threadId,
             @RequestParam("file") MultipartFile file) {
         return ApiResponse.successResponse(chatService.uploadAttachment(threadId, file));
     }
 
     @DeleteMapping("/{threadId}")
-    public ApiResponse<Map<String, String>> hideThread(@PathVariable Long threadId) {
+    public ApiResponse<Map<String, String>> hideThread(
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") String language,
+            @PathVariable Long threadId) {
         chatService.hideThread(threadId);
         return ApiResponse.successResponse(Map.of("message", "Thread hidden"));
     }
 
     @PostMapping("/ws-token")
-    public ApiResponse<WsTokenResponse> issueWsToken() {
+    public ApiResponse<WsTokenResponse> issueWsToken(
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") String language) {
         return ApiResponse.successResponse(chatService.issueWsToken());
     }
 }

@@ -1,7 +1,6 @@
 package org.example.utils;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.config.CustomUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -10,20 +9,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 @Slf4j
 public class SpringSecurityUtil {
 
-   /* public static CustomUserDetails getCurrentProfile() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
-        return user;
-    }*/
-
-   /* public static Long getProfileId() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof CustomUserDetails user) {
-            return user.getProfile().getUserId();
-        }
-        return null;
-    }
-*/
     public static Long getProfileId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

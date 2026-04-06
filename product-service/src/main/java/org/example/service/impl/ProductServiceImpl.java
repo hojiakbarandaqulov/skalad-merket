@@ -22,6 +22,7 @@ import org.example.repository.ProductImageRepository;
 import org.example.repository.ProductRepository;
 import org.example.service.KafkaProducerService;
 import org.example.service.ProductService;
+import org.example.service.ResourceBundleService;
 import org.example.service.ViewAsyncService;
 import org.example.utils.SpringSecurityUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,6 +58,7 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryClient categoryClient;
     private final KafkaProducerService kafkaProducerService;
     private final ViewAsyncService viewAsyncService;
+    private final ResourceBundleService messageService;
 
     private final MinioClient minioClient;
 
@@ -71,13 +73,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public ProductResponse create(CreateProductRequest request) {
-        Long sellerId = requiredSellerId();
-        validateCompanyOwnership(request.getCompanyId(), sellerId);
-        validateCategory(request.getCategoryId());
+    public ProductResponse create(CreateProductRequest request, AppLanguage language) {
+        Long sellerId = requiredSellerId(language);
+        validateCompanyOwnership(request.getCompanyId(), sellerId, language);
+        validateCategory(request.getCategoryId(), language);
 
         Product product = new Product();
-        applyCommonFields(product, request);
+        applyCommonFields(product, request, language);
         product.setSellerId(sellerId);
         product.setSlug(generateUniqueSlug(request.getName()));
         product.setModerationStatus(ProductModerationStatus.PENDING);
@@ -102,15 +104,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public List<ProductImageResponse> uploadImages(Long productId, List<MultipartFile> files) {
+    public List<ProductImageResponse> uploadImages(Long productId, List<MultipartFile> files, AppLanguage language) {
         if (files == null || files.isEmpty()) {
-            throw new AppBadException("At least one image is required");
+            throw new AppBadException(messageService.getMessage("product.image.required", language));
         }
 
-        Product product = getOwnedProduct(productId);
+        Product product = getOwnedProduct(productId, language);
         long existingCount = productImageRepository.countByProduct_Id(productId);
         if (existingCount + files.size() > MAX_IMAGES) {
-            throw new AppBadException("Maximum 12 images allowed");
+            throw new AppBadException(messageService.getMessage("product.images.limit.exceeded", language));
         }
 
         int nextSortOrder = productImageRepository.findByProduct_IdOrderBySortOrderAscIdAsc(productId)
@@ -123,7 +125,7 @@ public class ProductServiceImpl implements ProductService {
         boolean hasPrimary = existingCount > 0;
 
         for (MultipartFile file : files) {
-            ImageMeta imageMeta = validateAndReadImage(file);
+            ImageMeta imageMeta = validateAndReadImage(file, language);
 
             // 2. MinIO ga yuklash
             String originalName = file.getOriginalFilename();
@@ -143,7 +145,7 @@ public class ProductServiceImpl implements ProductService {
                                 .build()
                 );
             } catch (Exception e) {
-                throw new AppBadException("Failed to upload image: " + e.getMessage());
+                throw new AppBadException(messageService.getMessage("product.image.upload.failed", language));
             }
 
             ProductImage image = new ProductImage();
@@ -164,10 +166,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public void setPrimaryImage(Long productId, String imageId) {
-        getOwnedProduct(productId);
+    public void setPrimaryImage(Long productId, String imageId, AppLanguage language) {
+        getOwnedProduct(productId, language);
         ProductImage target = productImageRepository.findByIdAndProduct_Id(imageId, productId)
-                .orElseThrow(() -> new AppBadException("Image not found"));
+                .orElseThrow(() -> new AppBadException(messageService.getMessage("product.image.not.found", language)));
 
         List<ProductImage> images = productImageRepository.findByProduct_IdOrderBySortOrderAscIdAsc(productId);
         images.forEach(image -> image.setIsPrimary(image.getId().equals(target.getId())));
@@ -176,10 +178,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public boolean deleteImage(Long productId, String imageId) {
-        getOwnedProduct(productId);
+    public boolean deleteImage(Long productId, String imageId, AppLanguage language) {
+        getOwnedProduct(productId, language);
         ProductImage image = productImageRepository.findByIdAndProduct_Id(imageId, productId)
-                .orElseThrow(() -> new AppBadException("Image not found"));
+                .orElseThrow(() -> new AppBadException(messageService.getMessage("product.image.not.found", language)));
         try {
             minioClient.removeObject(
                     RemoveObjectArgs.builder()
@@ -190,15 +192,15 @@ public class ProductServiceImpl implements ProductService {
             productImageRepository.delete(image);
             return true;
         } catch (Exception e) {
-            throw new RuntimeException("File delete error: " + e.getMessage());
+            throw new AppBadException(messageService.getMessage("file.delete.failed", language));
         }
     }
 
     @Override
-    public ProductListResponse getMyProducts(Long companyId, ProductModerationStatus status, int page, int perPage) {
-        Long sellerId = requiredSellerId();
-        int resolvedPage = normalizePage(page);
-        int resolvedPerPage = normalizePerPage(perPage);
+    public ProductListResponse getMyProducts(Long companyId, ProductModerationStatus status, int page, int perPage, AppLanguage language) {
+        Long sellerId = requiredSellerId(language);
+        int resolvedPage = normalizePage(page, language);
+        int resolvedPerPage = normalizePerPage(perPage, language);
         List<Long> ownedCompanyIds = companyClient.getOwnedCompanyIds(sellerId);
 
         if (ownedCompanyIds.isEmpty()) {
@@ -212,7 +214,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         if (companyId != null && !ownedCompanyIds.contains(companyId)) {
-            throw new AppBadException("You do not own this company");
+            throw new AppBadException(messageService.getMessage("company.not.owned", language));
         }
 
         Pageable pageable = PageRequest.of(resolvedPage - 1, resolvedPerPage, Sort.by(Sort.Direction.DESC, "createdDate"));
@@ -234,9 +236,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDetailResponse getPublicDetail(String slug, String sessionId) {
+    public ProductDetailResponse getPublicDetail(String slug, String sessionId, AppLanguage language) {
         Product product = productRepository.findBySlugAndModerationStatusAndIsActiveTrueAndDeletedAtIsNull(slug, ProductModerationStatus.APPROVED)
-                .orElseThrow(() -> new AppBadException("Product not found"));
+                .orElseThrow(() -> new AppBadException(messageService.getMessage("product.not.found", language)));
 
         CompanySummaryResponse company = companyClient.getSummary(product.getCompanyId());
         CategorySummaryResponse category = categoryClient.getSummary(product.getCategoryId());
@@ -286,13 +288,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public ProductResponse update(Long id, UpdateProductRequest request) {
-        Product product = getOwnedProduct(id);
-        validateCompanyOwnership(request.getCompanyId(), requiredSellerId());
-        validateCategory(request.getCategoryId());
+    public ProductResponse update(Long id, UpdateProductRequest request, AppLanguage language) {
+        Product product = getOwnedProduct(id, language);
+        validateCompanyOwnership(request.getCompanyId(), requiredSellerId(language), language);
+        validateCategory(request.getCategoryId(), language);
 
         String previousName = product.getName();
-        applyCommonFields(product, request);
+        applyCommonFields(product, request, language);
         if (!previousName.equalsIgnoreCase(request.getName())) {
             product.setSlug(generateUniqueSlug(request.getName()));
         }
@@ -305,10 +307,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public void publish(Long id) {
-        Product product = getOwnedProduct(id);
+    public void publish(Long id, AppLanguage language) {
+        Product product = getOwnedProduct(id, language);
         if (product.getModerationStatus() != ProductModerationStatus.PENDING) {
-            throw new AppBadException("Only draft products can be published");
+            throw new AppBadException(messageService.getMessage("product.publish.only.pending", language));
         }
         product.setModerationStatus(ProductModerationStatus.PENDING);
         productRepository.save(product);
@@ -316,10 +318,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public void archive(Long id) {
-        Product product = getOwnedProduct(id);
+    public void archive(Long id, AppLanguage language) {
+        Product product = getOwnedProduct(id, language);
         if (product.getModerationStatus() != ProductModerationStatus.APPROVED) {
-            throw new AppBadException("Only approved products can be archived");
+            throw new AppBadException(messageService.getMessage("product.archive.only.approved", language));
         }
         product.setModerationStatus(ProductModerationStatus.ARCHIVED);
         product.setIsActive(Boolean.FALSE);
@@ -328,12 +330,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public void delete(Long id) {
+    public void delete(Long id, AppLanguage language) {
         Product product = productRepository.findByIdAndDeletedAtIsNull(id)
-                .orElseThrow(() -> new AppBadException("Product not found"));
+                .orElseThrow(() -> new AppBadException(messageService.getMessage("product.not.found", language)));
 
         if (!SpringSecurityUtil.hasRole("ADMIN") && !SpringSecurityUtil.hasRole("SUPER_ADMIN")) {
-            validateCompanyOwnership(product.getCompanyId(), requiredSellerId());
+            validateCompanyOwnership(product.getCompanyId(), requiredSellerId(language), language);
         }
 
         product.setDeletedAt(LocalDateTime.now());
@@ -341,76 +343,76 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
-    private BigDecimal normalizePrice(PriceType priceType, BigDecimal price) {
+    private BigDecimal normalizePrice(PriceType priceType, BigDecimal price, AppLanguage language) {
         if (priceType == PriceType.NEGOTIABLE) {
             return null;
         }
         if (price == null || price.signum() <= 0) {
-            throw new AppBadException("Price is required for fixed and from_price products");
+            throw new AppBadException(messageService.getMessage("product.price.required", language));
         }
         return price;
     }
 
-    private void validateCompanyOwnership(Long companyId, Long sellerId) {
+    private void validateCompanyOwnership(Long companyId, Long sellerId, AppLanguage language) {
         CompanyOwnershipResponse response = companyClient.checkOwnership(companyId, sellerId);
         if (!response.isExists()) {
-            throw new AppBadException("Company not found");
+            throw new AppBadException(messageService.getMessage("company.not.found", language));
         }
         if (!response.isOwner()) {
-            throw new AppBadException("You do not own this company");
+            throw new AppBadException(messageService.getMessage("company.not.owned", language));
         }
         if (!response.isActive()) {
-            throw new AppBadException("Company is not active or verified");
+            throw new AppBadException(messageService.getMessage("company.not.active", language));
         }
     }
 
-    private void validateCategory(Long categoryId) {
+    private void validateCategory(Long categoryId, AppLanguage language) {
         CategoryValidationResponse response = categoryClient.validate(categoryId);
         if (!response.isExists()) {
-            throw new AppBadException("Category not found");
+            throw new AppBadException(messageService.getMessage("category.not.found", language));
         }
         if (!response.isActive()) {
-            throw new AppBadException("Category is inactive");
+            throw new AppBadException(messageService.getMessage("category.inactive", language));
         }
     }
 
-    private Product getOwnedProduct(Long productId) {
+    private Product getOwnedProduct(Long productId, AppLanguage language) {
         Product product = productRepository.findByIdAndDeletedAtIsNull(productId)
-                .orElseThrow(() -> new AppBadException("Product not found"));
-        validateCompanyOwnership(product.getCompanyId(), requiredSellerId());
+                .orElseThrow(() -> new AppBadException(messageService.getMessage("product.not.found", language)));
+        validateCompanyOwnership(product.getCompanyId(), requiredSellerId(language), language);
         return product;
     }
 
-    private Long requiredSellerId() {
+    private Long requiredSellerId(AppLanguage language) {
         Long sellerId = SpringSecurityUtil.getProfileId();
         if (sellerId == null) {
-            throw new AppBadException("Seller profile not found in token");
+            throw new AppBadException(messageService.getMessage("seller.profile.not.found", language));
         }
         return sellerId;
     }
 
-    private void applyCommonFields(Product product, CreateProductRequest request) {
+    private void applyCommonFields(Product product, CreateProductRequest request, AppLanguage language) {
         product.setCompanyId(request.getCompanyId());
         product.setCategoryId(request.getCategoryId());
         product.setName(request.getName());
         product.setShortDescription(request.getShortDescription());
         product.setDescription(request.getDescription());
         product.setPriceType(request.getPriceType());
-        product.setPrice(normalizePrice(request.getPriceType(), request.getPrice()));
+        product.setPrice(normalizePrice(request.getPriceType(), request.getPrice(), language));
         product.setCurrency(request.getCurrency());
         product.setRegionId(request.getRegionId());
         product.setDistrictId(request.getDistrictId());
         product.setAttributesJsonb(normalizeAttributes(request.getAttributes()));
     }
 
-    private void applyCommonFields(Product product, UpdateProductRequest request) {
+    private void applyCommonFields(Product product, UpdateProductRequest request, AppLanguage language) {
         product.setCompanyId(request.getCompanyId());
         product.setCategoryId(request.getCategoryId());
         product.setName(request.getName());
         product.setShortDescription(request.getShortDescription());
         product.setDescription(request.getDescription());
         product.setPriceType(request.getPriceType());
-        product.setPrice(normalizePrice(request.getPriceType(), request.getPrice()));
+        product.setPrice(normalizePrice(request.getPriceType(), request.getPrice(), language));
         product.setCurrency(request.getCurrency());
         product.setRegionId(request.getRegionId());
         product.setDistrictId(request.getDistrictId());
@@ -436,25 +438,25 @@ public class ProductServiceImpl implements ProductService {
         return StringUtils.hasText(slug) ? slug : "product";
     }
 
-    private ImageMeta validateAndReadImage(MultipartFile file) {
+    private ImageMeta validateAndReadImage(MultipartFile file, AppLanguage language) {
         if (file.isEmpty()) {
-            throw new AppBadException("Empty file is not allowed");
+            throw new AppBadException(messageService.getMessage("file.empty", language));
         }
         if (file.getSize() > MAX_FILE_SIZE) {
-            throw new AppBadException("Each image must be <= 5MB");
+            throw new AppBadException(messageService.getMessage("image.size.exceeded", language));
         }
         if (!ALLOWED_IMAGE_TYPES.contains(file.getContentType())) {
-            throw new AppBadException("Only jpg, jpeg, png, webp images are allowed");
+            throw new AppBadException(messageService.getMessage("image.type.invalid", language));
         }
         try {
             BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
             if (bufferedImage == null) {
-                throw new AppBadException("Invalid image file");
+                throw new AppBadException(messageService.getMessage("image.invalid", language));
             }
 
             return new ImageMeta(bufferedImage.getWidth(), bufferedImage.getHeight());
         } catch (IOException e) {
-            throw new AppBadException("Failed to read image");
+            throw new AppBadException(messageService.getMessage("image.read.failed", language));
         }
     }
 
@@ -515,16 +517,16 @@ public class ProductServiceImpl implements ProductService {
         return attributes == null ? new HashMap<>() : new HashMap<>(attributes);
     }
 
-    private int normalizePage(int page) {
+    private int normalizePage(int page, AppLanguage language) {
         if (page < 1) {
-            throw new AppBadException("page must be greater than or equal to 1");
+            throw new AppBadException(messageService.getMessage("page.invalid", language));
         }
         return page;
     }
 
-    private int normalizePerPage(int perPage) {
+    private int normalizePerPage(int perPage, AppLanguage language) {
         if (perPage < 1 || perPage > 100) {
-            throw new AppBadException("per_page must be between 1 and 100");
+            throw new AppBadException(messageService.getMessage("per.page.invalid", language));
         }
         return perPage;
     }

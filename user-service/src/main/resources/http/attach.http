@@ -7,3 +7,7 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb2RldXo5MUBnbWFpbC5jb20iL
 Content-Disposition: form-data; name="file"; filename="logo1.jpg"
 
 < C:\Users\hojia\Pictures\logo1.jpg
+
+###
+GET http://localhost:8080/api/v1/location?
+    address=Toshkent
