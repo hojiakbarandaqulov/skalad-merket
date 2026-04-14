@@ -26,7 +26,10 @@ import org.example.service.ResourceBundleService;
 import org.example.service.ViewAsyncService;
 import org.example.utils.SpringSecurityUtil;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -93,7 +96,7 @@ public class ProductServiceImpl implements ProductService {
                 .price(saved.getPrice())
                 .currency(saved.getCurrency().name())
                 .moderationStatus(saved.getModerationStatus().name())
-                .createdAt(saved.getCreatedAt())
+                .createdAt(saved.getCreatedDate())
                 .build());
 
         return toResponse(saved);
@@ -209,6 +212,7 @@ public class ProductServiceImpl implements ProductService {
                     .totalPages(0)
                     .build();
         }
+
         if (companyId != null && !ownedCompanyIds.contains(companyId)) {
             throw new AppBadException(messageService.getMessage("company.not.owned", language));
         }
@@ -256,7 +260,7 @@ public class ProductServiceImpl implements ProductService {
                 .isPromoted(product.getIsPromoted())
                 .viewsCountCache(product.getViewsCountCache())
                 .favoritesCountCache(product.getFavoritesCountCache())
-                .createdAt(product.getCreatedAt())
+                .createdAt(product.getCreatedDate())
                 .company(ProductDetailResponse.CompanySummary.builder()
                         .id(company.getId())
                         .name(company.getName())
@@ -337,23 +341,6 @@ public class ProductServiceImpl implements ProductService {
         product.setDeletedAt(LocalDateTime.now());
         product.setIsActive(Boolean.FALSE);
         productRepository.save(product);
-    }
-
-    @Override
-    public ProductListResponse getAllProducts(int page, int perPage, AppLanguage language) {
-        int resolvedPage = normalizePage(page, language);
-        int resolvedPerPage = normalizePerPage(perPage, language);
-        Pageable pageRequest=PageRequest.of(page, perPage, Sort.by("createdAt").descending());
-        Page<Product> products = productRepository.findAll(pageRequest);
-        long totalCount=products.getTotalElements();
-        return  ProductListResponse.builder()
-                .items(products.getContent().stream().map(this::toResponse).collect(Collectors.toList()))
-                .page(resolvedPage)
-                .perPage(resolvedPerPage)
-                .totalElements(totalCount)
-                .totalPages(products.getTotalPages())
-                .build();
-
     }
 
     private BigDecimal normalizePrice(PriceType priceType, BigDecimal price, AppLanguage language) {
@@ -570,7 +557,7 @@ public class ProductServiceImpl implements ProductService {
         response.setRejectReason(product.getRejectReason());
         response.setViewsCountCache(product.getViewsCountCache());
         response.setFavoritesCountCache(product.getFavoritesCountCache());
-        response.setCreatedAt(product.getCreatedAt());
+        response.setCreatedAt(product.getCreatedDate());
         response.setUpdatedAt(product.getModifiedDate());
         response.setImages(getImages(product.getId()));
         return response;

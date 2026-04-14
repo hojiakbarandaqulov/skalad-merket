@@ -32,6 +32,4 @@ public interface ProductService {
     void archive(Long id, AppLanguage language);
 
     void delete(Long id, AppLanguage language);
-
-    ProductListResponse getAllProducts(int page, int perPage, AppLanguage language);
 }

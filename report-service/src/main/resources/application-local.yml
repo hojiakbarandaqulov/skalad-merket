@@ -28,3 +28,16 @@ spring:
         jwt:
           issuer-uri: http://localhost:9090/realms/market-realm
 
+keycloak:
+   token-url: http://localhost:9090/realms/market-realm/protocol/openid-connect/token
+   client-id: market-backend
+   client-secret: Pi5lwDJnYn9TWcc1iLQzJsUGaHeEx8FK
+   admin-url: http://localhost:9090/admin/realms/market-realm
+   admin-username: admin
+   admin-password: admin
+
+aws:
+    url: http://localhost:9000
+    access-key: minioadmin
+    secret-key: minioadmin
+    bucket-name: skalad-market
