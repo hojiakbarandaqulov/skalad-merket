@@ -58,7 +58,6 @@ services:
     restart: unless-stopped
 
 
-
   keycloak:
       image: quay.io/keycloak/keycloak:24.0
       container_name: keycloak
@@ -68,3 +67,18 @@ services:
       environment:
         KEYCLOAK_ADMIN: admin
         KEYCLOAK_ADMIN_PASSWORD: admin
+
+  elasticsearch:
+    image: elasticsearch:8.11.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    restart: unless-stopped
+volumes:
+  elasticsearch-data:

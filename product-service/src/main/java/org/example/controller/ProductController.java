@@ -3,15 +3,12 @@ package org.example.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.ApiResponse;
-import org.example.dto.product.CreateProductRequest;
-import org.example.dto.product.ProductDetailResponse;
-import org.example.dto.product.ProductImageResponse;
-import org.example.dto.product.ProductListResponse;
-import org.example.dto.product.ProductResponse;
-import org.example.dto.product.UpdateProductRequest;
+import org.example.dto.product.*;
 import org.example.enums.AppLanguage;
 import org.example.enums.ProductModerationStatus;
+import org.example.service.ProductSearchService;
 import org.example.service.ProductService;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,6 +32,7 @@ import java.util.Map;
 public class ProductController {
 
     private final ProductService productService;
+    private final ProductSearchService productSearchService;
 
     @PostMapping
     @PreAuthorize("hasRole('SELLER')")
@@ -126,5 +124,13 @@ public class ProductController {
             @RequestParam(value = "per_page", defaultValue = "20") int perPage,
             @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         return ApiResponse.successResponse(productService.getAllProducts(page, perPage, language));
+    }
+
+    @GetMapping("/search")
+    public ApiResponse<List<ProductSearchResponse>> getSearchProduct(
+            @RequestParam String query,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "per_page", defaultValue = "20") int perPage) {
+        return ApiResponse.successResponse(productSearchService.search(query,page, perPage));
     }
 }

@@ -24,38 +24,37 @@ public class AuthController {
 
     @PostMapping("/registration")
     public ApiResponse<String> registration(@Valid @RequestBody RegistrationDTO dto,
-                                            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+                                                            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         return authService.registration(dto, language);
     }
 
     @GetMapping("/verification/{token}")
     public ApiResponse<String> registrationVerification(@PathVariable("token") String token,
-                                                        @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang) {
+                                                                        @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage lang) {
         return authService.regVerification(token, lang);
     }
 
     @PostMapping("/registration/login")
     public ApiResponse<ProfileDTO> login(@Valid @RequestBody LoginDTO dto,
-                                         @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+                                                         @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         return authService.login(dto, language);
     }
-
     @PostMapping("/refresh")
     public ApiResponse<TokenResponseDTO> refresh(@RequestBody @Valid RefreshTokenDTO dto,
                                                  @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
-        return authService.refresh(dto, language);
+        return authService.refresh(dto,language);
     }
 
     @PostMapping("/registration/reset")
     public ApiResponse<String> resent(@Valid @RequestBody ResetPasswordDTO dto,
-                                      @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+                                                      @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         return authService.resetPassword(dto, language);
     }
 
     @PostMapping("/registration/reset-password/confirm")
     public ApiResponse<String> resentPassword(@Valid @RequestBody UpdatePasswordDTO dto,
-                                              @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
-        return authService.resetPasswordConfirm(dto, language);
+                                                             @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+       return authService.resetPasswordConfirm(dto, language);
     }
 
 }

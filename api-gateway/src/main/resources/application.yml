@@ -4,15 +4,11 @@ spring:
 
   cloud:
     gateway:
-      default-filters:
-        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials RETAIN_FIRST
       globalcors:
-        add-to-simple-url-handler-mapping: true
         cors-configurations:
           "[/**]":
             allowedOriginPatterns:
-              - "http://localhost:*"
-              - "http://127.0.0.1:*"
+              - "*"
             allowedMethods:
               - GET
               - POST
@@ -21,11 +17,7 @@ spring:
               - OPTIONS
             allowedHeaders:
               - "*"
-            exposedHeaders:
-              - Authorization
-              - Content-Language
             allowCredentials: true
-            maxAge: 3600
       discovery:
         locator:
           enabled: true
@@ -41,13 +33,13 @@ spring:
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/api/v1/users,/api/v1/users/**,/api/v1/attach/**,/api/v1/location,/api/v1/location/**,/api/v1/admin/users,/api/v1/admin/users/**
+            - Path=/api/v1/users/**,/api/v1/attach/**,/api/v1/location/**,/api/v1/admin/users,/api/v1/admin/users/**, /api/v1/location
 
         # Company Service
         - id: company-service
           uri: lb://company-service
           predicates:
-            - Path=/api/v1/companies,/api/v1/companies/**,/api/v1/admin/companies,/api/v1/admin/companies/**
+            - Path=/api/v1/companies,/api/v1/companies/**,/api/v1/admin/companies/**
         #Category
         - id: category-service
           uri: lb://category-service
@@ -62,12 +54,12 @@ spring:
         - id: lead-service
           uri: lb://lead-service
           predicates:
-            - Path=/api/v1/leads,/api/v1/leads/**
+            - Path=/api/v1/leads/**
         # Chat REST
         - id: chat-service
           uri: lb://chat-service
           predicates:
-            - Path=/api/v1/chats,/api/v1/chats/**
+            - Path=/api/v1/chats/**
         # Chat WebSocket
         - id: chat-service-ws
           uri: lb:ws://chat-service
@@ -77,12 +69,12 @@ spring:
         - id: notification-service
           uri: lb://notification-service
           predicates:
-            - Path=/api/v1/notifications,/api/v1/notifications/**
+            - Path=/api/v1/notifications/**
         # Report
         - id: report-service
           uri: lb://report-service
           predicates:
-            - Path=/api/v1/reports,/api/v1/reports/**,/api/v1/admin/reports,/api/v1/admin/reports/**
+            - Path=/api/v1/reports/**,/api/v1/admin/reports/**
 
 eureka:
   client:
@@ -94,3 +86,4 @@ eureka:
 
 server:
   port: 8080
+

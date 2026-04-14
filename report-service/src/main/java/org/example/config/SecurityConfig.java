@@ -2,7 +2,6 @@ package org.example.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -39,7 +38,6 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(AUTH_WHITELIST).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/reports").permitAll()
                         .anyRequest().authenticated()
                 ).oauth2ResourceServer(auth2 -> auth2
                         .jwt(jwt -> jwt
@@ -79,3 +77,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+

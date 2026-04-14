@@ -5,6 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db21a683-eacb-49fd-afa4-a62f94ff9031" name="Changes" comment="config starting">
+      <change afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/document/ProductDocument.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/dto/product/ProductSearchResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/repository/ProductSearchRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/ProductSearchService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/impl/ProductSearchServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/.bloomcycle.bin/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/.bloomcycle.bin/xl.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage-cache.bin.bkp/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage-cache.bin.bkp/xl.meta" afterDir="false" />
@@ -14,10 +19,13 @@
       <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad-market/.usage-cache.bin/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad-market/.usage-cache.bin/xl.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin.bkp/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin.bkp/xl.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin/xl.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/entity/base/BaseEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/entity/base/BaseEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-service/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/repository/ProductRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/impl/CatalogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/impl/CatalogServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/impl/ProductServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/impl/ProductServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-service/src/main/resources/application-local.yml" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/resources/application-local.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,6 +135,9 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="3AfB052ncY07pWkJdlRkzWVzYmK" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -229,7 +240,7 @@
       <recent name="org.example.utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.ApiGatewayApplication">
+  <component name="RunManager" selected="Spring Boot.ProductServiceApplication">
     <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
       <deployment type="docker-compose.yml">
         <settings />
@@ -521,9 +532,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.ProductServiceApplication" />
         <item itemvalue="HTTP Request.attach | #2" />
         <item itemvalue="Spring Boot.CategoryServiceApplication" />
-        <item itemvalue="Spring Boot.ProductServiceApplication" />
         <item itemvalue="Gradle.product-service [build]" />
         <item itemvalue="HTTP Request.generated-requests | #49" />
       </list>
@@ -563,6 +574,7 @@
       <workItem from="1775839447543" duration="1055000" />
       <workItem from="1775916529427" duration="1829000" />
       <workItem from="1776001594746" duration="4245000" />
+      <workItem from="1776261221015" duration="30000" />
     </task>
     <task id="LOCAL-00001" summary="Merge remote changes">
       <option name="closed" value="true" />
@@ -696,7 +708,9 @@
     <MESSAGE value="lead-service added" />
     <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;product-service/src/main/java/org/example/repository/ProductRepository.java" />
     <MESSAGE value="config starting" />
-    <option name="LAST_COMMIT_MESSAGE" value="config starting" />
+    <MESSAGE value="Guest all Products api finish" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;api-gateway/src/main/resources/application.yml&#10;#&#9;auth-service/src/main/java/org/example/controller/AuthController.java&#10;#&#9;data/.minio.sys/buckets/.bloomcycle.bin/xl.meta&#10;#&#9;data/.minio.sys/buckets/.usage-cache.bin.bkp/xl.meta&#10;#&#9;data/.minio.sys/buckets/.usage-cache.bin/xl.meta&#10;#&#9;data/.minio.sys/buckets/.usage.json/xl.meta&#10;#&#9;data/.minio.sys/buckets/skalad-market/.usage-cache.bin.bkp/xl.meta&#10;#&#9;data/.minio.sys/buckets/skalad-market/.usage-cache.bin/xl.meta&#10;#&#9;data/.minio.sys/buckets/skalad.market/.usage-cache.bin.bkp/xl.meta&#10;#&#9;data/.minio.sys/buckets/skalad.market/.usage-cache.bin/xl.meta&#10;#&#9;data/.minio.sys/tmp/0f877cb1-f20d-433c-849c-736a8dd6b291&#10;#&#9;product-service/src/main/java/org/example/service/ProductService.java&#10;#&#9;product-service/src/main/java/org/example/service/impl/ProductServiceImpl.java&#10;#&#9;report-service/src/main/java/org/example/config/AppConfig.java&#10;#&#9;report-service/src/main/java/org/example/config/SecurityConfig.java&#10;#&#9;report-service/src/main/resources/application-local.yml&#10;#&#9;report-service/src/main/resources/application-prod.yml&#10;#&#9;user-service/src/main/java/org/example/controller/AttachController.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;api-gateway/src/main/resources/application.yml&#10;#&#9;auth-service/src/main/java/org/example/controller/AuthController.java&#10;#&#9;data/.minio.sys/buckets/.bloomcycle.bin/xl.meta&#10;#&#9;data/.minio.sys/buckets/.usage-cache.bin.bkp/xl.meta&#10;#&#9;data/.minio.sys/buckets/.usage-cache.bin/xl.meta&#10;#&#9;data/.minio.sys/buckets/.usage.json/xl.meta&#10;#&#9;data/.minio.sys/buckets/skalad-market/.usage-cache.bin.bkp/xl.meta&#10;#&#9;data/.minio.sys/buckets/skalad-market/.usage-cache.bin/xl.meta&#10;#&#9;data/.minio.sys/buckets/skalad.market/.usage-cache.bin.bkp/xl.meta&#10;#&#9;data/.minio.sys/buckets/skalad.market/.usage-cache.bin/xl.meta&#10;#&#9;data/.minio.sys/tmp/0f877cb1-f20d-433c-849c-736a8dd6b291&#10;#&#9;product-service/src/main/java/org/example/service/ProductService.java&#10;#&#9;product-service/src/main/java/org/example/service/impl/ProductServiceImpl.java&#10;#&#9;report-service/src/main/java/org/example/config/AppConfig.java&#10;#&#9;report-service/src/main/java/org/example/config/SecurityConfig.java&#10;#&#9;report-service/src/main/resources/application-local.yml&#10;#&#9;report-service/src/main/resources/application-prod.yml&#10;#&#9;user-service/src/main/java/org/example/controller/AttachController.java" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

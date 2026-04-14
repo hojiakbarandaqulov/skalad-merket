@@ -8,7 +8,6 @@ import org.example.enums.AppLanguage;
 import org.example.service.AttachService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.MediaTypeFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,12 +38,9 @@ public class AttachController {
                                        @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         byte[] fileData = attachService.open(id, language);
         Attach attach = attachService.get(id, language);
-        MediaType contentType = MediaTypeFactory.getMediaType(attach.getOriginalName())
-                .or(() -> MediaTypeFactory.getMediaType("file." + attach.getExtension()))
-                .orElse(MediaType.APPLICATION_OCTET_STREAM);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + attach.getOriginalName() + "\"")
-                .contentType(contentType)
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(fileData);
     }
 

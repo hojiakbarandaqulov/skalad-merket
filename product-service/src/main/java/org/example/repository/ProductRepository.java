@@ -19,14 +19,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     boolean existsBySlug(String slug);
 
-    List<Product> findTop8ByCategoryIdAndIdNotAndModerationStatusAndIsActiveTrueAndDeletedAtIsNullOrderByCreatedDateDesc(
+    List<Product> findTop8ByCategoryIdAndIdNotAndModerationStatusAndIsActiveTrueAndDeletedAtIsNullOrderByCreatedAtDesc(
             Long categoryId,
             Long productId,
             ProductModerationStatus moderationStatus
     );
-    List<Product> findTop8ByModerationStatusAndIsActiveTrueAndDeletedAtIsNullOrderByCreatedDateDesc(ProductModerationStatus moderationStatus);
+    List<Product> findTop8ByModerationStatusAndIsActiveTrueAndDeletedAtIsNullOrderByCreatedAtDesc(ProductModerationStatus moderationStatus);
 
-    List<Product> findTop8ByModerationStatusAndIsActiveTrueAndIsPromotedTrueAndDeletedAtIsNullOrderByCreatedDateDesc(ProductModerationStatus moderationStatus);
+    List<Product> findTop8ByModerationStatusAndIsActiveTrueAndIsPromotedTrueAndDeletedAtIsNullOrderByCreatedAtDesc(ProductModerationStatus moderationStatus);
 
 
     Page<Product> findAll(Specification<Product> specification, Pageable pageable);

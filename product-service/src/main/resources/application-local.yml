@@ -6,6 +6,9 @@ spring:
   application:
     name: product-service
 
+  elasticsearch:
+    uris: http://localhost:9200
+
   datasource:
     url: jdbc:postgresql://localhost:5432/skalad-market-product-db
     username: postgres

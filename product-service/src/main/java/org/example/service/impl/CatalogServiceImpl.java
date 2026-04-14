@@ -69,9 +69,9 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public CatalogHomepageResponse homepage(AppLanguage language) {
-        List<ProductResponse> featured = productRepository.findTop8ByModerationStatusAndIsActiveTrueAndIsPromotedTrueAndDeletedAtIsNullOrderByCreatedDateDesc(ProductModerationStatus.APPROVED)
+        List<ProductResponse> featured = productRepository.findTop8ByModerationStatusAndIsActiveTrueAndIsPromotedTrueAndDeletedAtIsNullOrderByCreatedAtDesc(ProductModerationStatus.APPROVED)
                 .stream().map(productService::toResponse).toList();
-        List<ProductResponse> latest = productRepository.findTop8ByModerationStatusAndIsActiveTrueAndDeletedAtIsNullOrderByCreatedDateDesc(ProductModerationStatus.APPROVED)
+        List<ProductResponse> latest = productRepository.findTop8ByModerationStatusAndIsActiveTrueAndDeletedAtIsNullOrderByCreatedAtDesc(ProductModerationStatus.APPROVED)
                 .stream().map(productService::toResponse).toList();
         return CatalogHomepageResponse.builder()
                 .featuredProducts(featured)
