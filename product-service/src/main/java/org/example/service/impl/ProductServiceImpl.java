@@ -11,7 +11,6 @@ import org.example.client.dto.CategorySummaryResponse;
 import org.example.client.dto.CategoryValidationResponse;
 import org.example.client.dto.CompanyOwnershipResponse;
 import org.example.client.dto.CompanySummaryResponse;
-import org.example.document.ProductDocument;
 import org.example.dto.product.*;
 import org.example.entity.Product;
 import org.example.entity.ProductImage;
@@ -21,10 +20,16 @@ import org.example.event.ProductCreatedEvent;
 import org.example.exp.AppBadException;
 import org.example.repository.ProductImageRepository;
 import org.example.repository.ProductRepository;
-import org.example.service.*;
+import org.example.service.KafkaProducerService;
+import org.example.service.ProductService;
+import org.example.service.ResourceBundleService;
+import org.example.service.ViewAsyncService;
 import org.example.utils.SpringSecurityUtil;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -49,7 +54,6 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
-    private final ProductSearchService productSearchService;
     private final CompanyClient companyClient;
     private final CategoryClient categoryClient;
     private final KafkaProducerService kafkaProducerService;
@@ -94,7 +98,7 @@ public class ProductServiceImpl implements ProductService {
                 .moderationStatus(saved.getModerationStatus().name())
                 .createdAt(saved.getCreatedAt())
                 .build());
-        productSearchService.index(toDocument(saved));
+
         return toResponse(saved);
     }
 
@@ -297,9 +301,8 @@ public class ProductServiceImpl implements ProductService {
         if (product.getModerationStatus() == ProductModerationStatus.APPROVED) {
             product.setModerationStatus(ProductModerationStatus.PENDING);
         }
-        Product save = productRepository.save(product);
-        productSearchService.index(toDocument(save));
-        return toResponse(save);
+
+        return toResponse(productRepository.save(product));
     }
 
     @Transactional
@@ -338,44 +341,18 @@ public class ProductServiceImpl implements ProductService {
         product.setDeletedAt(LocalDateTime.now());
         product.setIsActive(Boolean.FALSE);
         productRepository.save(product);
-        productSearchService.delete(id);
     }
 
     @Override
     public ProductListResponse getAllProducts(int page, int perPage, AppLanguage language) {
-        int resolvedPage = normalizePage(page, language);
-        int resolvedPerPage = normalizePerPage(perPage, language);
-        Pageable pageable = PageRequest.of(resolvedPage-1, resolvedPerPage, Sort.by(Sort.Direction.DESC, "createdAt"));
-        Page<Product> all = productRepository.findAll(pageable);
-
-      return ProductListResponse.builder()
-                .items(all.getContent().stream().map(this::toResponse).collect(Collectors.toList()))
-                .page(resolvedPage)
-                .perPage(resolvedPerPage)
-                .totalElements(all.getTotalElements())
-                .totalPages(all.getTotalPages())
-                .build();
-    }
-
-    private ProductDocument toDocument(Product product) {
-        String primaryImageUrl = productImageRepository
-                .findByProduct_IdOrderBySortOrderAscIdAsc(product.getId())
-                .stream()
-                .filter(img -> Boolean.TRUE.equals(img.getIsPrimary()))
-                .findFirst()
-                .map(img -> url + "/" + bucketName + "/" + img.getStorageKey())
-                .orElse(null);
-
-        return ProductDocument.builder()
-                .id(product.getId().toString())
-                .name(product.getName())
-                .shortDescription(product.getShortDescription())
-                .slug(product.getSlug())
-                .price(product.getPrice())
-                .currency(product.getCurrency().name())
-                .moderationStatus(product.getModerationStatus().name())
-                .isActive(product.getIsActive())
-                .primaryImageUrl(primaryImageUrl)
+        Pageable pageable = PageRequest.of(page, perPage, Sort.by("createdAt").descending());
+        Page<Product> products = productRepository.findAll(pageable);
+        return ProductListResponse.builder()
+                .items(products.getContent().stream().map(this::toResponse).collect(Collectors.toList()))
+                .page(page)
+                .perPage(perPage)
+                .totalElements(products.getTotalElements())
+                .totalPages(products.getTotalPages())
                 .build();
     }
 
@@ -496,10 +473,10 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-   /* private String generateStorageKey(Long productId, String originalFilename) {
+    private String generateStorageKey(Long productId, String originalFilename) {
         String cleanName = StringUtils.hasText(originalFilename) ? originalFilename.replaceAll("\\s+", "-") : "image";
         return "products/" + productId + "/" + UUID.randomUUID() + "-" + cleanName;
-    }*/
+    }
 
 
     private List<ProductImageResponse> getImages(Long productId) {

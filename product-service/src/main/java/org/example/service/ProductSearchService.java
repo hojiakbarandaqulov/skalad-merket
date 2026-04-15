@@ -1,8 +1,10 @@
 package org.example.service;
 
 import org.example.document.ProductDocument;
+import org.example.dto.PagedResponse;
 import org.example.dto.product.ProductResponse;
 import org.example.dto.product.ProductSearchResponse;
+import org.example.enums.AppLanguage;
 
 import java.util.List;
 
@@ -13,4 +15,6 @@ public interface ProductSearchService {
 
     void update(ProductDocument document);
     List<ProductSearchResponse> search(String query, int page, int perPage);
+
+    PagedResponse<ProductResponse> productSearch(String q, String category, Long regionId, int page, int perPage, AppLanguage language);
 }

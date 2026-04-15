@@ -2,6 +2,7 @@ package org.example.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.document.ProductDocument;
+import org.example.dto.PagedResponse;
 import org.example.dto.product.*;
 import org.example.enums.AppLanguage;
 import org.example.enums.ProductModerationStatus;
@@ -49,9 +50,9 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     public List<ProductSearchResponse> search(String query, int page, int perPage) {
         NativeQuery searchQuery = NativeQuery.builder()
                 .withQuery(q -> q
-                        .bool(b->b
-                                .should(s->s
-                                        .match(m->m
+                        .bool(b -> b
+                                .should(s -> s
+                                        .match(m -> m
                                                 .field("name")
                                                 .query(query)
                                                 .fuzziness("AUTO")
@@ -65,22 +66,71 @@ public class ProductSearchServiceImpl implements ProductSearchService {
                                                 .fuzziness("AUTO")
                                                 .boost(1.0f)
                                         )
-                                ).filter(f->f
-                                        .term(t->t
+                                ).filter(f -> f
+                                        .term(t -> t
                                                 .field("moderationStatus")
                                                 .value("APPROVED")
                                         )
                                 ).minimumShouldMatch("1")
                         )
                 )
-                .withPageable(PageRequest.of(page-1, perPage)).build();
-        SearchHits<ProductDocument> hits= elasticsearchOperations.search(searchQuery, ProductDocument.class);
+                .withPageable(PageRequest.of(page - 1, perPage)).build();
+        SearchHits<ProductDocument> hits = elasticsearchOperations.search(searchQuery, ProductDocument.class);
 
 
         return hits.stream()
                 .map(SearchHit::getContent)
                 .map(this::toSearchResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public PagedResponse<ProductResponse> productSearch(String q, String categoryId, Long regionId, int page, int perPage, AppLanguage language) {
+        NativeQuery searchQuery = NativeQuery.builder()
+                .withQuery(query -> query
+                        .bool(b -> b
+                                .should(s -> s
+                                        .match(m -> m
+                                                .field("name")
+                                                .query(1)
+                                                .fuzziness("AUTO")
+                                                .boost(3.0f)
+                                        )
+                                )
+                                .should(s -> s
+                                        .match(m -> m
+                                                .field("shortDescription")
+                                                .query(1)
+                                                .fuzziness("AUTO")
+                                                .boost(1.0f)
+                                        )
+                                ).filter(f -> f
+                                        .term(t -> t
+                                                .field("moderationStatus")
+                                                .value("APPROVED")
+                                        )
+                                )
+                                .filter(f -> f
+                                        .term(t -> t
+                                                .field("regionId")
+                                                .value(regionId))
+                                )
+                                .filter(f -> f
+                                        .term(t -> t
+                                                .field("categoryId")
+                                                .value(categoryId))
+                                )
+                                .minimumShouldMatch("1")
+
+                        )
+                )
+                .withPageable(PageRequest.of(page - 1, perPage)).build();
+        SearchHits<ProductDocument> hits = elasticsearchOperations.search(searchQuery, ProductDocument.class);
+
+
+        return new PagedResponse<>(hits.stream()
+                .map(SearchHit::getContent)
+                .map(this::toSearchResponse));
     }
 
     private ProductSearchResponse toSearchResponse(ProductDocument doc) {

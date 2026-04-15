@@ -1,6 +1,7 @@
 package org.example.document;
 
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -18,7 +20,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Document(indexName = "products")
 public class ProductDocument {
-
     @Id
     private String id;
 
@@ -28,22 +29,54 @@ public class ProductDocument {
     @Field(type = FieldType.Text)
     private String shortDescription;
 
+    @Field(type = FieldType.Text)
+    private String description;
+
     @Field(type = FieldType.Keyword)
     private String slug;
 
-    @Field(type = FieldType.Double)
-    private BigDecimal price;
+    @Field(type = FieldType.Keyword)
+    private String moderationStatus;
 
     @Field(type = FieldType.Keyword)
     private String currency;
 
     @Field(type = FieldType.Keyword)
-    private String moderationStatus;
+    private String priceType;
+
+    @Field(type = FieldType.Double)
+    private BigDecimal price;
+
+    @Field(type = FieldType.Long)
+    private Long companyId;
+
+    @Field(type = FieldType.Long)
+    private Long categoryId;
+
+    @Field(type = FieldType.Long)
+    private Long sellerId;
+
+    @Field(type = FieldType.Long)
+    private Long regionId;
+
+    @Field(type = FieldType.Long)
+    private Long districtId;
 
     @Field(type = FieldType.Boolean)
     private Boolean isActive;
 
-    // Primary image url
+    @Field(type = FieldType.Boolean)
+    private Boolean isPromoted;
+
     @Field(type = FieldType.Keyword, index = false)
     private String primaryImageUrl;
+
+    @Field(type = FieldType.Long)
+    private Long viewsCountCache;
+
+    @Field(type = FieldType.Long)
+    private Long favoritesCountCache;
+
+    @Field(type = FieldType.Date)
+    private LocalDateTime createdAt;
 }

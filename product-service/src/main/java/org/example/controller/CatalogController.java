@@ -5,6 +5,7 @@ import org.example.dto.*;
 import org.example.dto.product.ProductResponse;
 import org.example.enums.AppLanguage;
 import org.example.service.CatalogService;
+import org.example.service.ProductSearchService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class CatalogController {
     
     private final CatalogService catalogService;
+    private final ProductSearchService productSearchService;
 
     @GetMapping
     public ApiResponse<PagedResponse<ProductResponse>> getCatalog(@RequestParam(required = false) String q,
@@ -32,7 +34,7 @@ public class CatalogController {
                                                               @RequestParam(defaultValue = "1") int page,
                                                               @RequestParam(defaultValue = "20") int perPage,
                                                               @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
-        return ApiResponse.successResponse(catalogService.search(q, category, regionId, page, perPage, language));
+        return ApiResponse.successResponse(productSearchService.productSearch(q, category, regionId, page, perPage, language));
     }
 
     @GetMapping("/search/suggestions")
