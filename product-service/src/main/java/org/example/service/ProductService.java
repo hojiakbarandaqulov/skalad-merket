@@ -8,7 +8,6 @@ import org.example.dto.product.ProductResponse;
 import org.example.dto.product.UpdateProductRequest;
 import org.example.enums.AppLanguage;
 import org.example.enums.ProductModerationStatus;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -33,6 +32,4 @@ public interface ProductService {
     void archive(Long id, AppLanguage language);
 
     void delete(Long id, AppLanguage language);
-
-    ProductListResponse getAllProducts(int page, int perPage, AppLanguage language);
 }
