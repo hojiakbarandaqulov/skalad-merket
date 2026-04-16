@@ -1,0 +1,4 @@
+# Eski indeksni o'chirish
+DELETE http://localhost:9200/products
+
+

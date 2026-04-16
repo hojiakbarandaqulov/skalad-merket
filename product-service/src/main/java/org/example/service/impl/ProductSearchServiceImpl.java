@@ -9,7 +9,9 @@ import org.example.enums.ProductModerationStatus;
 import org.example.repository.ProductSearchRepository;
 import org.example.service.ProductSearchService;
 import org.example.service.ProductService;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
@@ -85,53 +87,59 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     }
 
     @Override
-    public PagedResponse<ProductResponse> productSearch(String q, String categoryId, Long regionId, int page, int perPage, AppLanguage language) {
+    public PageImpl<ProductSearchResponse> productSearch(String q, String categoryId, Long regionId, int page, int perPage, AppLanguage language) {
+
+        Pageable pageable = PageRequest.of(page - 1, perPage);
         NativeQuery searchQuery = NativeQuery.builder()
                 .withQuery(query -> query
-                        .bool(b -> b
-                                .should(s -> s
-                                        .match(m -> m
-                                                .field("name")
-                                                .query(1)
-                                                .fuzziness("AUTO")
-                                                .boost(3.0f)
-                                        )
-                                )
-                                .should(s -> s
-                                        .match(m -> m
-                                                .field("shortDescription")
-                                                .query(1)
-                                                .fuzziness("AUTO")
-                                                .boost(1.0f)
-                                        )
-                                ).filter(f -> f
-                                        .term(t -> t
-                                                .field("moderationStatus")
-                                                .value("APPROVED")
-                                        )
-                                )
-                                .filter(f -> f
+                        .bool(b -> {
+                            b.should(s -> s
+                                            .match(m -> m
+                                                    .field("name")
+                                                    .query(q)
+                                                    .fuzziness("AUTO")
+                                                    .boost(3.0f)
+                                            )
+                                    )
+                                    .should(s -> s
+                                            .match(m -> m
+                                                    .field("shortDescription")
+                                                    .query(q)
+                                                    .fuzziness("AUTO")
+                                                    .boost(1.0f)
+                                            )
+                                    ).filter(f -> f
+                                            .term(t -> t
+                                                    .field("moderationStatus")
+                                                    .value("APPROVED")
+                                            )
+                                    ).minimumShouldMatch("1");
+                        /*    if (regionId != null) {
+                                b.filter(f -> f
                                         .term(t -> t
                                                 .field("regionId")
                                                 .value(regionId))
-                                )
-                                .filter(f -> f
+                                );
+                            }
+                            if (categoryId != null) {
+                                b.filter(f -> f
                                         .term(t -> t
                                                 .field("categoryId")
-                                                .value(categoryId))
-                                )
-                                .minimumShouldMatch("1")
-
-                        )
+                                                .value(categoryId)));
+                            }*/
+                            return b;
+                        })
                 )
-                .withPageable(PageRequest.of(page - 1, perPage)).build();
+                .withPageable(pageable).build();
         SearchHits<ProductDocument> hits = elasticsearchOperations.search(searchQuery, ProductDocument.class);
-
-
-        return new PagedResponse<>(hits.stream()
+        List<ProductSearchResponse> content = hits.stream()
                 .map(SearchHit::getContent)
-                .map(this::toSearchResponse));
+                .map(this::toSearchResponse)
+                .toList();
+
+        return new PageImpl<>(content, pageable, hits.getTotalHits());
     }
+
 
     private ProductSearchResponse toSearchResponse(ProductDocument doc) {
         return ProductSearchResponse.builder()

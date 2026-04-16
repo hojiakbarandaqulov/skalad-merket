@@ -1,3 +1,149 @@
+DELETE http://localhost:9200/products
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=FD627DE569758467645C660C7109C4D2
+content-length: 0
+
+<> 2026-04-17T220336.200.json
+
+###
+
+DELETE http://localhost:9200/product
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=FD627DE569758467645C660C7109C4D2
+content-length: 0
+
+<> 2026-04-17T220330.404.json
+
+###
+
+DELETE http://localhost:9200/product
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=FD627DE569758467645C660C7109C4D2
+content-length: 0
+
+<> 2026-04-17T215659.200.json
+
+###
+
+DELETE http://localhost:9200/product
+Content-Length: 230
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=FD627DE569758467645C660C7109C4D2
+
+PUT http://localhost:9200/product
+
+  "mappings": {
+    "properties": {
+      "createdAt": {
+        "type": "date",
+        "format": "yyyy-MM-dd'T'HH:mm:ss.SSS||yyyy-MM-dd'T'HH:mm:ss||yyyy-MM-dd||epoch_millis"
+      }
+    }
+  }
+}
+
+<> 2026-04-17T215647.406.json
+
+###
+
+DELETE http://localhost:9200/products
+Content-Length: 230
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=FD627DE569758467645C660C7109C4D2
+
+PUT http://localhost:9200/product
+
+  "mappings": {
+    "properties": {
+      "createdAt": {
+        "type": "date",
+        "format": "yyyy-MM-dd'T'HH:mm:ss.SSS||yyyy-MM-dd'T'HH:mm:ss||yyyy-MM-dd||epoch_millis"
+      }
+    }
+  }
+}
+
+<> 2026-04-17T215643.406.json
+
+###
+
+DELETE http://localhost:9200/products
+Content-Length: 230
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=FD627DE569758467645C660C7109C4D2
+
+PUT http://localhost:9200/product
+
+  "mappings": {
+    "properties": {
+      "createdAt": {
+        "type": "date",
+        "format": "yyyy-MM-dd'T'HH:mm:ss.SSS||yyyy-MM-dd'T'HH:mm:ss||yyyy-MM-dd||epoch_millis"
+      }
+    }
+  }
+}
+
+<> 2026-04-17T215636.406.json
+
+###
+
+DELETE http://localhost:9200/products
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=FD627DE569758467645C660C7109C4D2
+content-length: 0
+
+<> 2026-04-17T211253.200.json
+
+###
+
+DELETE http://localhost:9200/products
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=FD627DE569758467645C660C7109C4D2
+content-length: 0
+
+<> 2026-04-17T165226.200.json
+
+###
+
+DELETE http://localhost:9200/products
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=FD627DE569758467645C660C7109C4D2
+content-length: 0
+
+<> 2026-04-17T165046.200.json
+
+###
+
+DELETE http://localhost:9200/products
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=FD627DE569758467645C660C7109C4D2
+content-length: 0
+
+<> 2026-04-17T164202.200.json
+
+###
+
 GET http://localhost:8082/api/v1/location?address=Toshkent
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
 Accept-Encoding: br, deflate, gzip, x-gzip
@@ -771,131 +917,6 @@ password=12345
 grant_type=password
 
 <> 2026-03-12T122614.500.json
-
-###
-
-POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
-Content-Type: x-www-form-urlencoded
-Content-Length: 130
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-{
-client_id=market-backend
-client_secret=CLIENT_SECRET
-username=hojiakbarandaqulov5@gmail.com
-password=12345
-grant_type=password
-}
-
-<> 2026-03-12T122428.500.json
-
-###
-
-POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
-Content-Length: 130
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-{
-client_id=market-backend
-client_secret=CLIENT_SECRET
-username=hojiakbarandaqulov5@gmail.com
-password=12345
-grant_type=password
-}
-
-<> 2026-03-12T122406.400.json
-
-###
-
-POST http://localhost:9090/realms/market-realm/protocol/openid-connect/token
-Content-Type: x-www-form-urlencoded
-Content-Length: 130
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-{
-client_id=market-backend
-client_secret=CLIENT_SECRET
-username=hojiakbarandaqulov5@gmail.com
-password=12345
-grant_type=password
-}
-
-<> 2026-03-12T122353.500.json
-
-###
-
-POST http://localhost:8082/api/v1/attach/upload
-Content-Type: multipart/form-data; boundary=WebAppBoundary
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb2RldXo5MUBnbWFpbC5jb20iLCJyb2xlcyI6IlJPTEVfQlVZRVIiLCJpZCI6IjIiLCJpYXQiOjE3NzMyMTMzNTcsImV4cCI6MTc3MzM4NjE1N30.J61CW44gs16SM6IpztIoBi3jEkGwHsHa3l4UWa0wWNu0k9T7DPkJhW27oXc4hf6o
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-content-length: 124028
-
---WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="logo1.jpg"
-
-< C:\Users\hojia\Pictures\logo1.jpg
---WebAppBoundary--
-
-<> 2026-03-11T151326.200.json
-
-###
-
-POST http://localhost:8082/api/v1/attach/upload
-Content-Type: multipart/form-data; boundary=WebAppBoundary
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb2RldXo5MUBnbWFpbC5jb20iLCJyb2xlcyI6IlJPTEVfQlVZRVIiLCJpZCI6IjIiLCJpYXQiOjE3NzMyMTMzNTcsImV4cCI6MTc3MzM4NjE1N30.J61CW44gs16SM6IpztIoBi3jEkGwHsHa3l4UWa0wWNu0k9T7DPkJhW27oXc4hf6o
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-content-length: 124028
-
---WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="logo1.jpg"
-
-< C:\Users\hojia\Pictures\logo1.jpg
---WebAppBoundary--
-
-<> 2026-03-11T151047.500.txt
-
-###
-
-GET http://localhost:8082/api/v1/profile
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb2RldXo5MUBnbWFpbC5jb20iLCJyb2xlcyI6IlJPTEVfQlVZRVIiLCJpZCI6IjIiLCJpYXQiOjE3NzMyMTIzMjQsImV4cCI6MTc3MzM4NTEyNH0.8L_acu3TYPr05v9r3xArGbquu54-HLIvpAcnG1IIJVSXQpgTwg7F9qYmiPncq5rn
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-content-length: 0
-
-<> 2026-03-11T120655.400.txt
-
-###
-
-GET http://localhost:8082/api/v1/profile
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb2RldXo5MUBnbWFpbC5jb20iLCJyb2xlcyI6IlJPTEVfQlVZRVIiLCJpZCI6IjIiLCJpYXQiOjE3NzMyMTIzMjQsImV4cCI6MTc3MzM4NTEyNH0.8L_acu3TYPr05v9r3xArGbquu54-HLIvpAcnG1IIJVSXQpgTwg7F9qYmiPncq5rn
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-content-length: 0
-
-<> 2026-03-11T120652.400.txt
-
-###
-
-GET http://localhost:8082/api/v1/profile
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb2RldXo5MUBnbWFpbC5jb20iLCJyb2xlcyI6IlJPTEVfQlVZRVIiLCJpZCI6IjIiLCJpYXQiOjE3NzMyMTIzMjQsImV4cCI6MTc3MzM4NTEyNH0.8L_acu3TYPr05v9r3xArGbquu54-HLIvpAcnG1IIJVSXQpgTwg7F9qYmiPncq5rn
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.7
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-content-length: 0
-
-<> 2026-03-11T115938.400.txt
 
 ###
 

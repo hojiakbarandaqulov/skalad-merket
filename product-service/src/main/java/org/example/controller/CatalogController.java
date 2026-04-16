@@ -3,9 +3,11 @@ package org.example.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.*;
 import org.example.dto.product.ProductResponse;
+import org.example.dto.product.ProductSearchResponse;
 import org.example.enums.AppLanguage;
 import org.example.service.CatalogService;
 import org.example.service.ProductSearchService;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,12 +30,12 @@ public class CatalogController {
     }
 
     @GetMapping("/search")
-    public ApiResponse<PagedResponse<ProductResponse>> search(@RequestParam(required = false) String q,
-                                                              @RequestParam(required = false) String category,
-                                                              @RequestParam(required = false) Long regionId,
-                                                              @RequestParam(defaultValue = "1") int page,
-                                                              @RequestParam(defaultValue = "20") int perPage,
-                                                              @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+    public ApiResponse<PageImpl<ProductSearchResponse>> search(@RequestParam(required = false) String q,
+                                                               @RequestParam(required = false) String category,
+                                                               @RequestParam(required = false) Long regionId,
+                                                               @RequestParam(defaultValue = "1") int page,
+                                                               @RequestParam(defaultValue = "20") int perPage,
+                                                               @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         return ApiResponse.successResponse(productSearchService.productSearch(q, category, regionId, page, perPage, language));
     }
 

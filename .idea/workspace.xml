@@ -5,24 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db21a683-eacb-49fd-afa4-a62f94ff9031" name="Changes" comment="config starting">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/.bloomcycle.bin/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/.bloomcycle.bin/xl.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage-cache.bin.bkp/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage-cache.bin.bkp/xl.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage-cache.bin/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage-cache.bin/xl.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage.json/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage.json/xl.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad-market/.usage-cache.bin.bkp/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad-market/.usage-cache.bin.bkp/xl.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad-market/.usage-cache.bin/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad-market/.usage-cache.bin/xl.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin.bkp/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin.bkp/xl.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin/xl.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/controller/CatalogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/controller/CatalogController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/document/ProductDocument.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/document/ProductDocument.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/dto/PagedResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/dto/PagedResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/ProductSearchService.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/ProductSearchService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/ProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/impl/ProductSearchServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/impl/ProductSearchServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/impl/ProductServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/impl/ProductServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,76 +124,75 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Docker.docker-compose.yml.minio: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.docker-compouse.yml.skalad-market-user-db: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.docker-compouse.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build api-gateway.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build auth-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build category-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build company-servcie.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build company-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build discovery-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build lead-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build notification-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build product-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build report-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build reposrt-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build user-service.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.auth-service [build].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.company-service [build].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.company-service [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.product-service [build].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.user-service [buildDependents].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.user-service [build].executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.attach | #2.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.attach | attach upload.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.auth | #1.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.auth | #2.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.auth | #3.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.generated-requests | #47.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.generated-requests | #48.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.generated-requests | #49.executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.ApiGatewayApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.AuthServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.CategoryServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.CompanyServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.DiscoveryServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.ProductServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.UserServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/JavaProject/Microservice/Skalad-market/report-service&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Docker.docker-compose.yml.minio: Compose Deployment.executor": "Run",
+    "Docker.docker-compouse.yml.skalad-market-user-db: Compose Deployment.executor": "Run",
+    "Docker.docker-compouse.yml: Compose Deployment.executor": "Run",
+    "Gradle.Build api-gateway.executor": "Run",
+    "Gradle.Build auth-service.executor": "Run",
+    "Gradle.Build category-service.executor": "Run",
+    "Gradle.Build company-servcie.executor": "Run",
+    "Gradle.Build company-service.executor": "Run",
+    "Gradle.Build discovery-service.executor": "Run",
+    "Gradle.Build lead-service.executor": "Run",
+    "Gradle.Build notification-service.executor": "Run",
+    "Gradle.Build product-service.executor": "Run",
+    "Gradle.Build report-service.executor": "Run",
+    "Gradle.Build reposrt-service.executor": "Run",
+    "Gradle.Build user-service.executor": "Run",
+    "Gradle.auth-service [build].executor": "Run",
+    "Gradle.company-service [build].executor": "Run",
+    "Gradle.company-service [clean].executor": "Run",
+    "Gradle.product-service [build].executor": "Run",
+    "Gradle.user-service [buildDependents].executor": "Run",
+    "Gradle.user-service [build].executor": "Run",
+    "HTTP Request.attach | #2.executor": "Run",
+    "HTTP Request.attach | attach upload.executor": "Run",
+    "HTTP Request.auth | #1.executor": "Run",
+    "HTTP Request.auth | #2.executor": "Run",
+    "HTTP Request.auth | #3.executor": "Run",
+    "HTTP Request.generated-requests | #47.executor": "Run",
+    "HTTP Request.generated-requests | #48.executor": "Run",
+    "HTTP Request.generated-requests | #49.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "Spring Boot.ApiGatewayApplication.executor": "Run",
+    "Spring Boot.AuthServiceApplication.executor": "Run",
+    "Spring Boot.CategoryServiceApplication.executor": "Run",
+    "Spring Boot.CompanyServiceApplication.executor": "Run",
+    "Spring Boot.DiscoveryServiceApplication.executor": "Run",
+    "Spring Boot.ProductServiceApplication.executor": "Run",
+    "Spring Boot.UserServiceApplication.executor": "Run",
+    "extract.method.default.visibility": "private",
+    "git-widget-placeholder": "main",
+    "go.import.settings.migrated": "true",
+    "jdk.selected.JAVA_MODULE": "17",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/JavaProject/Microservice/Skalad-market/report-service",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -437,7 +419,6 @@
       <workItem from="1774947339141" duration="6179000" />
       <workItem from="1775121172386" duration="2660000" />
       <workItem from="1775151098489" duration="11147000" />
-      <workItem from="1776324256397" duration="5320000" />
     </task>
     <task id="LOCAL-00001" summary="Merge remote changes">
       <option name="closed" value="true" />
@@ -571,7 +552,9 @@
     <MESSAGE value="lead-service added" />
     <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;product-service/src/main/java/org/example/repository/ProductRepository.java" />
     <MESSAGE value="config starting" />
-    <option name="LAST_COMMIT_MESSAGE" value="config starting" />
+    <MESSAGE value="Merge branch 'main' of https://github.com/hojiakbarandaqulov/skalad-merket&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;data/.minio.sys/buckets/.bloomcycle.bin/xl.meta&#10;#&#9;data/.minio.sys/buckets/.usage-cache.bin.bkp/xl.meta&#10;#&#9;data/.minio.sys/buckets/.usage-cache.bin/xl.meta&#10;#&#9;data/.minio.sys/buckets/.usage.json/xl.meta&#10;#&#9;data/.minio.sys/buckets/skalad-market/.usage-cache.bin.bkp/xl.meta&#10;#&#9;data/.minio.sys/buckets/skalad-market/.usage-cache.bin/xl.meta&#10;#&#9;data/.minio.sys/buckets/skalad.market/.usage-cache.bin.bkp/xl.meta&#10;#&#9;data/.minio.sys/buckets/skalad.market/.usage-cache.bin/xl.meta&#10;#&#9;product-service/src/main/java/org/example/service/ProductService.java&#10;#&#9;product-service/src/main/java/org/example/service/impl/ProductServiceImpl.java" />
+    <MESSAGE value="search finish" />
+    <option name="LAST_COMMIT_MESSAGE" value="search finish" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

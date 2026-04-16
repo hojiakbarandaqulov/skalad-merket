@@ -17,6 +17,5 @@ public class PagedResponse<T> {
     private List<T> items;
     private PageMeta meta;
 
-    public <R> PagedResponse(Stream<R> rStream) {
-    }
+
 }
