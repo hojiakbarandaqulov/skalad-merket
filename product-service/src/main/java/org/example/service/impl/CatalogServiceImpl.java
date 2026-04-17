@@ -7,21 +7,26 @@ import org.example.entity.Product;
 import org.example.enums.AppLanguage;
 import org.example.enums.Currency;
 import org.example.enums.ProductModerationStatus;
+import org.example.enums.SaleType;
 import org.example.repository.ProductRepository;
 import org.example.service.CatalogService;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CatalogServiceImpl implements CatalogService {
     private final ProductRepository productRepository;
     private final ProductServiceImpl productService;
+    private final ModelMapper modelMapper;
 
     @Override
     public PagedResponse<ProductResponse> getCatalog(String q, String category, Long regionId, String currency, int page, int perPage, AppLanguage language) {
@@ -82,6 +87,45 @@ public class CatalogServiceImpl implements CatalogService {
                 .build();
     }
 
+    @Override
+    public PageImpl<ProductResponse> getSaleTypeFilterProduct(int page, int perPage, SaleType saleType, AppLanguage language) {
+        PageRequest pagable = PageRequest.of(page - 1, perPage);
+        Page<Product> product = productRepository.findBySaleType(saleType, pagable);
+
+        List<ProductResponse> list = product.getContent().stream()
+                .map(this::toProductResponse)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(list, pagable, product.getTotalElements());
+    }
+
+    private ProductResponse toProductResponse(Product p) {
+        ProductResponse res = new ProductResponse();
+        res.setId(p.getId());
+        res.setCompanyId(p.getCompanyId());
+        res.setSellerId(p.getSellerId());
+        res.setCategoryId(p.getCategoryId());
+        res.setName(p.getName());
+        res.setSlug(p.getSlug());
+        res.setShortDescription(p.getShortDescription());
+        res.setDescription(p.getDescription());
+        res.setPriceType(p.getPriceType());
+        res.setPrice(p.getPrice());
+        res.setCurrency(p.getCurrency());
+        res.setRegionId(p.getRegionId());
+        res.setDistrictId(p.getDistrictId());
+        res.setAttributes(p.getAttributesJsonb());
+        res.setStatus(p.getModerationStatus());           // PENDING
+        res.setIsActive(p.getIsActive());
+        res.setIsPromoted(p.getIsPromoted());
+        res.setPromotedUntil(p.getPromotedUntil());
+        res.setRejectReason(p.getRejectReason());
+        res.setViewsCountCache(p.getViewsCountCache());
+        res.setFavoritesCountCache(p.getFavoritesCountCache());
+        res.setCreatedAt(p.getCreatedAt());
+//        res.setImages(p.getImages());           // images
+        return res;
+    }
     private PagedResponse<ProductResponse> queryProducts(String q, String category, Long regionId, String currency, int page, int perPage) {
         Specification<Product> spec = (root, query, cb) -> cb.and(
                 cb.equal(root.get("moderationStatus"), ProductModerationStatus.APPROVED),

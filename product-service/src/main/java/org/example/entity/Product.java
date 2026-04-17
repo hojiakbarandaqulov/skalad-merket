@@ -7,6 +7,7 @@ import org.example.entity.base.BaseEntity;
 import org.example.enums.Currency;
 import org.example.enums.PriceType;
 import org.example.enums.ProductModerationStatus;
+import org.example.enums.SaleType;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -45,6 +46,10 @@ public class Product extends BaseEntity {
     @Column(nullable = false)
     private PriceType priceType;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private SaleType saleType;
+
     private BigDecimal price;
 
     @Enumerated(EnumType.STRING)
@@ -77,4 +82,5 @@ public class Product extends BaseEntity {
     private Long favoritesCountCache = 0L;
 
     private LocalDateTime deletedAt;
+
 }

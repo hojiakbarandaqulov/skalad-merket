@@ -114,7 +114,7 @@ public class ProductSearchServiceImpl implements ProductSearchService {
                                                     .value("APPROVED")
                                             )
                                     ).minimumShouldMatch("1");
-                        /*    if (regionId != null) {
+                            if (regionId != null) {
                                 b.filter(f -> f
                                         .term(t -> t
                                                 .field("regionId")
@@ -126,7 +126,7 @@ public class ProductSearchServiceImpl implements ProductSearchService {
                                         .term(t -> t
                                                 .field("categoryId")
                                                 .value(categoryId)));
-                            }*/
+                            }
                             return b;
                         })
                 )

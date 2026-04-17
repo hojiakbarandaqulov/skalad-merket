@@ -186,7 +186,7 @@ public class AdminProductServiceImpl implements AdminProductService {
         response.setViewsCountCache(product.getViewsCountCache());
         response.setFavoritesCountCache(product.getFavoritesCountCache());
         response.setCreatedAt(product.getCreatedAt());
-        response.setUpdatedAt(product.getModifiedDate());
+//        response.setUpdatedAt(product.getModifiedDate());
         response.setImages(getImages(product.getId()));
         return response;
     }

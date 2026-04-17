@@ -1,5 +1,7 @@
 package org.example.config;
 
+import okhttp3.ConnectionPool;
+import okhttp3.OkHttpClient;
 import org.example.enums.AppLanguage;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -12,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class AppConfig implements WebMvcConfigurer {
@@ -37,6 +40,14 @@ public class AppConfig implements WebMvcConfigurer {
         return modelMapper;
     }
 
+    @Bean
+    public OkHttpClient okHttpClient() {
+        return new OkHttpClient.Builder()
+                .connectionPool(new ConnectionPool(50, 5, TimeUnit.MINUTES))
+                .connectTimeout(2, TimeUnit.SECONDS)
+                .readTimeout(3, TimeUnit.SECONDS)
+                .build();
+    }
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(String.class, AppLanguage.class, source -> {

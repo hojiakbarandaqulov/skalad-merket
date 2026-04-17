@@ -11,12 +11,13 @@ import org.example.dto.auth.ResetPasswordDTO;
 import org.example.dto.auth.UpdatePasswordDTO;
 import org.example.entity.Users;
 import org.example.enums.AppLanguage;
+import org.example.enums.RegistrationSelectRoles;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 public interface AuthService {
-     ApiResponse<String> registration(RegistrationDTO dto, AppLanguage language);
+     ApiResponse<String> registration(RegistrationDTO dto, RegistrationSelectRoles roles, AppLanguage language);
 
      ApiResponse<String> regVerification(String token, AppLanguage lang);
 

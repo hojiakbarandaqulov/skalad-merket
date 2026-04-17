@@ -2,6 +2,7 @@ package org.example.repository;
 
 import org.example.entity.Product;
 import org.example.enums.ProductModerationStatus;
+import org.example.enums.SaleType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -32,4 +33,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findAll(Specification<Product> specification, Pageable pageable);
 
      Optional<Product> findByIdAndIsActiveTrue(Long productId);
+
+    Page<Product> findBySaleType(SaleType saleType, Pageable pageable);
 }

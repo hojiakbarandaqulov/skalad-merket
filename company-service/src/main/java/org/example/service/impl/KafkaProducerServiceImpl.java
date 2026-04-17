@@ -13,10 +13,4 @@ import org.springframework.stereotype.Service;
 public class KafkaProducerServiceImpl implements KafkaProducerService {
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    private static final String USER_ROLE_UPDATE = "user.role.update";
-
-    @Override
-    public void sendUserRoleUpdate(UserRoleUpdateEvent event) {
-        kafkaTemplate.send(USER_ROLE_UPDATE, event.toString(), event);
-    }
 }

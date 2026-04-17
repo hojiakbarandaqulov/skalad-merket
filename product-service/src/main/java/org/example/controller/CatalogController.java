@@ -5,16 +5,18 @@ import org.example.dto.*;
 import org.example.dto.product.ProductResponse;
 import org.example.dto.product.ProductSearchResponse;
 import org.example.enums.AppLanguage;
+import org.example.enums.SaleType;
 import org.example.service.CatalogService;
 import org.example.service.ProductSearchService;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/catalog")
 public class CatalogController {
-    
+
     private final CatalogService catalogService;
     private final ProductSearchService productSearchService;
 
@@ -55,4 +57,14 @@ public class CatalogController {
     public ApiResponse<CatalogHomepageResponse> homepage(@RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         return ApiResponse.successResponse(catalogService.homepage(language));
     }
+
+    @GetMapping("/saleType/product")
+    public ApiResponse<PageImpl<ProductResponse>> getSaleTypeFilterProduct(
+            @RequestParam(required = false) SaleType saleType,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int perPage,
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        return ApiResponse.successResponse(catalogService.getSaleTypeFilterProduct(page,perPage,saleType, language));
+    }
+
 }

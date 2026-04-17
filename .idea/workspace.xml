@@ -5,7 +5,43 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db21a683-eacb-49fd-afa4-a62f94ff9031" name="Changes" comment="config starting">
+      <change afterPath="$PROJECT_DIR$/.idea/modules/chat-service.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/lead-service.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/company-service/src/main/java/org/example/enums/AppLanguage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-client.cookies" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-client.cookies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/org/example/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/org/example/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/category-service/src/main/java/org/example/controller/AdminCategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/category-service/src/main/java/org/example/controller/AdminCategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat-service/src/main/java/org/example/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/chat-service/src/main/java/org/example/controller/ChatController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/company-service/src/main/java/org/example/controller/AdminCompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/company-service/src/main/java/org/example/controller/AdminCompanyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/company-service/src/main/java/org/example/controller/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/company-service/src/main/java/org/example/controller/CompanyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/company-service/src/main/java/org/example/service/AdminCompanyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/company-service/src/main/java/org/example/service/AdminCompanyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/company-service/src/main/java/org/example/service/CompanyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/company-service/src/main/java/org/example/service/CompanyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/company-service/src/main/java/org/example/service/impl/CompanyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/company-service/src/main/java/org/example/service/impl/CompanyServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/.bloomcycle.bin/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/.bloomcycle.bin/xl.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage-cache.bin.bkp/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage-cache.bin.bkp/xl.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage-cache.bin/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage-cache.bin/xl.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage.json/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/.usage.json/xl.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad-market/.usage-cache.bin.bkp/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad-market/.usage-cache.bin.bkp/xl.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad-market/.usage-cache.bin/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad-market/.usage-cache.bin/xl.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin.bkp/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin.bkp/xl.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin/xl.meta" beforeDir="false" afterPath="$PROJECT_DIR$/data/.minio.sys/buckets/skalad.market/.usage-cache.bin/xl.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/.minio.sys/tmp/7b7eb97c-d00a-4b9b-9982-cabfc3d29f68" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/notification-service/src/main/java/org/example/controller/NotificationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/notification-service/src/main/java/org/example/controller/NotificationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/controller/AdminProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/controller/AdminProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/controller/AdminUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/controller/AdminUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/controller/AttachController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/controller/AttachController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/controller/LocationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/controller/LocationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/controller/UsersController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/controller/UsersController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/http/attach.http" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/http/attach.http" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,12 +103,7 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="product-service" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -162,6 +193,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.ApiGatewayApplication.executor": "Run",
     "Spring Boot.AuthServiceApplication.executor": "Run",
     "Spring Boot.CategoryServiceApplication.executor": "Run",
@@ -552,9 +584,7 @@
     <MESSAGE value="lead-service added" />
     <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;product-service/src/main/java/org/example/repository/ProductRepository.java" />
     <MESSAGE value="config starting" />
-    <MESSAGE value="Merge branch 'main' of https://github.com/hojiakbarandaqulov/skalad-merket&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;data/.minio.sys/buckets/.bloomcycle.bin/xl.meta&#10;#&#9;data/.minio.sys/buckets/.usage-cache.bin.bkp/xl.meta&#10;#&#9;data/.minio.sys/buckets/.usage-cache.bin/xl.meta&#10;#&#9;data/.minio.sys/buckets/.usage.json/xl.meta&#10;#&#9;data/.minio.sys/buckets/skalad-market/.usage-cache.bin.bkp/xl.meta&#10;#&#9;data/.minio.sys/buckets/skalad-market/.usage-cache.bin/xl.meta&#10;#&#9;data/.minio.sys/buckets/skalad.market/.usage-cache.bin.bkp/xl.meta&#10;#&#9;data/.minio.sys/buckets/skalad.market/.usage-cache.bin/xl.meta&#10;#&#9;product-service/src/main/java/org/example/service/ProductService.java&#10;#&#9;product-service/src/main/java/org/example/service/impl/ProductServiceImpl.java" />
-    <MESSAGE value="search finish" />
-    <option name="LAST_COMMIT_MESSAGE" value="search finish" />
+    <option name="LAST_COMMIT_MESSAGE" value="config starting" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

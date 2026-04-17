@@ -48,3 +48,10 @@ aws:
   access-key: minioadmin
   secret-key: minioadmin
   bucket-name: skalad-market
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 2000
+        readTimeout: 3000

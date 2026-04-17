@@ -1,12 +1,12 @@
 package org.example.dto.product;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.enums.Currency;
 import org.example.enums.PriceType;
+import org.example.enums.SaleType;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -16,35 +16,34 @@ import java.util.Map;
 public class CreateProductRequest {
 
     @NotNull(message = "company_id is required")
-    @JsonProperty("company_id")
     private Long companyId;
 
     @NotNull(message = "category_id is required")
-    @JsonProperty("category_id")
     private Long categoryId;
 
     @NotBlank(message = "name is required")
     private String name;
 
-    @JsonProperty("short_description")
     private String shortDescription;
 
+    @NotNull(message = "description is required")
     private String description;
 
     @NotNull(message = "price_type is required")
-    @JsonProperty("price_type")
     private PriceType priceType;
 
+    @NotNull(message = "saleType is required")
+    private SaleType saleType;
+
+    @NotNull(message = "price is required")
     private BigDecimal price;
 
     @NotNull(message = "currency is required")
     private Currency currency;
 
     @NotNull(message = "region_id is required")
-    @JsonProperty("region_id")
     private Long regionId;
 
-    @JsonProperty("district_id")
     private Long districtId;
 
     private Map<String, Object> attributes;

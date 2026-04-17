@@ -6,6 +6,7 @@ import org.example.dto.ApiResponse;
 import org.example.dto.product.*;
 import org.example.enums.AppLanguage;
 import org.example.enums.ProductModerationStatus;
+import org.example.enums.SaleType;
 import org.example.service.ProductSearchService;
 import org.example.service.ProductService;
 import org.springframework.data.domain.PageImpl;

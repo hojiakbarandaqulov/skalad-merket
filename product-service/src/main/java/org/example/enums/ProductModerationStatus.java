@@ -8,5 +8,4 @@ public enum ProductModerationStatus {
     APPROVED,
     REJECTED,
     ARCHIVED
-
 }

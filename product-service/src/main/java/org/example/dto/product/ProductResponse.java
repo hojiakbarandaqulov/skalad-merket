@@ -16,61 +16,28 @@ import java.util.Map;
 @Getter
 public class ProductResponse {
     private Long id;
-
-    @JsonProperty("company_id")
     private Long companyId;
-
-    @JsonProperty("seller_id")
     private Long sellerId;
-
     private Long categoryId;
-
     private String name;
     private String slug;
-
-    @JsonProperty("short_description")
     private String shortDescription;
-
     private String description;
-
-    @JsonProperty("price_type")
     private PriceType priceType;
-
     private BigDecimal price;
     private Currency currency;
-
-    @JsonProperty("region_id")
     private Long regionId;
-
-    @JsonProperty("district_id")
     private Long districtId;
 
     private Map<String, Object> attributes;
     private ProductModerationStatus status;
-
-    @JsonProperty("is_active")
     private Boolean isActive;
-
-    @JsonProperty("is_promoted")
     private Boolean isPromoted;
-
-    @JsonProperty("promoted_until")
     private LocalDateTime promotedUntil;
-
-    @JsonProperty("reject_reason")
     private String rejectReason;
-
-    @JsonProperty("views_count_cache")
     private Long viewsCountCache;
-
-    @JsonProperty("favorites_count_cache")
     private Long favoritesCountCache;
-
-    @JsonProperty("created_at")
     private LocalDateTime createdAt;
-
-    @JsonProperty("updated_at")
-    private LocalDateTime updatedAt;
 
     private List<ProductImageResponse> images;
 }

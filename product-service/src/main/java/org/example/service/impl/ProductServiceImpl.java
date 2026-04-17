@@ -24,8 +24,12 @@ import org.example.repository.ProductRepository;
 import org.example.service.*;
 import org.example.utils.SpringSecurityUtil;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -80,6 +84,7 @@ public class ProductServiceImpl implements ProductService {
         product.setSlug(generateUniqueSlug(request.getName()));
         product.setModerationStatus(ProductModerationStatus.PENDING);
         product.setIsActive(Boolean.TRUE);
+        product.setSaleType(request.getSaleType());
 
         Product saved = productRepository.save(product);
 
@@ -95,6 +100,7 @@ public class ProductServiceImpl implements ProductService {
                 .createdAt(saved.getCreatedAt())
                 .build());
         productSearchService.index(toDocument(saved));
+
         return toResponse(saved);
     }
 
@@ -311,7 +317,6 @@ public class ProductServiceImpl implements ProductService {
         }
         product.setModerationStatus(ProductModerationStatus.PENDING);
         productRepository.save(product);
-        productSearchService.update(toDocument(product));
     }
 
     @Transactional
@@ -324,7 +329,6 @@ public class ProductServiceImpl implements ProductService {
         product.setModerationStatus(ProductModerationStatus.ARCHIVED);
         product.setIsActive(Boolean.FALSE);
         productRepository.save(product);
-        productSearchService.update(toDocument(product));
     }
 
     @Transactional
@@ -340,17 +344,16 @@ public class ProductServiceImpl implements ProductService {
         product.setDeletedAt(LocalDateTime.now());
         product.setIsActive(Boolean.FALSE);
         productRepository.save(product);
-        productSearchService.delete(id);
     }
 
     @Override
     public ProductListResponse getAllProducts(int page, int perPage, AppLanguage language) {
         int resolvedPage = normalizePage(page, language);
         int resolvedPerPage = normalizePerPage(perPage, language);
-        Pageable pageable = PageRequest.of(resolvedPage - 1, resolvedPerPage, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Pageable pageable = PageRequest.of(resolvedPage-1, resolvedPerPage, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Product> all = productRepository.findAll(pageable);
 
-        return ProductListResponse.builder()
+      return ProductListResponse.builder()
                 .items(all.getContent().stream().map(this::toResponse).collect(Collectors.toList()))
                 .page(resolvedPage)
                 .perPage(resolvedPerPage)
@@ -372,23 +375,12 @@ public class ProductServiceImpl implements ProductService {
                 .id(product.getId().toString())
                 .name(product.getName())
                 .shortDescription(product.getShortDescription())
-                .description(product.getDescription())
                 .slug(product.getSlug())
                 .price(product.getPrice())
                 .currency(product.getCurrency().name())
                 .moderationStatus(product.getModerationStatus().name())
                 .isActive(product.getIsActive())
                 .primaryImageUrl(primaryImageUrl)
-                .categoryId(product.getCategoryId())
-                .companyId(product.getCompanyId())
-                .districtId(product.getDistrictId())
-                .sellerId(product.getSellerId())
-                .regionId(product.getRegionId())
-                .createdAt(product.getCreatedAt())
-                .viewsCountCache(product.getViewsCountCache())
-                .favoritesCountCache(product.getFavoritesCountCache())
-                .priceType(String.valueOf(product.getPriceType()))
-                .isPromoted(product.getIsPromoted())
                 .build();
     }
 
@@ -509,10 +501,10 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-   /* private String generateStorageKey(Long productId, String originalFilename) {
+    private String generateStorageKey(Long productId, String originalFilename) {
         String cleanName = StringUtils.hasText(originalFilename) ? originalFilename.replaceAll("\\s+", "-") : "image";
         return "products/" + productId + "/" + UUID.randomUUID() + "-" + cleanName;
-    }*/
+    }
 
 
     private List<ProductImageResponse> getImages(Long productId) {
@@ -607,7 +599,6 @@ public class ProductServiceImpl implements ProductService {
         response.setViewsCountCache(product.getViewsCountCache());
         response.setFavoritesCountCache(product.getFavoritesCountCache());
         response.setCreatedAt(product.getCreatedAt());
-        response.setUpdatedAt(product.getModifiedDate());
         response.setImages(getImages(product.getId()));
         return response;
     }

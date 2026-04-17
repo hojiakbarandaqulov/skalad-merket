@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+/*
 @Configuration
 public class FeignClientConfig {
 
@@ -18,12 +19,8 @@ public class FeignClientConfig {
 
             if (attributes != null) {
                 HttpServletRequest request = attributes.getRequest();
-                String authHeader = request.getHeader("Authorization");
-
-                if (authHeader != null && authHeader.startsWith("Bearer ")) {
-                    requestTemplate.header("Authorization", authHeader);
-                }
             }
         };
     }
 }
+*/

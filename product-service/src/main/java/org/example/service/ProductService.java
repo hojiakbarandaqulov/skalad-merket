@@ -8,6 +8,7 @@ import org.example.dto.product.ProductResponse;
 import org.example.dto.product.UpdateProductRequest;
 import org.example.enums.AppLanguage;
 import org.example.enums.ProductModerationStatus;
+import org.example.enums.SaleType;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

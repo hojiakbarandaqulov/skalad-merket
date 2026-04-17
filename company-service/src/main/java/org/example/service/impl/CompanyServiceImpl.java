@@ -57,11 +57,7 @@ public class CompanyServiceImpl implements CompanyService {
         companyMap.setSlug(generateSlug(requestDTO.getName()));
         companyMap.setVerificationStatus(VerificationStatus.DRAFT);
         companyMap.setIsBlocked(false);
-
         Company saved = companyRepository.save(companyMap);
-        kafkaProducerService.sendUserRoleUpdate(UserRoleUpdateEvent.builder()
-                .userId(companyMap.getOwnerUserId())
-                .build());
         CompanyResponseDTO responseDTO = modelMapper.map(saved, CompanyResponseDTO.class);
         return ApiResponse.successResponse(responseDTO);
     }
