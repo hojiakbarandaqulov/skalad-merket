@@ -46,5 +46,8 @@ public class CreateProductRequest {
 
     private Long districtId;
 
+    @NotNull(message = "minProduct")
+    private Long minProduct;
+
     private Map<String, Object> attributes;
 }

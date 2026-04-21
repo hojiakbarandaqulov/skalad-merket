@@ -4,10 +4,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.shaded.com.google.protobuf.Api;
-import org.example.dto.ApiResponse;
-import org.example.dto.CompanyRequestDTO;
-import org.example.dto.CompanyResponseDTO;
-import org.example.dto.CompanyShortDTO;
+import org.example.dto.*;
 import org.example.enums.AppLanguage;
 import org.example.service.CompanyService;
 import org.springframework.http.MediaType;
@@ -56,12 +53,22 @@ public class CompanyController {
 
     @PostMapping(value = "/{id}/logo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('SELLER')")
-    public ApiResponse<String> uploadLogo(
+    public ApiResponse<UploadDTO> uploadLogo(
             @PathVariable Long id,
             @RequestParam("file") MultipartFile file,
             @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
-        String logoUrl = companyService.uploadLogo(id, file, language);
+        UploadDTO logoUrl = companyService.uploadLogo(id, file, language);
         return ApiResponse.successResponse(logoUrl);
+    }
+
+    @PostMapping(value = "/{companyId}/coverUrl", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasRole('SELLER')")
+    public ApiResponse<UploadDTO> uploadCoverUrl(
+            @PathVariable Long companyId,
+            @RequestParam("file") MultipartFile file,
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        UploadDTO coverUrl = companyService.uploadCoverUrl(companyId, file, language);
+        return ApiResponse.successResponse(coverUrl);
     }
 
     @PostMapping("/{id}/submit-verification")

@@ -51,6 +51,7 @@ public class SuperAdminInitializer {
             );
 
             users.setKeycloakId(keycloakId);
+            users.setFailedLoginCount(0);
             profileRepository.save(users);
             SuperAdminSendKeycloakId adminKeycloakId = new SuperAdminSendKeycloakId();
             adminKeycloakId.setKeycloakId(keycloakId);

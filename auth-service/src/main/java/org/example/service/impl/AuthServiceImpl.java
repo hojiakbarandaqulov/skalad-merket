@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
             }
         }
         String keycloakId = keycloakService.createUser(
-                dto.getFirstName(), dto.getLastName(), dto.getUsername(), dto.getPassword(), Roles.BUYER
+                dto.getFirstName(), dto.getLastName(), dto.getUsername(), dto.getPassword(), mapToRole(roles)
         );
 
         Users entity = new Users();

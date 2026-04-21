@@ -1,9 +1,6 @@
 package org.example.service;
 
-import org.example.dto.ApiResponse;
-import org.example.dto.CompanyRequestDTO;
-import org.example.dto.CompanyResponseDTO;
-import org.example.dto.CompanyShortDTO;
+import org.example.dto.*;
 import org.example.enums.AppLanguage;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,5 +20,7 @@ public interface CompanyService {
 
     void delete(Long id, AppLanguage language);
 
-    String uploadLogo(Long id, MultipartFile file, AppLanguage language);
+    UploadDTO uploadLogo(Long id, MultipartFile file, AppLanguage language);
+
+    UploadDTO uploadCoverUrl(Long companyId, MultipartFile file, AppLanguage language);
 }

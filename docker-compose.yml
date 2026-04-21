@@ -120,7 +120,7 @@ services:
       - MINIO_ROOT_USER=minioadmin
       - MINIO_ROOT_PASSWORD=minioadmin
     volumes:
-      - ./data:/data
+      - minio-data:/data
     command: server /data --console-address ":9001"
     restart: unless-stopped
 
@@ -147,5 +147,20 @@ services:
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
     restart: unless-stopped
+
+  minio-init:
+    image: minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      sleep 5;
+      mc alias set local http://minio:9000 minioadmin minioadmin;
+      mc mb local/skalad-market;
+      mc anonymous set public local/skalad-market;
+      exit 0;
+      "
+
 volumes:
   elasticsearch-data:
+  minio-data:

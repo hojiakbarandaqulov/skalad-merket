@@ -31,7 +31,7 @@ public class FavoriteServiceImpl implements FavoriteService {
     public PagedResponse<ProductResponse> getFavorites(int page, int perPage, AppLanguage language) {
         Long userId = requireProfileId(language);
         List<ProductResponse> items = favoriteRepository
-                .findByUserIdAndDeletedFalse(userId, PageRequest.of(0, Integer.MAX_VALUE))
+                .findByUserIdAndIsActiveTrue(userId, PageRequest.of(0, Integer.MAX_VALUE))
                 .map(favorite -> productRepository
                         .findByIdAndIsActiveTrue(favorite.getProductId())
                         .map(productService::toResponse)
@@ -47,7 +47,7 @@ public class FavoriteServiceImpl implements FavoriteService {
         Long userId = requireProfileId(language);
         productRepository.findByIdAndIsActiveTrue(productId)
                 .orElseThrow(() -> new AppBadException(messageService.getMessage("product.not.found", language)));
-        if (favoriteRepository.findByUserIdAndProductIdAndDeletedFalse(userId, productId).isPresent()) {
+        if (favoriteRepository.findByUserIdAndProductIdAndIsActiveTrue(userId, productId).isPresent()) {
             throw new AppBadException(messageService.getMessage("favorite.exists", language));
         }
         Favorite favorite = new Favorite();
@@ -60,9 +60,9 @@ public class FavoriteServiceImpl implements FavoriteService {
     @Override
     public FavoriteResponse remove(Long productId, AppLanguage language) {
         Long userId = requireProfileId(language);
-        Favorite favorite = favoriteRepository.findByUserIdAndProductIdAndDeletedFalse(userId, productId)
+        Favorite favorite = favoriteRepository.findByUserIdAndProductIdAndIsActiveTrue(userId, productId)
                 .orElseThrow(() -> new AppBadException(messageService.getMessage("favorite.not.found", language)));
-        favorite.setDeleted(Boolean.TRUE);
+        favorite.setIsActive(Boolean.FALSE);
         favoriteRepository.save(favorite);
         return new FavoriteResponse(false);
     }

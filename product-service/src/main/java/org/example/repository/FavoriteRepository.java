@@ -8,9 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
-    Page<Favorite> findByUserIdAndDeletedFalse(Long userId, Pageable pageable);
+    Page<Favorite> findByUserIdAndIsActiveTrue(Long userId, Pageable pageable);
 
-    Optional<Favorite> findByUserIdAndProductIdAndDeletedFalse(Long userId, Long productId);
+    Optional<Favorite> findByUserIdAndProductIdAndIsActiveTrue(Long userId, Long productId);
 
-    long countByProductIdAndDeletedFalse(Long productId);
+    long countByProductIdAndIsActiveTrue(Long productId);
 }

@@ -82,8 +82,8 @@ public class CatalogServiceImpl implements CatalogService {
                 .featuredProducts(featured)
                 .newProducts(latest)
                 .banners(List.of())
-                .topCategoryIds(latest.stream().map(ProductResponse::getCategoryId).filter(Objects::nonNull).distinct().toList())
-                .verifiedCompanyIds(latest.stream().map(ProductResponse::getCompanyId).filter(Objects::nonNull).distinct().toList())
+                .topCategories(latest.stream().map(ProductResponse::getCategoryId).filter(Objects::nonNull).distinct().toList())
+                .verifiedCompanies(latest.stream().map(ProductResponse::getCompanyId).filter(Objects::nonNull).distinct().toList())
                 .build();
     }
 

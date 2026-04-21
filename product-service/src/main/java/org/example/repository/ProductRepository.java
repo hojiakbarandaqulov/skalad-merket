@@ -10,13 +10,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findByIdAndDeletedAtIsNull(Long id);
-
-    Optional<Product> findBySlugAndModerationStatusAndIsActiveTrueAndDeletedAtIsNull(String slug, ProductModerationStatus moderationStatus);
 
     boolean existsBySlug(String slug);
 
@@ -35,4 +34,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      Optional<Product> findByIdAndIsActiveTrue(Long productId);
 
     Page<Product> findBySaleType(SaleType saleType, Pageable pageable);
+
+
+   Optional<Product> findBySlugAndModerationStatusAndDeletedAtIsNull(String slug, ProductModerationStatus productModerationStatus);
 }

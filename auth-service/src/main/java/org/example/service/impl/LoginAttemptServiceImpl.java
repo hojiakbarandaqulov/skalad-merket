@@ -23,8 +23,12 @@ public class LoginAttemptServiceImpl implements LoginAttemptService {
     public void handleFailedAttempt(Users user) {
         Users freshUser = userRepository.findById(user.getId())
                 .orElseThrow(() -> new AppBadException("user.not.found"));
-
-        int failedCount = freshUser.getFailedLoginCount() + 1;
+        int failedCount=0;
+        try {
+             failedCount = freshUser.getFailedLoginCount() + 1;
+        }catch (NullPointerException exception){
+          exception.printStackTrace();
+        }
         freshUser.setFailedLoginCount(failedCount);
 
         if (failedCount >= 5) {

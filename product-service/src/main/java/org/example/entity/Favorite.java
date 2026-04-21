@@ -17,7 +17,4 @@ public class Favorite extends BaseEntity {
     private Long userId;
     private Long productId;
 
-    @Column(nullable = false)
-    @ColumnDefault(value = "false")
-    private Boolean deleted = false;
 }

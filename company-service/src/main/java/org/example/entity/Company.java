@@ -31,6 +31,8 @@ public class Company extends BaseEntity {
 
     private String logoPath;
 
+    private String coverUrl;
+
     @Column(unique = true)
     private String stir;
 

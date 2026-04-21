@@ -6,7 +6,6 @@ import org.example.dto.CompanyRequestDTO;
 import org.example.dto.CompanyResponseDTO;
 import org.example.dto.CompanyShortDTO;
 import org.example.dto.UploadDTO;
-import org.example.dto.kafka.UserRoleUpdateEvent;
 import org.example.entity.Company;
 import org.example.enums.AppLanguage;
 import org.example.enums.VerificationStatus;
@@ -43,6 +42,7 @@ public class CompanyServiceImpl implements CompanyService {
     private final ResourceBundleService messageService;
 
     private static final int MAX_COMPANIES_PER_SELLER = 5;
+    private static final Long profileId = SpringSecurityUtil.getProfileId();
 
     @Override
     public ApiResponse<CompanyResponseDTO> create(CompanyRequestDTO requestDTO, AppLanguage language) {
@@ -64,8 +64,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public ApiResponse<List<CompanyShortDTO>> getMyCompanies(AppLanguage language) {
-        Long userId = SpringSecurityUtil.getProfileId();
-        Optional<Company> company = companyRepository.findByOwnerUserIdAndDeletedFalse(userId);
+        Optional<Company> company = companyRepository.findByOwnerUserIdAndDeletedFalse(profileId);
         if (company.isEmpty()) {
             throw new AppBadException(messageService.getMessage("company.not.found", language));
         }
@@ -89,8 +88,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Transactional
     @Override
     public ApiResponse<CompanyResponseDTO> update(Long id, CompanyRequestDTO dto, AppLanguage language) {
-        Long profileId = SpringSecurityUtil.getProfileId();
-        Company company = findOwnedCompany(id, profileId, language);
+        Company company = findOwnedCompany(id, language);
         company.setName(dto.getName());
         company.setShortDescription(dto.getShortDescription());
         company.setDescription(dto.getDescription());
@@ -108,8 +106,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void submitVerification(Long id, AppLanguage language) {
-        Long profileId = SpringSecurityUtil.getProfileId();
-        Company company = findOwnedCompany(id, profileId, language);
+        Company company = findOwnedCompany(id, language);
         if (!company.getVerificationStatus().equals(VerificationStatus.DRAFT)) {
             throw new AppBadException(messageService.getMessage("company.verification.failed", language));
         }
@@ -120,17 +117,15 @@ public class CompanyServiceImpl implements CompanyService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(Long id, AppLanguage language) {
-        Long profileId = SpringSecurityUtil.getProfileId();
-        Company company = findOwnedCompany(id, profileId, language);
+        Company company = findOwnedCompany(id, language);
         company.setDeletedAt(LocalDateTime.now());
         company.setDeleted(true);
         companyRepository.save(company);
     }
 
     @Override
-    public String uploadLogo(Long id, MultipartFile file, AppLanguage language) {
-        Long profileId = SpringSecurityUtil.getProfileId();
-        Company company = findOwnedCompany(id, profileId, language);
+    public UploadDTO uploadLogo(Long id, MultipartFile file, AppLanguage language) {
+        Company company = findOwnedCompany(id, language);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
@@ -147,10 +142,33 @@ public class CompanyServiceImpl implements CompanyService {
         }
         company.setLogoPath(uploadDTO.getUrl());
         companyRepository.save(company);
-        return company.getLogoPath();
+        return new UploadDTO(uploadDTO.getId(),company.getLogoPath());
     }
 
-    private Company findOwnedCompany(Long id, Long profileId, AppLanguage language) {
+    @Override
+    public UploadDTO uploadCoverUrl(Long companyId, MultipartFile file, AppLanguage language) {
+        Company company = findOwnedCompany(companyId, language);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("file", file.getResource());
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+        ResponseEntity<UploadDTO> response = restTemplate.postForEntity(
+                "http://localhost:8082/api/v1/attach/upload",
+                requestEntity,
+                UploadDTO.class
+        );
+        UploadDTO uploadDTO = response.getBody();
+        if (uploadDTO == null) {
+            throw new AppBadException(messageService.getMessage("logo.not.download", language));
+        }
+        company.setCoverUrl(uploadDTO.getUrl());
+        companyRepository.save(company);
+        return new UploadDTO(uploadDTO.getId(), company.getCoverUrl());
+    }
+
+    private Company findOwnedCompany(Long id, AppLanguage language) {
+        Long profileId=SpringSecurityUtil.getProfileId();
         return companyRepository.findByIdAndOwnerUserIdAndDeletedAtIsNull(id, profileId)
                 .orElseThrow(() -> new AppBadException(messageService.getMessage("company.not.found", language)));
     }

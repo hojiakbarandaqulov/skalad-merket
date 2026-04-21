@@ -17,7 +17,7 @@ public class ResourceBundleServiceImpl implements ResourceBundleService {
 
     @Override
     public String getMessage(String code, AppLanguage lang) {
-        return resourceBundle.getMessage(code,null, new Locale(lang.name()));
+        return resourceBundle.getMessage(code,null, new Locale(lang.name().toLowerCase()));
     }
 
     @Override

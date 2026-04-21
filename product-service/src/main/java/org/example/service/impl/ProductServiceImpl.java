@@ -83,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
         product.setSellerId(sellerId);
         product.setSlug(generateUniqueSlug(request.getName()));
         product.setModerationStatus(ProductModerationStatus.PENDING);
-        product.setIsActive(Boolean.TRUE);
+        product.setMinProduct(request.getMinProduct());
         product.setSaleType(request.getSaleType());
 
         Product saved = productRepository.save(product);
@@ -239,7 +239,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDetailResponse getPublicDetail(String slug, String sessionId, AppLanguage language) {
-        Product product = productRepository.findBySlugAndModerationStatusAndIsActiveTrueAndDeletedAtIsNull(slug, ProductModerationStatus.APPROVED)
+        Product product = productRepository.findBySlugAndModerationStatusAndDeletedAtIsNull(slug, ProductModerationStatus.APPROVED)
                 .orElseThrow(() -> new AppBadException(messageService.getMessage("product.not.found", language)));
 
         CompanySummaryResponse company = companyClient.getSummary(product.getCompanyId());
@@ -350,10 +350,10 @@ public class ProductServiceImpl implements ProductService {
     public ProductListResponse getAllProducts(int page, int perPage, AppLanguage language) {
         int resolvedPage = normalizePage(page, language);
         int resolvedPerPage = normalizePerPage(perPage, language);
-        Pageable pageable = PageRequest.of(resolvedPage-1, resolvedPerPage, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Pageable pageable = PageRequest.of(resolvedPage - 1, resolvedPerPage, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Product> all = productRepository.findAll(pageable);
 
-      return ProductListResponse.builder()
+        return ProductListResponse.builder()
                 .items(all.getContent().stream().map(this::toResponse).collect(Collectors.toList()))
                 .page(resolvedPage)
                 .perPage(resolvedPerPage)

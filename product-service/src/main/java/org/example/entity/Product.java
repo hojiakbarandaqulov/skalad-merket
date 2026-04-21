@@ -61,6 +61,8 @@ public class Product extends BaseEntity {
 
     private Long districtId;
 
+    private Long minProduct;
+
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
     private Map<String, Object> attributesJsonb = new HashMap<>();
@@ -68,8 +70,6 @@ public class Product extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ProductModerationStatus moderationStatus = ProductModerationStatus.PENDING;
-
-    private Boolean isActive = Boolean.TRUE;
 
     private Boolean isPromoted = Boolean.FALSE;
 
