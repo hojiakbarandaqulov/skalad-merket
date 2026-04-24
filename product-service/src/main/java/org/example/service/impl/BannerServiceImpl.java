@@ -3,7 +3,6 @@ package org.example.service.impl;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.RemoveObjectArgs;
-import io.minio.errors.*;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.banner.BannerCreate;
 import org.example.dto.banner.BannerCreateResponse;
@@ -20,10 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
