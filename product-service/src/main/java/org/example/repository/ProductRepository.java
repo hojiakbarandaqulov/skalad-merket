@@ -4,10 +4,14 @@ import org.example.entity.Product;
 import org.example.enums.ProductModerationStatus;
 import org.example.enums.SaleType;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -24,6 +28,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             Long productId,
             ProductModerationStatus moderationStatus
     );
+
     List<Product> findTop8ByModerationStatusAndIsActiveTrueAndDeletedAtIsNullOrderByCreatedAtDesc(ProductModerationStatus moderationStatus);
 
     List<Product> findTop8ByModerationStatusAndIsActiveTrueAndIsPromotedTrueAndDeletedAtIsNullOrderByCreatedAtDesc(ProductModerationStatus moderationStatus);
@@ -31,10 +36,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findAll(Specification<Product> specification, Pageable pageable);
 
-     Optional<Product> findByIdAndIsActiveTrue(Long productId);
+    Optional<Product> findByIdAndIsActiveTrue(Long productId);
 
     Page<Product> findBySaleType(SaleType saleType, Pageable pageable);
 
 
-   Optional<Product> findBySlugAndModerationStatusAndDeletedAtIsNull(String slug, ProductModerationStatus productModerationStatus);
+    Optional<Product> findBySlugAndModerationStatusAndDeletedAtIsNull(String slug, ProductModerationStatus productModerationStatus);
+
+    Page<Product> findByDeletedAtIsNullOrderByIsPromotedDescViewsCountCacheDesc(Pageable pageable);
+
+
 }

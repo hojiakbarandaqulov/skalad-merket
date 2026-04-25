@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db21a683-eacb-49fd-afa4-a62f94ff9031" name="Changes" comment="config starting">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/dto/CatalogHomepageResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/dto/CatalogHomepageResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/impl/CatalogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/org/example/service/impl/CatalogServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -352,7 +354,7 @@
       </method>
     </configuration>
     <configuration name="ReportServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="reposrt-service.main" />
+      <module name="report-service.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.ReportServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -418,6 +420,7 @@
       <workItem from="1775121172386" duration="2660000" />
       <workItem from="1775151098489" duration="11147000" />
       <workItem from="1776948002150" duration="611000" />
+      <workItem from="1777183235152" duration="461000" />
     </task>
     <task id="LOCAL-00001" summary="Merge remote changes">
       <option name="closed" value="true" />

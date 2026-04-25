@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductSearchServiceImpl implements ProductSearchService {
     private final ProductSearchRepository repository;
-    private final ProductSearchRepository searchRepository;
     private final ElasticsearchOperations elasticsearchOperations;
 
     @Override

@@ -35,4 +35,5 @@ public interface ProductService {
     void delete(Long id, AppLanguage language);
 
     ProductListResponse getAllProducts(int page, int perPage, AppLanguage language);
+
 }

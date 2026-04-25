@@ -133,4 +133,5 @@ public class ProductController {
             @RequestParam(value = "per_page", defaultValue = "20") int perPage) {
         return ApiResponse.successResponse(productSearchService.search(query,page, perPage));
     }
+
 }

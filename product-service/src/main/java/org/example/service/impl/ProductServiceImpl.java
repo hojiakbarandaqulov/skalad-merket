@@ -362,6 +362,8 @@ public class ProductServiceImpl implements ProductService {
                 .build();
     }
 
+
+
     private ProductDocument toDocument(Product product) {
         String primaryImageUrl = productImageRepository
                 .findByProduct_IdOrderBySortOrderAscIdAsc(product.getId())

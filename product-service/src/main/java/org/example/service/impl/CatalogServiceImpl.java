@@ -2,6 +2,7 @@ package org.example.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.dto.*;
+import org.example.dto.product.ProductDto;
 import org.example.dto.product.ProductResponse;
 import org.example.entity.Product;
 import org.example.enums.AppLanguage;
@@ -14,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -99,6 +101,32 @@ public class CatalogServiceImpl implements CatalogService {
         return new PageImpl<>(list, pagable, product.getTotalElements());
     }
 
+    @Override
+    public PageImpl<ProductDto> getPopularProduct(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Product> products = productRepository.findByDeletedAtIsNullOrderByIsPromotedDescViewsCountCacheDesc(pageable);
+        List<ProductDto> list =products.getContent().stream()
+                .map(this::toPopularProductResponse)
+                .collect(Collectors.toList());
+        return new PageImpl<>(list, pageable, products.getTotalElements());
+    }
+
+    private ProductDto toPopularProductResponse(Product p) {
+        ProductDto res = new ProductDto();
+        res.setId(p.getId());
+        res.setName(p.getName());
+        res.setSlug(p.getSlug());
+        res.setPrice(p.getPrice());
+        res.setPriceType(p.getPriceType());
+        res.setSaleType(p.getSaleType());
+        res.setCurrency(p.getCurrency());
+//        res.setImages(p.getImages());           // images
+        res.setViewsCountCache(p.getViewsCountCache());
+        res.setFavoritesCountCache(p.getFavoritesCountCache());
+        res.setIsPromoted(p.getIsPromoted());
+        return res;
+    }
+
     private ProductResponse toProductResponse(Product p) {
         ProductResponse res = new ProductResponse();
         res.setId(p.getId());
@@ -126,6 +154,7 @@ public class CatalogServiceImpl implements CatalogService {
 //        res.setImages(p.getImages());           // images
         return res;
     }
+
     private PagedResponse<ProductResponse> queryProducts(String q, String category, Long regionId, String currency, int page, int perPage) {
         Specification<Product> spec = (root, query, cb) -> cb.and(
                 cb.equal(root.get("moderationStatus"), ProductModerationStatus.APPROVED),

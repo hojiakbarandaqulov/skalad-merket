@@ -48,7 +48,7 @@ public class ReportAdminController {
             @RequestBody ReportResolveRequest request,
             @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language
     ) {
-        return ApiResponse.successResponse(reportService.reportResolve(id,request, language));
+        return ApiResponse.successResponse(reportService.reportResolve(id, request, language));
     }
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN')")
@@ -58,6 +58,6 @@ public class ReportAdminController {
             @RequestBody ReportResolveRequest request,
             @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language
     ) {
-        return ApiResponse.successResponse(reportService.reportReject(id, request,language));
+        return ApiResponse.successResponse(reportService.reportReject(id, request, language));
     }
 }

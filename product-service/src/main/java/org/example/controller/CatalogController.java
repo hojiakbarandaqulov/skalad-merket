@@ -2,6 +2,7 @@ package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.dto.*;
+import org.example.dto.product.ProductDto;
 import org.example.dto.product.ProductResponse;
 import org.example.dto.product.ProductSearchResponse;
 import org.example.enums.AppLanguage;
@@ -9,7 +10,6 @@ import org.example.enums.SaleType;
 import org.example.service.CatalogService;
 import org.example.service.ProductSearchService;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -64,7 +64,15 @@ public class CatalogController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int perPage,
             @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
-        return ApiResponse.successResponse(catalogService.getSaleTypeFilterProduct(page,perPage,saleType, language));
+        return ApiResponse.successResponse(catalogService.getSaleTypeFilterProduct(page, perPage, saleType, language));
+    }
+
+    @GetMapping("popular")
+    public ApiResponse<PageImpl<ProductDto>> getPopularFilterProduct(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "8") int size) {
+        PageImpl<ProductDto> result = catalogService.getPopularProduct(page, size);
+        return ApiResponse.successResponse(result);
     }
 
 }

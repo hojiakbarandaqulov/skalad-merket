@@ -1,6 +1,7 @@
 package org.example.service;
 
 import org.example.dto.*;
+import org.example.dto.product.ProductDto;
 import org.example.dto.product.ProductResponse;
 import org.example.enums.AppLanguage;
 import org.example.enums.SaleType;
@@ -18,4 +19,6 @@ public interface CatalogService {
     CatalogHomepageResponse homepage(AppLanguage language);
 
     PageImpl<ProductResponse> getSaleTypeFilterProduct(int page, int perPage, SaleType saleType, AppLanguage language);
+
+    PageImpl<ProductDto> getPopularProduct(int page, int size);
 }
