@@ -1,21 +1,24 @@
 package org.example.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dto.ApiResponse;
-import org.example.dto.CompanyRequestDTO;
-import org.example.dto.CompanyResponseDTO;
-import org.example.dto.CompanyShortDTO;
-import org.example.dto.UploadDTO;
+import org.example.dto.*;
 import org.example.entity.Company;
+import org.example.entity.CompanyDocument;
 import org.example.enums.AppLanguage;
 import org.example.enums.VerificationStatus;
 import org.example.exp.AppBadException;
+import org.example.repository.CompanyDocumentRepository;
 import org.example.repository.CompanyRepository;
 import org.example.service.CompanyService;
 import org.example.service.KafkaProducerService;
 import org.example.service.ResourceBundleService;
 import org.example.utils.SpringSecurityUtil;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -24,25 +27,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
     private final CompanyRepository companyRepository;
+    private final CompanyDocumentRepository companyDocumentRepository;
     private final KafkaProducerService kafkaProducerService;
     private final ModelMapper modelMapper;
     private final RestTemplate restTemplate;
     private final ResourceBundleService messageService;
 
     private static final int MAX_COMPANIES_PER_SELLER = 5;
-    private static final Long profileId = SpringSecurityUtil.getProfileId();
 
     @Override
     public ApiResponse<CompanyResponseDTO> create(CompanyRequestDTO requestDTO, AppLanguage language) {
@@ -58,18 +60,27 @@ public class CompanyServiceImpl implements CompanyService {
         companyMap.setVerificationStatus(VerificationStatus.DRAFT);
         companyMap.setIsBlocked(false);
         Company saved = companyRepository.save(companyMap);
-        CompanyResponseDTO responseDTO = modelMapper.map(saved, CompanyResponseDTO.class);
-        return ApiResponse.successResponse(responseDTO);
+        return ApiResponse.successResponse(toResponse(saved));
     }
 
     @Override
     public ApiResponse<List<CompanyShortDTO>> getMyCompanies(AppLanguage language) {
-        Optional<Company> company = companyRepository.findByOwnerUserIdAndDeletedFalse(profileId);
-        if (company.isEmpty()) {
-            throw new AppBadException(messageService.getMessage("company.not.found", language));
-        }
-        List<CompanyShortDTO> companyShortDTO = Collections.singletonList(modelMapper.map(company.get(), CompanyShortDTO.class));
+        Long profileId = SpringSecurityUtil.getProfileId();
+        List<CompanyShortDTO> companyShortDTO = companyRepository.findAllByOwnerUserIdAndDeletedAtIsNull(profileId)
+                .stream()
+                .map(this::toShortResponse)
+                .toList();
         return ApiResponse.successResponse(companyShortDTO);
+    }
+
+    @Override
+    public ApiResponse<PageImpl<CompanyShortDTO>> getPublicCompanies(int page, int perPage, AppLanguage language) {
+        return ApiResponse.successResponse(getPublicCompanyPage(null, null, null, page, perPage, language));
+    }
+
+    @Override
+    public ApiResponse<PageImpl<CompanyShortDTO>> search(String q, Boolean verified, Long category, Long regionId, int page, int perPage, AppLanguage language) {
+        return ApiResponse.successResponse(getPublicCompanyPage(q, verified, regionId, page, perPage, language));
     }
 
     @Override
@@ -81,8 +92,38 @@ public class CompanyServiceImpl implements CompanyService {
         if (company == null) {
             throw new AppBadException(messageService.getMessage("company.not.found", language));
         }
-        CompanyResponseDTO responseDTO = modelMapper.map(company, CompanyResponseDTO.class);
-        return ApiResponse.successResponse(responseDTO);
+        return ApiResponse.successResponse(toResponse(company));
+    }
+
+    @Override
+    public ApiResponse<PageImpl<CompanyProductResponse>> getCompanyProducts(String slug, int page, int perPage, AppLanguage language) {
+        int resolvedPage = normalizePage(page, language);
+        int resolvedPerPage = normalizePerPage(perPage, language);
+        Company company = companyRepository.findBySlugAndDeletedAtIsNullAndVerificationStatusIn(
+                slug,
+                List.of(VerificationStatus.VERIFIED, VerificationStatus.PENDING_VERIFICATION)
+        );
+        if (company == null) {
+            throw new AppBadException(messageService.getMessage("company.not.found", language));
+        }
+
+        CompanyProductListResponse productList = restTemplate.getForObject(
+                "http://localhost:8085/internal/products/company/{companyId}?page={page}&per_page={perPage}",
+                CompanyProductListResponse.class,
+                company.getId(),
+                resolvedPage,
+                resolvedPerPage
+        );
+
+        if (productList == null) {
+            return ApiResponse.successResponse(new PageImpl<>(List.of(), PageRequest.of(resolvedPage - 1, resolvedPerPage), 0));
+        }
+
+        return ApiResponse.successResponse(new PageImpl<>(
+                productList.getItems() == null ? List.of() : productList.getItems(),
+                PageRequest.of(Math.max(productList.getPage() - 1, 0), productList.getPerPage()),
+                productList.getTotalElements() == null ? 0 : productList.getTotalElements()
+        ));
     }
 
     @Transactional
@@ -100,8 +141,28 @@ public class CompanyServiceImpl implements CompanyService {
         company.setDistrictId(dto.getDistrictId());
         company.setAddress(dto.getAddress());
         Company saved = companyRepository.save(company);
-        CompanyResponseDTO map = modelMapper.map(saved, CompanyResponseDTO.class);
-        return ApiResponse.successResponse(map);
+        return ApiResponse.successResponse(toResponse(saved));
+    }
+
+    @Override
+    public ApiResponse<CompanyDocumentResponse> addDocument(Long id, CompanyDocumentCreateRequest request, AppLanguage language) {
+        findOwnedCompany(id, language);
+        CompanyDocument document = new CompanyDocument();
+        document.setCompanyId(id);
+        document.setDocumentType(request.getDocumentType());
+        document.setAttachId(request.getAttachId());
+        document.setFileUrl(request.getFileUrl());
+        CompanyDocument saved = companyDocumentRepository.save(document);
+
+        CompanyDocumentResponse response = new CompanyDocumentResponse();
+        response.setId(saved.getId());
+        response.setCompanyId(saved.getCompanyId());
+        response.setDocumentType(saved.getDocumentType());
+        response.setAttachId(saved.getAttachId());
+        response.setFileUrl(saved.getFileUrl());
+        response.setStatus(saved.getStatus());
+        response.setCreatedAt(saved.getCreatedDate());
+        return ApiResponse.successResponse(response);
     }
 
     @Override
@@ -142,7 +203,7 @@ public class CompanyServiceImpl implements CompanyService {
         }
         company.setLogoPath(uploadDTO.getUrl());
         companyRepository.save(company);
-        return new UploadDTO(uploadDTO.getId(),company.getLogoPath());
+        return new UploadDTO(uploadDTO.getId(), company.getLogoPath());
     }
 
     @Override
@@ -167,15 +228,97 @@ public class CompanyServiceImpl implements CompanyService {
         return new UploadDTO(uploadDTO.getId(), company.getCoverUrl());
     }
 
+    private PageImpl<CompanyShortDTO> getPublicCompanyPage(String q, Boolean verified, Long regionId, int page, int perPage, AppLanguage language) {
+        int resolvedPage = normalizePage(page, language);
+        int resolvedPerPage = normalizePerPage(perPage, language);
+        Specification<Company> specification = Specification.where(notDeleted())
+                .and((root, query, cb) -> cb.isFalse(root.get("isBlocked")));
+
+        List<VerificationStatus> allowedStatuses = verified == null
+                ? List.of(VerificationStatus.VERIFIED, VerificationStatus.PENDING_VERIFICATION)
+                : verified ? List.of(VerificationStatus.VERIFIED) : List.of(VerificationStatus.PENDING_VERIFICATION);
+        specification = specification.and((root, query, cb) -> root.get("verificationStatus").in(allowedStatuses));
+
+        if (StringUtils.hasText(q)) {
+            String like = "%" + q.trim().toLowerCase() + "%";
+            specification = specification.and((root, query, cb) -> cb.or(
+                    cb.like(cb.lower(root.get("name")), like),
+                    cb.like(cb.lower(root.get("slug")), like),
+                    cb.like(cb.lower(root.get("description")), like)
+            ));
+        }
+        if (regionId != null) {
+            specification = specification.and((root, query, cb) -> cb.equal(root.get("regionId"), regionId));
+        }
+
+        PageRequest pageRequest = PageRequest.of(resolvedPage - 1, resolvedPerPage, Sort.by(Sort.Direction.DESC, "createdDate"));
+        Page<Company> result = companyRepository.findAll(specification, pageRequest);
+        List<CompanyShortDTO> items = result.getContent().stream().map(this::toShortResponse).toList();
+        return new PageImpl<>(items, pageRequest, result.getTotalElements());
+    }
+
     private Company findOwnedCompany(Long id, AppLanguage language) {
-        Long profileId=SpringSecurityUtil.getProfileId();
+        Long profileId = SpringSecurityUtil.getProfileId();
         return companyRepository.findByIdAndOwnerUserIdAndDeletedAtIsNull(id, profileId)
                 .orElseThrow(() -> new AppBadException(messageService.getMessage("company.not.found", language)));
+    }
+
+    private CompanyResponseDTO toResponse(Company company) {
+        CompanyResponseDTO response = new CompanyResponseDTO();
+        response.setId(company.getId());
+        response.setName(company.getName());
+        response.setSlug(company.getSlug());
+        response.setShortDescription(company.getShortDescription());
+        response.setDescription(company.getDescription());
+        response.setLogoUrl(company.getLogoPath());
+        response.setCoverUrl(company.getCoverUrl());
+        response.setStir(company.getStir());
+        response.setPhonePrimary(company.getPhonePrimary());
+        response.setPhoneSecondary(company.getPhoneSecondary());
+        response.setWebsite(company.getWebsite());
+        response.setRegionId(company.getRegionId());
+        response.setDistrictId(company.getDistrictId());
+        response.setAddress(company.getAddress());
+        response.setVerificationStatus(company.getVerificationStatus());
+        response.setIsBlocked(company.getIsBlocked());
+        response.setVerifiedAt(company.getVerifiedAt());
+        response.setCreatedAt(company.getCreatedDate());
+        return response;
+    }
+
+    private CompanyShortDTO toShortResponse(Company company) {
+        CompanyShortDTO response = new CompanyShortDTO();
+        response.setId(company.getId());
+        response.setName(company.getName());
+        response.setSlug(company.getSlug());
+        response.setLogoUrl(company.getLogoPath());
+        response.setVerificationStatus(company.getVerificationStatus());
+        response.setIsBlocked(company.getIsBlocked());
+        response.setCreatedAt(company.getCreatedDate());
+        return response;
+    }
+
+    private Specification<Company> notDeleted() {
+        return (root, query, cb) -> cb.isNull(root.get("deletedAt"));
     }
 
     private String generateSlug(String name) {
         return name.toLowerCase()
                 .replaceAll("[^a-z0-9]+", "-")
                 .replaceAll("^-|-$", "");
+    }
+
+    private int normalizePage(int page, AppLanguage language) {
+        if (page < 1) {
+            throw new AppBadException(messageService.getMessage("page.invalid", language));
+        }
+        return page;
+    }
+
+    private int normalizePerPage(int perPage, AppLanguage language) {
+        if (perPage < 1 || perPage > 100) {
+            throw new AppBadException(messageService.getMessage("per.page.invalid", language));
+        }
+        return perPage;
     }
 }

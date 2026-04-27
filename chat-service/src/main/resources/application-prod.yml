@@ -1,5 +1,6 @@
 server:
-  domain: http://localhost
+  address: 0.0.0.0
+  domain: ${SERVER_DOMAIN:http://45.138.159.253}
   port: 8087
 
 spring:
@@ -7,9 +8,9 @@ spring:
     name: chat-service
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/skalad-market-chat-db
-    username: postgres
-    password: 1234
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5439}/${DB_NAME:skalad-market-chat-db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:1234}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -25,10 +26,22 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:9090/realms/market-realm
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://45.138.159.253:9090/realms/market-realm}
 
 aws:
-  url: http://localhost:9000
-  access-key: minioadmin
-  secret-key: minioadmin
-  bucket-name: skalad-market
+  url: ${MINIO_URL:http://45.138.159.253:9000}
+  access-key: ${MINIO_ACCESS_KEY:minioadmin}
+  secret-key: ${MINIO_SECRET_KEY:minioadmin}
+  bucket-name: ${MINIO_BUCKET:skalad-market}
+
+media:
+  base-url: ${MEDIA_BASE_URL:http://45.138.159.253:9000/skalad-market}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://45.138.159.253:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+    ip-address: ${SERVER_IP:45.138.159.253}
+    instance-id: ${spring.application.name}:${server.port}

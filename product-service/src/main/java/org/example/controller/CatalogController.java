@@ -12,6 +12,8 @@ import org.example.service.ProductSearchService;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/catalog")
@@ -53,6 +55,12 @@ public class CatalogController {
         return ApiResponse.successResponse(catalogService.filters(category, language));
     }
 
+    @GetMapping("/category-counts")
+    public ApiResponse<List<CategoryCountResponse>> getCategoryCounts(
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        return ApiResponse.successResponse(catalogService.categoryCounts(language));
+    }
+
     @GetMapping("/homepage")
     public ApiResponse<CatalogHomepageResponse> homepage(@RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         return ApiResponse.successResponse(catalogService.homepage(language));
@@ -67,12 +75,11 @@ public class CatalogController {
         return ApiResponse.successResponse(catalogService.getSaleTypeFilterProduct(page, perPage, saleType, language));
     }
 
-    @GetMapping("popular")
+    @GetMapping("/popular")
     public ApiResponse<PageImpl<ProductDto>> getPopularFilterProduct(
-            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "8") int size) {
         PageImpl<ProductDto> result = catalogService.getPopularProduct(page, size);
         return ApiResponse.successResponse(result);
     }
-
 }

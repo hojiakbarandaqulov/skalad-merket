@@ -1,15 +1,19 @@
 package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.dto.admin.ReasonRequest;
 import org.example.dto.internal.CompanyInternalOwnershipResponse;
 import org.example.dto.internal.CompanyInternalSummaryResponse;
 import org.example.entity.Company;
+import org.example.enums.AppLanguage;
 import org.example.enums.VerificationStatus;
 import org.example.exp.AppBadException;
 import org.example.repository.CompanyRepository;
+import org.example.service.AdminCompanyService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,6 +21,7 @@ import java.util.List;
 public class CompanyInternalController {
 
     private final CompanyRepository companyRepository;
+    private final AdminCompanyService adminCompanyService;
 
     @GetMapping("/{companyId}/ownership-check")
     public CompanyInternalOwnershipResponse ownershipCheck(@PathVariable Long companyId, @RequestParam Long buyerId) {
@@ -32,7 +37,7 @@ public class CompanyInternalController {
 
         boolean active = !Boolean.TRUE.equals(company.getIsBlocked())
                 && company.getDeletedAt() == null
-                && company.getVerificationStatus() == VerificationStatus.VERIFIED || company.getVerificationStatus() == VerificationStatus.PENDING_VERIFICATION;
+                && (company.getVerificationStatus() == VerificationStatus.VERIFIED || company.getVerificationStatus() == VerificationStatus.PENDING_VERIFICATION);
 
         return CompanyInternalOwnershipResponse.builder()
                 .companyId(companyId)
@@ -57,9 +62,20 @@ public class CompanyInternalController {
 
         return CompanyInternalSummaryResponse.builder()
                 .id(company.getId())
+                .ownerUserId(company.getOwnerUserId())
                 .name(company.getName())
                 .slug(company.getSlug())
                 .logoPath(company.getLogoPath())
                 .build();
+    }
+
+    @GetMapping("/stats/pending-count")
+    public Map<String, Long> pendingCount() {
+        return Map.of("count", companyRepository.countByVerificationStatusAndDeletedAtIsNull(VerificationStatus.PENDING_VERIFICATION));
+    }
+
+    @PutMapping("/{companyId}/block")
+    public void block(@PathVariable Long companyId, @RequestBody(required = false) ReasonRequest request) {
+        adminCompanyService.block(companyId, request, AppLanguage.UZ);
     }
 }

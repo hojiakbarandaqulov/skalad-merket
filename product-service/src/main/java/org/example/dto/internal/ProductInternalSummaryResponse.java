@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 public class ProductInternalSummaryResponse {
     private Long id;
     private Long companyId;
+    private Long sellerId;
     private String name;
     private String slug;
     private BigDecimal price;

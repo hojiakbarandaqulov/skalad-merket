@@ -14,6 +14,8 @@ public class RegistrationDTO {
     @NotBlank(message = "lastName required")
     private String lastName;
 
+    private String companyName;
+
     @NotBlank(message = "username required")
     private String username;
 

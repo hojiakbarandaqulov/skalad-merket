@@ -5,5 +5,6 @@ import lombok.Data;
 @Data
 public class BannerResponse {
     private Long id;
+    private String targetUrl;
     private String imageUrl;
 }

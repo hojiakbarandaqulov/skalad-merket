@@ -9,6 +9,8 @@ import org.example.entity.base.BaseEntity;
 import org.example.enums.LeadSource;
 import org.example.enums.LeadStatus;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Setter
@@ -22,6 +24,9 @@ public class Lead extends BaseEntity {
     private LeadStatus status = LeadStatus.NEW;
     private String contactName;
     private String contactPhone;
+    private String contactEmail;
+    private String deliveryAddress;
+    private LocalDate neededDate;
     private String comment;
     private String closeReason;
 }

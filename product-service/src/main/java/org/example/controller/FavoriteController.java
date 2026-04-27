@@ -3,6 +3,7 @@ package org.example.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.ApiResponse;
 import org.example.dto.PagedResponse;
+import org.example.dto.favorite.FavoriteCountResponse;
 import org.example.dto.favorite.FavoriteResponse;
 import org.example.dto.product.ProductResponse;
 import org.example.enums.AppLanguage;
@@ -20,6 +21,11 @@ public class FavoriteController {
                                                                     @RequestParam(defaultValue = "20") int perPage,
                                                                     @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         return ApiResponse.successResponse(favoriteService.getFavorites(page, perPage, language));
+    }
+
+    @GetMapping("/count")
+    public ApiResponse<FavoriteCountResponse> getCount(@RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        return ApiResponse.successResponse(favoriteService.getCount(language));
     }
 
     @PostMapping("/{productId}")

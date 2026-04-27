@@ -2,6 +2,7 @@ package org.example.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.dto.*;
+import org.example.dto.banner.BannerResponse;
 import org.example.dto.product.ProductDto;
 import org.example.dto.product.ProductResponse;
 import org.example.entity.Product;
@@ -10,7 +11,9 @@ import org.example.enums.Currency;
 import org.example.enums.ProductModerationStatus;
 import org.example.enums.SaleType;
 import org.example.repository.ProductRepository;
+import org.example.service.BannerService;
 import org.example.service.CatalogService;
+import org.example.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -28,6 +31,7 @@ import java.util.stream.Collectors;
 public class CatalogServiceImpl implements CatalogService {
     private final ProductRepository productRepository;
     private final ProductServiceImpl productService;
+    private final BannerService bannerService;
     private final ModelMapper modelMapper;
 
     @Override
@@ -75,15 +79,21 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
+    public List<CategoryCountResponse> categoryCounts(AppLanguage language) {
+        return productRepository.countVisibleProductsByCategory(ProductModerationStatus.APPROVED);
+    }
+
+    @Override
     public CatalogHomepageResponse homepage(AppLanguage language) {
         List<ProductResponse> featured = productRepository.findTop8ByModerationStatusAndIsActiveTrueAndIsPromotedTrueAndDeletedAtIsNullOrderByCreatedAtDesc(ProductModerationStatus.APPROVED)
                 .stream().map(productService::toResponse).toList();
         List<ProductResponse> latest = productRepository.findTop8ByModerationStatusAndIsActiveTrueAndDeletedAtIsNullOrderByCreatedAtDesc(ProductModerationStatus.APPROVED)
                 .stream().map(productService::toResponse).toList();
+        List<BannerResponse> bannerUrl = bannerService.getAllBanners(language);
         return CatalogHomepageResponse.builder()
                 .featuredProducts(featured)
                 .newProducts(latest)
-                .banners(List.of())
+                .banners(bannerUrl)
                 .topCategories(latest.stream().map(ProductResponse::getCategoryId).filter(Objects::nonNull).distinct().toList())
                 .verifiedCompanies(latest.stream().map(ProductResponse::getCompanyId).filter(Objects::nonNull).distinct().toList())
                 .build();
@@ -184,4 +194,5 @@ public class CatalogServiceImpl implements CatalogService {
     private boolean isVisible(Product product) {
         return product.getModerationStatus() == ProductModerationStatus.APPROVED && Boolean.TRUE.equals(product.getIsActive());
     }
+
 }

@@ -28,7 +28,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(AUTH_WHITELIST).permitAll()
                         .requestMatchers("/internal/**").permitAll()
-                        .requestMatchers("/api/v1/notifications/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(auth2 -> auth2.jwt(Customizer.withDefaults()));

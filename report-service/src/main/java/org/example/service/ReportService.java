@@ -1,6 +1,5 @@
 package org.example.service;
 
-import org.example.dto.ApiResponse;
 import org.example.dto.report.*;
 import org.example.enums.AppLanguage;
 import org.example.enums.ReportStatus;
@@ -18,4 +17,10 @@ public interface ReportService {
     ReportResolveResponse reportResolve(Long id, ReportResolveRequest request, AppLanguage language);
 
     ReportResolveResponse reportReject(Long id, ReportResolveRequest request, AppLanguage language);
+
+    AdminDashboardResponse getDashboard();
+
+    ReportResolveResponse warnUser(Long id, ReportWarnRequest request, AppLanguage language);
+
+    ReportResolveResponse blockTarget(Long id, ReportBlockRequest request, AppLanguage language);
 }

@@ -16,4 +16,6 @@ public interface ReportRepository extends JpaRepository<Report, Long>{
     Page<Report> findAll(Specification<Report> spec, Pageable pageable);
 
     Optional<Report> findByIdAndDeletedFalse(Long id);
+
+    long countByStatusAndDeletedFalse(org.example.enums.ReportStatus status);
 }

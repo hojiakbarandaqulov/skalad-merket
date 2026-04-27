@@ -21,4 +21,6 @@ public interface BannerService {
     void delete(Long id, AppLanguage language);
 
     List<BannerResponse> getBanners(PlacementCode placementCode, AppLanguage language);
+    List<BannerResponse> getAllBanners(AppLanguage language);
+
 }

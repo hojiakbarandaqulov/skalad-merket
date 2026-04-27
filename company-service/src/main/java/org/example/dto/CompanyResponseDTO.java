@@ -15,6 +15,7 @@ public class CompanyResponseDTO {
     private String shortDescription;
     private String description;
     private String logoUrl;
+    private String coverUrl;
     private String stir;
     private String phonePrimary;
     private String phoneSecondary;

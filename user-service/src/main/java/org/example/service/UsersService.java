@@ -2,6 +2,7 @@ package org.example.service;
 
 import org.example.dto.ApiResponse;
 import org.example.dto.users.AdminUserDetailResponse;
+import org.example.dto.users.UserContextResponse;
 import org.example.dto.users.UsersDTO;
 import org.example.dto.users.UsersResponse;
 import org.example.dto.users.UsersUpdatePhoto;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.PageImpl;
 
 public interface UsersService {
     ApiResponse<UsersDTO> getProfile(AppLanguage language);
+
+    ApiResponse<UserContextResponse> getContext(AppLanguage language);
 
     ApiResponse<UsersUpdateRequestDTO> updateProfile(UsersUpdateRequestDTO profileDTO, AppLanguage language);
 

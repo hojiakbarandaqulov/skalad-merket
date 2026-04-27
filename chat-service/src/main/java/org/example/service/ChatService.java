@@ -17,7 +17,11 @@ public interface ChatService {
 
     UploadAttachmentResponse uploadAttachment(Long threadId, MultipartFile file);
 
+    UploadAttachmentResponse uploadFileAttachment(Long threadId, MultipartFile file);
+
     void hideThread(Long threadId);
+
+    void blockThread(Long threadId);
 
     WsTokenResponse issueWsToken();
 

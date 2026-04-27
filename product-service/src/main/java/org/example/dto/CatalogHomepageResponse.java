@@ -3,6 +3,7 @@ package org.example.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.dto.banner.BannerResponse;
 import org.example.dto.product.ProductResponse;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 public class CatalogHomepageResponse {
     private List<ProductResponse> featuredProducts;
     private List<ProductResponse> newProducts;
-    private List<String> banners;
+    private List<BannerResponse> banners;
     private List<Long> topCategories;
     private List<Long> verifiedCompanies;
 }

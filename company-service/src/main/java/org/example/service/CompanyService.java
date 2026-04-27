@@ -2,6 +2,7 @@ package org.example.service;
 
 import org.example.dto.*;
 import org.example.enums.AppLanguage;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -12,9 +13,17 @@ public interface CompanyService {
 
     ApiResponse<List<CompanyShortDTO>> getMyCompanies(AppLanguage language);
 
+    ApiResponse<PageImpl<CompanyShortDTO>> getPublicCompanies(int page, int perPage, AppLanguage language);
+
+    ApiResponse<PageImpl<CompanyShortDTO>> search(String q, Boolean verified, Long category, Long regionId, int page, int perPage, AppLanguage language);
+
     ApiResponse<CompanyResponseDTO> getBySlug(String slug, AppLanguage language);
 
+    ApiResponse<PageImpl<CompanyProductResponse>> getCompanyProducts(String slug, int page, int perPage, AppLanguage language);
+
     ApiResponse<CompanyResponseDTO> update(Long id, CompanyRequestDTO dto, AppLanguage language);
+
+    ApiResponse<CompanyDocumentResponse> addDocument(Long id, CompanyDocumentCreateRequest request, AppLanguage language);
 
     void submitVerification(Long id, AppLanguage language);
 

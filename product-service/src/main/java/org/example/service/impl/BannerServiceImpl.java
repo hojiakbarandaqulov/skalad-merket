@@ -87,6 +87,7 @@ public class BannerServiceImpl implements BannerService {
         bannerRepository.save(bannerEntity);
         BannerResponse bannerResponse = new BannerResponse();
         bannerResponse.setId(bannerEntity.getId());
+        bannerResponse.setTargetUrl(bannerEntity.getTargetUrl());
         bannerResponse.setImageUrl(url + "/" + bucketName + "/" + storageKey);
         return bannerResponse;
     }
@@ -120,7 +121,7 @@ public class BannerServiceImpl implements BannerService {
                             .build()
             );
         } catch (Exception e) {
-            throw new AppBadException(messageService.getMessage("banner.delete.failed",language));
+            throw new AppBadException(messageService.getMessage("banner.delete.failed", language));
         }
         bannerRepository.deleteById(id);
     }
@@ -133,10 +134,18 @@ public class BannerServiceImpl implements BannerService {
                 this::toDTO).toList();
     }
 
+    @Override
+    public List<BannerResponse> getAllBanners(AppLanguage language) {
+        List<Banners> all = bannerRepository.findAll();
+        return all.stream().map(
+                this::toDTO
+        ).toList();
+    }
+
     private BannerResponse toDTO(Banners banners) {
         BannerResponse dto = new BannerResponse();
         dto.setId(banners.getId());
-        dto.setImageUrl(banners.getTargetUrl());
+        dto.setTargetUrl(banners.getTargetUrl());
         dto.setImageUrl(url + "/" + bucketName + "/" + banners.getImageKey());
         return dto;
     }

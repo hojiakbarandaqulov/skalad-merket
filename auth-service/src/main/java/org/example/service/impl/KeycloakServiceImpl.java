@@ -357,5 +357,4 @@ public class KeycloakServiceImpl implements KeycloakService {
                 (Integer) responseBody.get("expires_in")
         );
     }
-
 }

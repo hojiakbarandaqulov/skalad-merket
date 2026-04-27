@@ -1,11 +1,9 @@
 package org.example.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.ApiResponse;
-import org.example.dto.report.ReportInfoResponse;
-import org.example.dto.report.ReportResolveRequest;
-import org.example.dto.report.ReportResolveResponse;
-import org.example.dto.report.ReportResponse;
+import org.example.dto.report.*;
 import org.example.enums.AppLanguage;
 import org.example.enums.ReportStatus;
 import org.example.enums.TargetType;
@@ -59,5 +57,25 @@ public class ReportAdminController {
             @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language
     ) {
         return ApiResponse.successResponse(reportService.reportReject(id, request, language));
+    }
+
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN')")
+    @PutMapping("/{id}/warn-user")
+    public ApiResponse<ReportResolveResponse> warnUser(
+            @PathVariable Long id,
+            @RequestBody @Valid ReportWarnRequest request,
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language
+    ) {
+        return ApiResponse.successResponse(reportService.warnUser(id, request, language));
+    }
+
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN')")
+    @PutMapping("/{id}/block-target")
+    public ApiResponse<ReportResolveResponse> blockTarget(
+            @PathVariable Long id,
+            @RequestBody @Valid ReportBlockRequest request,
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language
+    ) {
+        return ApiResponse.successResponse(reportService.blockTarget(id, request, language));
     }
 }

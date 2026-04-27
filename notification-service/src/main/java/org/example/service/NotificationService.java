@@ -6,6 +6,8 @@ import org.example.dto.notification.*;
 public interface NotificationService {
     PagedResponse<NotificationResponse> getNotifications(Boolean isRead, int page, int perPage);
 
+    UnreadCountResponse getUnreadCount();
+
     void markRead(MarkReadRequest request);
 
     NotificationPreferencesResponse getPreferences();

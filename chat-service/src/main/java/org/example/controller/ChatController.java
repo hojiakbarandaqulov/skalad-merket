@@ -60,6 +60,14 @@ public class ChatController {
         return ApiResponse.successResponse(chatService.uploadAttachment(threadId, file));
     }
 
+    @PostMapping(value = "/{threadId}/messages/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponse<UploadAttachmentResponse> uploadFile(
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") String language,
+            @PathVariable Long threadId,
+            @RequestParam("file") MultipartFile file) {
+        return ApiResponse.successResponse(chatService.uploadFileAttachment(threadId, file));
+    }
+
     @DeleteMapping("/{threadId}")
     public ApiResponse<Map<String, String>> hideThread(
             @RequestHeader(value = "Accept-Language", defaultValue = "UZ") String language,

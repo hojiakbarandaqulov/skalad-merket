@@ -2,6 +2,7 @@ package org.example.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.dto.PagedResponse;
+import org.example.dto.favorite.FavoriteCountResponse;
 import org.example.dto.favorite.FavoriteResponse;
 import org.example.dto.product.ProductResponse;
 import org.example.entity.Favorite;
@@ -40,6 +41,12 @@ public class FavoriteServiceImpl implements FavoriteService {
                 .filter(Objects::nonNull)
                 .stream().collect(Collectors.toList());
         return ServiceHelper.toPagedResponse(items, page, perPage);
+    }
+
+    @Override
+    public FavoriteCountResponse getCount(AppLanguage language) {
+        Long userId = requireProfileId(language);
+        return new FavoriteCountResponse(favoriteRepository.countByUserIdAndIsActiveTrue(userId));
     }
 
     @Override

@@ -26,7 +26,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -185,25 +184,16 @@ public class ChatServiceImpl implements ChatService {
         Long currentUserId = requireCurrentUserId();
         resolveThreadContext(currentUserId, threadId);
         validateImage(file);
+        return uploadFileToStorage(threadId, file);
+    }
 
-        String extension = extractExtension(file.getOriginalFilename());
-        String objectKey = "chat/" + threadId + "/" + UUID.randomUUID() + "." + extension;
-
-        try (InputStream inputStream = file.getInputStream()) {
-            minioClient.putObject(PutObjectArgs.builder()
-                    .bucket(bucketName)
-                    .object(objectKey)
-                    .stream(inputStream, file.getSize(), -1)
-                    .contentType(file.getContentType())
-                    .build());
-        } catch (Exception e) {
-            throw new AppBadException("Attachment upload failed");
-        }
-
-        return UploadAttachmentResponse.builder()
-                .attachmentKey(objectKey)
-                .attachmentUrl(mediaBaseUrl + "/" + objectKey)
-                .build();
+    @Override
+    @Transactional
+    public UploadAttachmentResponse uploadFileAttachment(Long threadId, MultipartFile file) {
+        Long currentUserId = requireCurrentUserId();
+        resolveThreadContext(currentUserId, threadId);
+        validateFile(file);
+        return uploadFileToStorage(threadId, file);
     }
 
     @Override
@@ -219,6 +209,15 @@ public class ChatServiceImpl implements ChatService {
         }
 
         chatThreadRepository.save(context.thread);
+    }
+
+    @Override
+    @Transactional
+    public void blockThread(Long threadId) {
+        ChatThread thread = chatThreadRepository.findByIdAndDeletedFalse(threadId)
+                .orElseThrow(() -> new AppBadException("Thread not found"));
+        thread.setDeleted(Boolean.TRUE);
+        chatThreadRepository.save(thread);
     }
 
     @Override
@@ -451,6 +450,36 @@ public class ChatServiceImpl implements ChatService {
         if (file.getContentType() == null || !ALLOWED_CONTENT_TYPES.contains(file.getContentType().toLowerCase(Locale.ROOT))) {
             throw new AppBadException("Only jpg, jpeg, png and webp are allowed");
         }
+    }
+
+    private void validateFile(MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            throw new AppBadException("File is required");
+        }
+        if (file.getSize() > 10 * 1024 * 1024) {
+            throw new AppBadException("File size must be 10MB or less");
+        }
+    }
+
+    private UploadAttachmentResponse uploadFileToStorage(Long threadId, MultipartFile file) {
+        String extension = extractExtension(file.getOriginalFilename());
+        String objectKey = "chat/" + threadId + "/" + UUID.randomUUID() + "." + extension;
+
+        try (InputStream inputStream = file.getInputStream()) {
+            minioClient.putObject(PutObjectArgs.builder()
+                    .bucket(bucketName)
+                    .object(objectKey)
+                    .stream(inputStream, file.getSize(), -1)
+                    .contentType(file.getContentType())
+                    .build());
+        } catch (Exception e) {
+            throw new AppBadException("Attachment upload failed");
+        }
+
+        return UploadAttachmentResponse.builder()
+                .attachmentKey(objectKey)
+                .attachmentUrl(mediaBaseUrl + "/" + objectKey)
+                .build();
     }
 
     private String extractExtension(String fileName) {

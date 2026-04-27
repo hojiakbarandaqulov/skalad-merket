@@ -58,6 +58,12 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    public UnreadCountResponse getUnreadCount() {
+        Long userId = requireCurrentUserId();
+        return new UnreadCountResponse(notificationRepository.countByUserIdAndReadAtIsNullAndDeletedFalse(userId));
+    }
+
+    @Override
     @Transactional
     public void markRead(MarkReadRequest request) {
         Long userId = requireCurrentUserId();

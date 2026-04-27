@@ -1,5 +1,6 @@
 server:
-  domain: http://localhost
+  address: 0.0.0.0
+  domain: ${SERVER_DOMAIN:http://45.138.159.253}
   port: 8085
 
 spring:
@@ -7,13 +8,13 @@ spring:
     name: product-service
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/skalad-market-product-db
-    username: postgres
-    password: 1234
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5435}/${DB_NAME:skalad-market-product-db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:1234}
     driver-class-name: org.postgresql.Driver
 
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -22,7 +23,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
@@ -33,7 +34,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:9090/realms/market-realm
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://45.138.159.253:9090/realms/market-realm}
 
 app:
   kafka:
@@ -41,13 +42,13 @@ app:
       product-created: product-created-topic
 
   media:
-    base-url: http://localhost:9000/skalad-market
+    base-url: ${MEDIA_BASE_URL:http://45.138.159.253:9000/skalad-market}
 
 aws:
-  url: http://localhost:9000
-  access-key: minioadmin
-  secret-key: minioadmin
-  bucket-name: skalad-market
+  url: ${MINIO_URL:http://45.138.159.253:9000}
+  access-key: ${MINIO_ACCESS_KEY:minioadmin}
+  secret-key: ${MINIO_SECRET_KEY:minioadmin}
+  bucket-name: ${MINIO_BUCKET:skalad-market}
 
 feign:
   client:
@@ -55,3 +56,12 @@ feign:
       default:
         connectTimeout: 2000
         readTimeout: 3000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://45.138.159.253:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+    ip-address: ${SERVER_IP:45.138.159.253}
+    instance-id: ${spring.application.name}:${server.port}

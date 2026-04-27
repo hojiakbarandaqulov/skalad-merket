@@ -1,13 +1,16 @@
 server:
-  port: 8761
+  address: 0.0.0.0
+  port: ${SERVER_PORT:8761}
 
 spring:
   application:
     name: discovery-service
 
 eureka:
+  instance:
+    hostname: ${EUREKA_HOST:45.138.159.253}
   client:
     register-with-eureka: false
     fetch-registry: false
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://45.138.159.253:8761/eureka/}

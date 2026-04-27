@@ -33,4 +33,6 @@ public interface UsersRepository extends JpaRepository<Profile, Long>,
     @Query("update Profile p set p.photo = :photo where p.id = ?1")
     void updatePhoto(Long id, @Param("photo") Attach photo);
 
+    long countByStatusAndDeletedFalse(org.example.enums.GeneralStatus status);
+
 }

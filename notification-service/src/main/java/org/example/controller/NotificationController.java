@@ -24,6 +24,12 @@ public class NotificationController {
         return ApiResponse.successResponse(notificationService.getNotifications(isRead, page, perPage));
     }
 
+    @GetMapping("/unread-count")
+    public ApiResponse<UnreadCountResponse> getUnreadCount(
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") String language) {
+        return ApiResponse.successResponse(notificationService.getUnreadCount());
+    }
+
     @PostMapping("/mark-read")
     public ApiResponse<Void> markRead(
             @RequestHeader(value = "Accept-Language", defaultValue = "UZ") String language,

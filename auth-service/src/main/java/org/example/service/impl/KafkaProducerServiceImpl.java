@@ -7,10 +7,8 @@ import org.example.dto.kafka.UserRegisteredEvent;
 import org.example.dto.kafka.UserVerifiedEvent;
 import org.example.service.KafkaProducerService;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
 
 @Service
 @Slf4j
@@ -22,6 +20,7 @@ public class KafkaProducerServiceImpl implements KafkaProducerService {
     public static final String USER_REGISTERED = "user.registered";
     public static final String USER_VERIFIED = "user.verified";
     public static final String SUPER_ADMIN_KEYCLOAK_ID = "super.admin.keycloak.id";
+    public static final String SEND_COMPANY_NAME = "send.company.name";
 
     @Override
     public void sendUserRegistered(UserRegisteredEvent event) {
@@ -39,5 +38,11 @@ public class KafkaProducerServiceImpl implements KafkaProducerService {
     public void sendKeycloakId(SuperAdminSendKeycloakId event) {
         kafkaTemplate.send(SUPER_ADMIN_KEYCLOAK_ID, event);
         log.info("Keycloak ID bodybuilder: {}",event.getUserId());
+    }
+
+    @Override
+    public void sendCompanyName(String companyName) {
+        kafkaTemplate.send(SEND_COMPANY_NAME, companyName, companyName);
+        log.info("Company name bodybuilder: {}",companyName);
     }
 }

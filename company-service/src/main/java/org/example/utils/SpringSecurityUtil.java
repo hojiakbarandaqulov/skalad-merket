@@ -15,7 +15,16 @@ public class SpringSecurityUtil {
         if (authentication instanceof JwtAuthenticationToken jwtAuth) {
             Jwt jwt = jwtAuth.getToken();
             log.info("Token claims: {}", jwt.getClaims());
-            return jwt.getClaim("profileId"); // ← endi tokendan olish mumkin
+            Object claim = jwt.getClaim("profileId");
+            if (claim instanceof Long value) {
+                return value;
+            }
+            if (claim instanceof Integer value) {
+                return value.longValue();
+            }
+            if (claim instanceof String value && !value.isBlank()) {
+                return Long.parseLong(value);
+            }
         }
         return null;
     }

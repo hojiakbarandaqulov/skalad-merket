@@ -1,3 +1,7 @@
+server:
+  address: 0.0.0.0
+  port: ${SERVER_PORT:8080}
+
 spring:
   application:
     name: api-gateway
@@ -33,7 +37,7 @@ spring:
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/api/v1/users/**,/api/v1/attach/**,/api/v1/location/**,/api/v1/admin/users,/api/v1/admin/users/**, /api/v1/location
+            - Path=/api/v1/users/**,/api/v1/attach/**,/api/v1/location/**,/api/v1/admin/users,/api/v1/admin/users/**,/api/v1/location
 
         # Company Service
         - id: company-service
@@ -49,12 +53,12 @@ spring:
         - id: product-service
           uri: lb://product-service
           predicates:
-            - Path=/api/v1/products,/api/v1/products/**,/api/v1/favorites,/api/v1/favorites/**,/api/v1/catalog,/api/v1/catalog/**,/api/v1/admin/products,/api/v1/admin/products/**
+            - Path=/api/v1/products,/api/v1/products/**,/api/v1/favorites,/api/v1/favorites/**,/api/v1/catalog,/api/v1/catalog/**,/api/v1/admin/products,/api/v1/admin/products/**,/api/v1/banners,/api/v1/banners/**
         #Lead
         - id: lead-service
           uri: lb://lead-service
           predicates:
-            - Path=/api/v1/leads/**
+            - Path=/api/v1/leads,/api/v1/leads/**,/api/v1/cart,/api/v1/cart/**
         # Chat REST
         - id: chat-service
           uri: lb://chat-service
@@ -74,16 +78,14 @@ spring:
         - id: report-service
           uri: lb://report-service
           predicates:
-            - Path=/api/v1/reports/**,/api/v1/admin/reports/**
+            - Path=/api/v1/reports/**,/api/v1/admin/reports/**,/api/v1/admin/dashboard
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://45.138.159.253:8761/eureka/}
   instance:
     prefer-ip-address: true
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-
-server:
-  port: 8080
+    ip-address: ${SERVER_IP:45.138.159.253}
+    instance-id: ${spring.application.name}:${server.port}
 

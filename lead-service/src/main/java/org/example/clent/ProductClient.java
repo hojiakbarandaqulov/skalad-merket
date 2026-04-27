@@ -1,11 +1,9 @@
 package org.example.clent;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dto.ApiResponse;
-import org.example.dto.ProductResponse;
+import org.example.dto.internal.ProductInternalSummaryResponse;
 import org.example.exp.AppBadException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -28,20 +26,20 @@ public class ProductClient {
     @Value("${services.product-service.url}")
     private String productServiceUrl;
 
-    public ProductResponse getById(Long id) {
+    public ProductInternalSummaryResponse getById(Long id) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(getToken());
 
         HttpEntity<?> entity = new HttpEntity<>(headers);
 
         try {
-            ResponseEntity<ApiResponse<ProductResponse>> response = restTemplate.exchange(
-                    productServiceUrl + "/api/v1/products/" + id,
+            ResponseEntity<ProductInternalSummaryResponse> response = restTemplate.exchange(
+                    productServiceUrl + "/internal/products/" + id + "/summary",
                     HttpMethod.GET,
                     entity,
-                    new ParameterizedTypeReference<>() {}
+                    ProductInternalSummaryResponse.class
             );
-            return Objects.requireNonNull(response.getBody()).getData();
+            return Objects.requireNonNull(response.getBody());
         } catch (HttpClientErrorException.NotFound e) {
             throw new AppBadException("Product not found: " + id);
         }

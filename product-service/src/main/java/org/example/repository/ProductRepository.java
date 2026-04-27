@@ -4,21 +4,30 @@ import org.example.entity.Product;
 import org.example.enums.ProductModerationStatus;
 import org.example.enums.SaleType;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
+    @Query("""
+            select new org.example.dto.CategoryCountResponse(p.categoryId, count(p.id))
+            from Product p
+            where p.deletedAt is null
+              and p.moderationStatus = :status
+              and p.isActive = true
+              and p.categoryId is not null
+            group by p.categoryId
+            """)
+    List<org.example.dto.CategoryCountResponse> countVisibleProductsByCategory(@Param("status") ProductModerationStatus status);
+
+    long countByModerationStatusAndDeletedAtIsNull(ProductModerationStatus moderationStatus);
+
     Optional<Product> findByIdAndDeletedAtIsNull(Long id);
 
     boolean existsBySlug(String slug);
@@ -44,6 +53,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findBySlugAndModerationStatusAndDeletedAtIsNull(String slug, ProductModerationStatus productModerationStatus);
 
     Page<Product> findByDeletedAtIsNullOrderByIsPromotedDescViewsCountCacheDesc(Pageable pageable);
+
+    Page<Product> findByCompanyIdAndModerationStatusAndIsActiveTrueAndDeletedAtIsNullOrderByCreatedAtDesc(
+            Long companyId,
+            ProductModerationStatus moderationStatus,
+            Pageable pageable
+    );
 
 
 }

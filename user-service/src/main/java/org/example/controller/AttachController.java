@@ -20,12 +20,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/attach")
+@RequestMapping("/api/v1/attach")
 public class AttachController {
 
     private final AttachService attachService;
 
-    @PostMapping(value = "upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<AttachDTO> upload(@RequestParam("file") MultipartFile file,
                                             @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         AttachDTO dto = attachService.uploadFile(file, language);

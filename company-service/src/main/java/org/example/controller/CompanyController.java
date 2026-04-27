@@ -3,10 +3,10 @@ package org.example.controller;
 import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.kafka.shaded.com.google.protobuf.Api;
 import org.example.dto.*;
 import org.example.enums.AppLanguage;
 import org.example.service.CompanyService;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +17,12 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/companies")
+@RequestMapping("/api/v1/companies")
 public class CompanyController {
     private final CompanyService companyService;
 
     @PreAuthorize("hasRole('SELLER')")
-    @PostMapping("create")
+    @PostMapping("/create")
     public ApiResponse<CompanyResponseDTO> createCompany(@RequestBody @Valid CompanyRequestDTO company,
                                                          @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         return companyService.create(company, language);
@@ -35,11 +35,43 @@ public class CompanyController {
     }
 
     @PermitAll
+    @GetMapping("/public")
+    public ApiResponse<PageImpl<CompanyShortDTO>> getPublicCompanies(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(value = "per_page", defaultValue = "20") int perPage,
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        return companyService.getPublicCompanies(page, perPage, language);
+    }
+
+    @PermitAll
+    @GetMapping("/search")
+    public ApiResponse<PageImpl<CompanyShortDTO>> search(
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) Boolean verified,
+            @RequestParam(required = false) Long category,
+            @RequestParam(required = false) Long regionId,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(value = "per_page", defaultValue = "20") int perPage,
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        return companyService.search(q, verified, category, regionId, page, perPage, language);
+    }
+
+    @PermitAll
     @GetMapping("/{slug}")
     public ApiResponse<CompanyResponseDTO> getBySlug(
             @PathVariable String slug,
             @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         return companyService.getBySlug(slug, language);
+    }
+
+    @PermitAll
+    @GetMapping("/{slug}/products")
+    public ApiResponse<PageImpl<CompanyProductResponse>> getCompanyProducts(
+            @PathVariable String slug,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(value = "per_page", defaultValue = "20") int perPage,
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        return companyService.getCompanyProducts(slug, page, perPage, language);
     }
 
     @PutMapping("/{id}")
@@ -49,6 +81,15 @@ public class CompanyController {
             @RequestBody @Valid CompanyRequestDTO dto,
             @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         return companyService.update(id, dto, language);
+    }
+
+    @PostMapping("/{id}/documents")
+    @PreAuthorize("hasRole('SELLER')")
+    public ApiResponse<CompanyDocumentResponse> addDocument(
+            @PathVariable Long id,
+            @RequestBody @Valid CompanyDocumentCreateRequest request,
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        return companyService.addDocument(id, request, language);
     }
 
     @PostMapping(value = "/{id}/logo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

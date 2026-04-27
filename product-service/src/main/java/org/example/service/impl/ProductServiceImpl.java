@@ -100,7 +100,6 @@ public class ProductServiceImpl implements ProductService {
                 .createdAt(saved.getCreatedAt())
                 .build());
         productSearchService.index(toDocument(saved));
-
         return toResponse(saved);
     }
 
@@ -363,7 +362,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-
     private ProductDocument toDocument(Product product) {
         String primaryImageUrl = productImageRepository
                 .findByProduct_IdOrderBySortOrderAscIdAsc(product.getId())
@@ -407,6 +405,7 @@ public class ProductServiceImpl implements ProductService {
         if (!response.isActive()) {
             throw new AppBadException(messageService.getMessage("company.not.active", language));
         }
+
     }
 
     private void validateCategory(Long categoryId, AppLanguage language) {

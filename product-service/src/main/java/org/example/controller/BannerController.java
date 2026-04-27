@@ -21,7 +21,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/banners")
+@RequestMapping("/api/v1/banners")
 public class BannerController {
     private final BannerService bannerService;
 
@@ -33,7 +33,7 @@ public class BannerController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping(value = "{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<BannerResponse> upload(@PathVariable Long id, @RequestParam("file") MultipartFile file,
                                               @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         BannerResponse bannerResponse = bannerService.upload(id, file, language);
@@ -41,7 +41,7 @@ public class BannerController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ApiResponse<BannerCreateResponse> updateBanner(@PathVariable Long id, @RequestBody @Valid BannerUpdate update,
                                                           @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         BannerCreateResponse response = bannerService.updateBanner(id, update, language);
@@ -49,7 +49,7 @@ public class BannerController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ApiResponse<Boolean> deleteBanner(@PathVariable Long id,
                                              @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         bannerService.delete(id, language);

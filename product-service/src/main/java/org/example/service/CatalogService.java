@@ -7,6 +7,8 @@ import org.example.enums.AppLanguage;
 import org.example.enums.SaleType;
 import org.springframework.data.domain.PageImpl;
 
+import java.util.List;
+
 public interface CatalogService {
     PagedResponse<ProductResponse> getCatalog(String q, String category, Long regionId, String currency, int page, int perPage, AppLanguage language);
 
@@ -15,6 +17,8 @@ public interface CatalogService {
     SuggestionResponse suggestions(String q, AppLanguage language);
 
     CatalogFilterResponse filters(String category, AppLanguage language);
+
+    List<CategoryCountResponse> categoryCounts(AppLanguage language);
 
     CatalogHomepageResponse homepage(AppLanguage language);
 

@@ -3,12 +3,14 @@ package org.example.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.example.clent.ProductClient;
 import org.example.dto.*;
+import org.example.dto.internal.ProductInternalSummaryResponse;
 import org.example.entity.Lead;
 import org.example.entity.LeadItem;
 import org.example.enums.AppLanguage;
 import org.example.enums.LeadSource;
 import org.example.enums.LeadStatus;
 import org.example.exp.AppBadException;
+import org.example.mapper.LeadMapper;
 import org.example.repository.LeadItemRepository;
 import org.example.repository.LeadRepository;
 import org.example.service.LeadService;
@@ -28,15 +30,18 @@ public class LeadServiceImpl implements LeadService {
     private final LeadItemRepository leadItemRepository;
     private final ResourceBundleService messageService;
     private final ProductClient client;
+    private final LeadMapper leadMapper;
 
     @Override
     public LeadResponse create(LeadCreateRequest request, AppLanguage language) {
         Long buyerId = requireProfileId(language);
-        List<Long> productIds = request.getSource() == LeadSource.CART ? request.getProductIds() : List.of(request.getProductId());
+        List<Long> productIds = request.getSource() == LeadSource.CART
+                ? request.getProductIds()
+                : request.getProductId() == null ? List.of() : List.of(request.getProductId());
         if (productIds == null || productIds.isEmpty() || productIds.get(0) == null) {
             throw new AppBadException(messageService.getMessage("lead.items.required", language));
         }
-        List<ProductResponse> products = productIds.stream()
+        List<ProductInternalSummaryResponse> products = productIds.stream()
                 .map(client::getById)
                 .toList();
 
@@ -47,19 +52,23 @@ public class LeadServiceImpl implements LeadService {
         lead.setSource(request.getSource());
         lead.setContactName(request.getContactName());
         lead.setContactPhone(request.getContactPhone());
+        lead.setContactEmail(request.getContactEmail());
+        lead.setDeliveryAddress(request.getDeliveryAddress());
+        lead.setNeededDate(request.getNeededDate());
         lead.setComment(request.getComment());
         Lead savedLead = leadRepository.save(lead);
 
-        for (ProductResponse product : products) {
+        int quantity = request.getQuantity() == null ? 1 : request.getQuantity();
+        for (ProductInternalSummaryResponse product : products) {
             LeadItem item = new LeadItem();
             item.setLeadId(savedLead.getId());
             item.setProductId(product.getId());
             item.setProductNameSnapshot(product.getName());
             item.setPriceSnapshot(product.getPrice());
-            item.setQuantity(1);
+            item.setQuantity(quantity);
             leadItemRepository.save(item);
         }
-        return toResponse(savedLead);
+        return leadMapper.toResponse(savedLead);
     }
 
     @Override
@@ -70,7 +79,7 @@ public class LeadServiceImpl implements LeadService {
             spec = spec.and((root, query, cb) -> cb.equal(root.get("status"), status));
         }
         Page<Lead> leads = leadRepository.findAll(spec, PageRequest.of(Math.max(page - 1, 0), perPage));
-        return ServiceHelper.toPagedResponse(leads.map(this::toResponse));
+        return ServiceHelper.toPagedResponse(leads.map(leadMapper::toResponse));
     }
 
     @Override
@@ -84,7 +93,7 @@ public class LeadServiceImpl implements LeadService {
             spec = spec.and((root, query, cb) -> cb.equal(root.get("status"), status));
         }
         Page<Lead> leads = leadRepository.findAll(spec, PageRequest.of(Math.max(page - 1, 0), perPage));
-        return ServiceHelper.toPagedResponse(leads.map(this::toResponse));
+        return ServiceHelper.toPagedResponse(leads.map(leadMapper::toResponse));
     }
 
     @Override
@@ -94,7 +103,7 @@ public class LeadServiceImpl implements LeadService {
         if (!profileId.equals(lead.getBuyerId()) && !profileId.equals(lead.getSellerId())) {
             throw new AppBadException(messageService.getMessage("lead.forbidden", language));
         }
-        return toResponse(lead);
+        return leadMapper.toResponse(lead);
     }
 
     @Override
@@ -116,36 +125,13 @@ public class LeadServiceImpl implements LeadService {
         }
         lead.setStatus(request.getStatus());
         lead.setCloseReason(request.getCloseReason());
-        return toResponse(leadRepository.save(lead));
+        return leadMapper.toResponse(leadRepository.save(lead));
     }
 
     private Lead findLead(Long id, AppLanguage language) {
         return leadRepository.findById(id)
                 .filter(item -> Boolean.FALSE.equals(item.getDeleted()))
                 .orElseThrow(() -> new AppBadException(messageService.getMessage("lead.not.found", language)));
-    }
-
-    private LeadResponse toResponse(Lead lead) {
-        return LeadResponse.builder()
-                .id(lead.getId())
-                .buyerId(lead.getBuyerId())
-                .sellerId(lead.getSellerId())
-                .companyId(lead.getCompanyId())
-                .source(lead.getSource())
-                .status(lead.getStatus())
-                .contactName(lead.getContactName())
-                .contactPhone(lead.getContactPhone())
-                .comment(lead.getComment())
-                .closeReason(lead.getCloseReason())
-                .items(leadItemRepository.findByLeadIdAndDeletedFalse(lead.getId()).stream()
-                        .map(item -> LeadItemResponse.builder()
-                                .productId(item.getProductId())
-                                .productNameSnapshot(item.getProductNameSnapshot())
-                                .priceSnapshot(item.getPriceSnapshot())
-                                .quantity(item.getQuantity())
-                                .build())
-                        .toList())
-                .build();
     }
 
     private Long requireProfileId(AppLanguage language) {

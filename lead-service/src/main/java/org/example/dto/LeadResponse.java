@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.example.enums.LeadSource;
 import org.example.enums.LeadStatus;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -20,6 +21,9 @@ public class LeadResponse {
     private LeadStatus status;
     private String contactName;
     private String contactPhone;
+    private String contactEmail;
+    private String deliveryAddress;
+    private LocalDate neededDate;
     private String comment;
     private String closeReason;
     private List<LeadItemResponse> items;

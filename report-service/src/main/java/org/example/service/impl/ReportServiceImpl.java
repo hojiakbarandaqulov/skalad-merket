@@ -1,8 +1,9 @@
 package org.example.service.impl;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.example.dto.ApiResponse;
 import org.example.dto.report.*;
 import org.example.entity.Report;
 import org.example.enums.AppLanguage;
@@ -19,11 +20,14 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -33,6 +37,7 @@ public class ReportServiceImpl implements ReportService {
     private final ReportRepository repository;
     private final ResourceBundleService messageService;
     private final ModelMapper modelMapper;
+    private final RestTemplate restTemplate;
 
     @Override
     public ReportShortResponse createReport(ReportCreateRequest reportCreateRequest) {
@@ -44,7 +49,7 @@ public class ReportServiceImpl implements ReportService {
         report.setReasonCode(reportCreateRequest.getReasonCode());
         report.setComment(reportCreateRequest.getComment());
         repository.save(report);
-        return new ReportShortResponse(report.getId(),report.getStatus());
+        return new ReportShortResponse(report.getId(), report.getStatus());
     }
 
     @Override
@@ -54,63 +59,158 @@ public class ReportServiceImpl implements ReportService {
 
         Specification<Report> spec = Specification.where(null);
         if (status != null) {
-            spec=spec.and((root,query,cb)->cb.equal(root.get("status"), status));
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("status"), status));
         }
         if (targetType != null) {
-            spec=spec.and((root,query,cb)->cb.equal(root.get("targetType"), targetType));
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("targetType"), targetType));
         }
         PageRequest pageRequest = PageRequest.of(page1 - 1, size1, Sort.by(Sort.Direction.DESC, "createdDate"));
         Page<Report> result = repository.findAll(spec, pageRequest);
-        List<ReportResponse> responses = result.getContent().stream()
-                .map(this::toResponse).toList();
-
-        return new PageImpl<>(responses,pageRequest,result.getTotalElements());
+        return new PageImpl<>(result.getContent().stream().map(this::toResponse).toList(), pageRequest, result.getTotalElements());
     }
 
     @Override
     public ReportInfoResponse getByReport(Long id, AppLanguage language) {
-        Optional<Report> optionalReport=repository.findByIdAndDeletedFalse(id);
+        Optional<Report> optionalReport = repository.findByIdAndDeletedFalse(id);
         if (optionalReport.isPresent()) {
-            Report report=optionalReport.get();
+            Report report = optionalReport.get();
             return modelMapper.map(report, ReportInfoResponse.class);
         }
-        log.info("report not found id={}",id);
-        throw new AppBadException(messageService.getMessage("report.not.found",language));
+        log.info("report not found id={}", id);
+        throw new AppBadException(messageService.getMessage("report.not.found", language));
     }
-
 
     @Override
     public ReportResolveResponse reportReject(Long id, ReportResolveRequest request, AppLanguage language) {
         Long profileId = SpringSecurityUtil.getProfileId();
-        Optional<Report> optionalReport=repository.findByIdAndDeletedFalse(id);
-        if (optionalReport.isPresent()) {
-            Report report = optionalReport.get();
-            report.setStatus(ReportStatus.REJECTED);
-            report.setResolvedBy(profileId);
-            report.setResolvedAt(LocalDateTime.now());
-            report.setResolutionNote(request.getResolutionNote());
-            repository.save(report);
-            return modelMapper.map(report, ReportResolveResponse.class);
-        }
-        log.info("report not found reportId={}",id);
-        throw new AppBadException(messageService.getMessage("report.not.found",language));
+        Report report = getReportEntity(id, language);
+        report.setStatus(ReportStatus.REJECTED);
+        report.setResolvedBy(profileId);
+        report.setResolvedAt(LocalDateTime.now());
+        report.setResolutionNote(request.getResolutionNote());
+        repository.save(report);
+        return modelMapper.map(report, ReportResolveResponse.class);
     }
 
     @Override
-    public ReportResolveResponse reportResolve(Long id,ReportResolveRequest request, AppLanguage language) {
+    public ReportResolveResponse reportResolve(Long id, ReportResolveRequest request, AppLanguage language) {
         Long profileId = SpringSecurityUtil.getProfileId();
-        Optional<Report> optionalReport=repository.findByIdAndDeletedFalse(id);
-        if (optionalReport.isPresent()) {
-            Report report = optionalReport.get();
-            report.setStatus(ReportStatus.RESOLVED);
-            report.setResolvedBy(profileId);
-            report.setResolvedAt(LocalDateTime.now());
-            report.setResolutionNote(request.getResolutionNote());
-            repository.save(report);
-            return modelMapper.map(report, ReportResolveResponse.class);
+        Report report = getReportEntity(id, language);
+        report.setStatus(ReportStatus.RESOLVED);
+        report.setResolvedBy(profileId);
+        report.setResolvedAt(LocalDateTime.now());
+        report.setResolutionNote(request.getResolutionNote());
+        repository.save(report);
+        return modelMapper.map(report, ReportResolveResponse.class);
+    }
+
+    @Override
+    public AdminDashboardResponse getDashboard() {
+        AdminDashboardResponse response = new AdminDashboardResponse();
+        response.setPendingProducts(fetchCount("http://localhost:8085/internal/products/stats/pending-count"));
+        response.setPendingCompanies(fetchCount("http://localhost:8083/internal/companies/stats/pending-count"));
+        response.setBlockedUsers(fetchCount("http://localhost:8082/internal/profiles/stats/blocked-count"));
+        response.setOpenReports(repository.countByStatusAndDeletedFalse(ReportStatus.NEW));
+        return response;
+    }
+
+    @Override
+    public ReportResolveResponse warnUser(Long id, ReportWarnRequest request, AppLanguage language) {
+        Long targetUserId = resolveTargetUserId(id, language);
+        restTemplate.postForEntity("http://localhost:8082/internal/profiles/{userId}/warning", null, Void.class, targetUserId);
+
+        Report report = getReportEntity(id, language);
+        report.setStatus(ReportStatus.RESOLVED);
+        report.setResolvedBy(SpringSecurityUtil.getProfileId());
+        report.setResolvedAt(LocalDateTime.now());
+        report.setResolutionNote(request.getMessage());
+        repository.save(report);
+        return modelMapper.map(report, ReportResolveResponse.class);
+    }
+
+    @Override
+    public ReportResolveResponse blockTarget(Long id, ReportBlockRequest request, AppLanguage language) {
+        Report report = getReportEntity(id, language);
+        Map<String, String> body = Map.of("reason", request.getReason());
+
+        if (report.getTargetType() == TargetType.PRODUCT) {
+            restTemplate.exchange(
+                    "http://localhost:8085/internal/products/{id}/block",
+                    HttpMethod.PUT,
+                    new HttpEntity<>(body),
+                    Void.class,
+                    report.getTargetId()
+            );
+        } else if (report.getTargetType() == TargetType.COMPANY) {
+            restTemplate.exchange(
+                    "http://localhost:8083/internal/companies/{id}/block",
+                    HttpMethod.PUT,
+                    new HttpEntity<>(body),
+                    Void.class,
+                    report.getTargetId()
+            );
+        } else if (report.getTargetType() == TargetType.CHAT) {
+            restTemplate.exchange(
+                    "http://localhost:8087/internal/chats/{id}/block",
+                    HttpMethod.PUT,
+                    HttpEntity.EMPTY,
+                    Void.class,
+                    report.getTargetId()
+            );
+        } else {
+            throw new AppBadException("Unsupported target type");
         }
-        log.info("report not found");
-        throw new AppBadException(messageService.getMessage("report.not.found",language));
+
+        report.setStatus(ReportStatus.RESOLVED);
+        report.setResolvedBy(SpringSecurityUtil.getProfileId());
+        report.setResolvedAt(LocalDateTime.now());
+        report.setResolutionNote(request.getReason());
+        repository.save(report);
+        return modelMapper.map(report, ReportResolveResponse.class);
+    }
+
+    private Long resolveTargetUserId(Long reportId, AppLanguage language) {
+        Report report = getReportEntity(reportId, language);
+        if (report.getTargetType() == TargetType.PRODUCT) {
+            ProductSummaryResponse product = restTemplate.getForObject(
+                    "http://localhost:8085/internal/products/{id}/summary",
+                    ProductSummaryResponse.class,
+                    report.getTargetId()
+            );
+            if (product == null || product.getSellerId() == null) {
+                throw new AppBadException("product owner not found");
+            }
+            return product.getSellerId();
+        }
+        if (report.getTargetType() == TargetType.COMPANY) {
+            CompanySummaryResponse company = restTemplate.getForObject(
+                    "http://localhost:8083/internal/companies/{id}/summary",
+                    CompanySummaryResponse.class,
+                    report.getTargetId()
+            );
+            if (company == null || company.getOwnerUserId() == null) {
+                throw new AppBadException("company owner not found");
+            }
+            return company.getOwnerUserId();
+        }
+        throw new AppBadException("Warn user action is not supported for this target type");
+    }
+
+    private Long fetchCount(String url) {
+        ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
+        Object count = response.getBody() == null ? null : response.getBody().get("count");
+        if (count instanceof Number number) {
+            return number.longValue();
+        }
+        if (count instanceof String value && !value.isBlank()) {
+            return Long.parseLong(value);
+        }
+        return 0L;
+    }
+
+    private Report getReportEntity(Long id, AppLanguage language) {
+        return repository.findByIdAndDeletedFalse(id)
+                .orElseThrow(() -> new AppBadException(messageService.getMessage("report.not.found", language)));
     }
 
     private ReportResponse toResponse(Report report) {
@@ -124,7 +224,6 @@ public class ReportServiceImpl implements ReportService {
         return response;
     }
 
-
     private int normalizePage(int page, AppLanguage language) {
         if (page < 1) {
             throw new AppBadException(messageService.getMessage("page.invalid", language));
@@ -137,5 +236,19 @@ public class ReportServiceImpl implements ReportService {
             throw new AppBadException(messageService.getMessage("per.page.invalid", language));
         }
         return perPage;
+    }
+
+    @Getter
+    @Setter
+    private static class ProductSummaryResponse {
+        private Long id;
+        private Long sellerId;
+    }
+
+    @Getter
+    @Setter
+    private static class CompanySummaryResponse {
+        private Long id;
+        private Long ownerUserId;
     }
 }

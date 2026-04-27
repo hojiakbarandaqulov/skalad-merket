@@ -43,8 +43,16 @@ public class AuthServiceImpl implements AuthService {
     private final LoginAttemptService loginAttemptService;
     private final KeycloakService keycloakService;
 
+
     @Override
     public ApiResponse<String> registration(RegistrationDTO dto, RegistrationSelectRoles roles, AppLanguage language) {
+        if (roles==RegistrationSelectRoles.SELLER){
+            if (dto.getCompanyName()==null){
+                throw new AppBadException("companyName required");
+            }
+            kafkaProducerService.sendCompanyName(dto.getCompanyName());
+        }
+
         Optional<Users> optional = userRepository.findByUsernameAndDeletedFalse(dto.getUsername());
         if (optional.isPresent()) {
             Users users = optional.get();

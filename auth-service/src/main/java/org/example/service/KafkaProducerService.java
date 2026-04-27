@@ -8,4 +8,6 @@ public interface KafkaProducerService {
     void sendUserRegistered(UserRegisteredEvent event);
     void sendUserVerified(Long userId);
     void sendKeycloakId(SuperAdminSendKeycloakId event);
+
+    void sendCompanyName(String companyName);
 }

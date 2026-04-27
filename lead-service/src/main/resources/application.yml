@@ -4,7 +4,7 @@ spring:
   application:
     name: lead-service
   profiles:
-    active: local
+    active: ${SPRING_PROFILES_ACTIVE:local}
 
 
   # Eureka Client
@@ -16,3 +16,5 @@ eureka:
 services:
   product-service:
     url: http://product-service
+  company-service:
+    url: http://company-service

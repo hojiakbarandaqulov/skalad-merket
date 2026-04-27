@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/category")
+@RequestMapping("/api/v1/category")
 public class CategoryController {
 
     private final CategoryService categoryService;
 
     @PreAuthorize("hasRole('SUPER_ADMIN')")
-    @PostMapping("create")
+    @PostMapping("/create")
     public ApiResponse<CategoryResponse> createCategory(@RequestBody @Valid CategoryCreateRequest request,
                                                         @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         CategoryResponse categoryResponse = categoryService.create(request, language);
@@ -32,7 +32,7 @@ public class CategoryController {
     }
 
     @PreAuthorize("hasRole('SUPER_ADMIN')")
-    @PutMapping("update/{id}")
+    @PutMapping("/update/{id}")
     public ApiResponse<CategoryResponse> updateCategory(
             @PathVariable Long id,
             @RequestBody @Valid CategoryUpdateRequest request,
@@ -61,7 +61,7 @@ public class CategoryController {
     }
 
     @PreAuthorize("hasRole('SUPER_ADMIN')")
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ApiResponse<Boolean> deleteCategory(@PathVariable Long id,
                                                @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         Boolean categoryResponse = categoryService.delete(id, language);

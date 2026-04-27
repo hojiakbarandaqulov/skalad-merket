@@ -1,11 +1,14 @@
 package org.example.service.impl;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.ApiResponse;
 import org.example.dto.kafka.UserUpdateRole;
 import org.example.dto.kafka.UserUpdateStatus;
 import org.example.dto.users.AdminUserDetailResponse;
+import org.example.dto.users.UserContextResponse;
 import org.example.dto.users.UsersDTO;
 import org.example.dto.users.UsersResponse;
 import org.example.dto.users.UsersUpdatePhoto;
@@ -24,12 +27,14 @@ import org.example.service.ResourceBundleService;
 import org.example.service.UsersService;
 import org.example.utils.SpringSecurityUtil;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -44,7 +49,10 @@ public class UsersServiceImpl implements UsersService {
     private final AttachService attachService;
     protected final KeycloakService keycloakService;
     private final KafkaProducerService kafkaProducerService;
+    private final RestTemplate restTemplate;
 
+    @Value("${aws.url}")
+    private String awsUrl;
     @Override
     public ApiResponse<UsersDTO> getProfile(AppLanguage language) {
         Long profileId = SpringSecurityUtil.getProfileId();
@@ -54,6 +62,51 @@ public class UsersServiceImpl implements UsersService {
         }
         UsersDTO map = modelMapper.map(profile, UsersDTO.class);
         return new ApiResponse<>(map);
+    }
+
+    @Override
+    public ApiResponse<UserContextResponse> getContext(AppLanguage language) {
+        Long profileId = SpringSecurityUtil.getProfileId();
+        Profile profile = profileRepository.findByUserIdAndDeletedFalse(profileId);
+        if (profile == null) {
+            throw new AppBadException(messageService.getMessage("user.not.found", language));
+        }
+
+        UserContextResponse response = new UserContextResponse();
+        response.setId(profile.getUserId());
+        response.setFirstName(profile.getFirstName());
+        response.setLastName(profile.getLastName());
+        response.setUsername(profile.getUsername());
+        response.setRole(profile.getRoles());
+        response.setPhotoUrl(profile.getPhoto() == null ? null : awsUrl + profile.getPhoto().getPath());
+        response.setSellerPanel(profile.getRoles() == Roles.SELLER);
+        response.setModeratorPanel(profile.getRoles() == Roles.ADMIN || profile.getRoles() == Roles.SUPER_ADMIN);
+
+        if (profile.getRoles() == Roles.SELLER) {
+            try {
+                Long[] companyIds = restTemplate.getForObject(
+                        "http://localhost:8083/internal/companies/owned?sellerId={sellerId}",
+                        Long[].class,
+                        profileId
+                );
+                if (companyIds != null && companyIds.length > 0) {
+                    CompanySummary companySummary = restTemplate.getForObject(
+                            "http://localhost:8083/internal/companies/{companyId}/summary",
+                            CompanySummary.class,
+                            companyIds[0]
+                    );
+                    if (companySummary != null) {
+                        response.setCompanyId(companySummary.getId());
+                        response.setCompanyName(companySummary.getName());
+                        response.setCompanyLogoUrl(companySummary.getLogoPath());
+                    }
+                }
+            } catch (Exception e) {
+                log.warn("Failed to resolve company context for profileId={}", profileId, e);
+            }
+        }
+        response.setCompanyProfile(response.getCompanyId() != null);
+        return ApiResponse.successResponse(response);
     }
 
     @Override
@@ -229,4 +282,11 @@ public class UsersServiceImpl implements UsersService {
         return (firstName + " " + lastName).trim();
     }
 
+    @Getter
+    @Setter
+    private static class CompanySummary {
+        private Long id;
+        private String name;
+        private String logoPath;
+    }
 }
