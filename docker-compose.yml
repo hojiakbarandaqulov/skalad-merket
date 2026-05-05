@@ -82,6 +82,7 @@ services:
       POSTGRES_PASSWORD: 1234
     ports:
       - "5438:5432"
+
   skalad-market-chat-db:
     image: postgres:16
     container_name: skalad-market-chat-db

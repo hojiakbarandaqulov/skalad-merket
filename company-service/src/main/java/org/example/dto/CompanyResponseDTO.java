@@ -24,8 +24,6 @@ public class CompanyResponseDTO {
     private Long districtId;
     private String address;
     private VerificationStatus verificationStatus;
-    private String lng;
-    private String lat;
     private LocalDateTime verifiedAt;
     private LocalDateTime createdAt;
 }

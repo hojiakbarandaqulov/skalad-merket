@@ -4,6 +4,8 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.*;
+import org.example.dto.map.CompanyMapResponse;
+import org.example.dto.map.CompanySlugMapResponse;
 import org.example.enums.AppLanguage;
 import org.example.service.CompanyService;
 import org.springframework.data.domain.PageImpl;
@@ -58,10 +60,22 @@ public class CompanyController {
 
     @PermitAll
     @GetMapping("/{slug}")
-    public ApiResponse<CompanyResponseDTO> getBySlug(
+    public ApiResponse<CompanySlugMapResponse> getBySlug(
             @PathVariable String slug,
             @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         return companyService.getBySlug(slug, language);
+    }
+
+    @GetMapping("/map")
+    public ApiResponse<PageImpl<CompanyMapResponse>> getMapCompanies(
+            @RequestParam(required = false) Long regionId,
+            @RequestParam(required = false) Boolean verified,
+            @RequestParam(required = false) String q,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(value = "per_page", defaultValue = "20") int perPage,
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        PageImpl<CompanyMapResponse> responses = companyService.getMapCompany(regionId, q, verified, page, perPage,language);
+        return ApiResponse.successResponse(responses);
     }
 
     @PermitAll

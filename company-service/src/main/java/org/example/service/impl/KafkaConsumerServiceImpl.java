@@ -13,17 +13,5 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class KafkaConsumerServiceImpl implements KafkaConsumerService {
-    private final CompanyRepository companyRepository;
-    @KafkaListener(
-            topics = "send.company.name",
-            groupId = "company-service-group"
-    )
-    @Override
-    public void sendCompanyName(SendCompanyNameEvent event) {
-        Company company = new Company();
-        company.setOwnerUserId(event.getSellerId());
-        company.setName(event.getCompanyName());
-        log.info("Sending company name {}", event.getCompanyName());
-        companyRepository.save(company);
-    }
+
 }

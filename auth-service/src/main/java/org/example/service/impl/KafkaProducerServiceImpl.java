@@ -21,7 +21,6 @@ public class KafkaProducerServiceImpl implements KafkaProducerService {
     public static final String USER_REGISTERED = "user.registered";
     public static final String USER_VERIFIED = "user.verified";
     public static final String SUPER_ADMIN_KEYCLOAK_ID = "super.admin.keycloak.id";
-    public static final String SEND_COMPANY_NAME = "send.company.name";
 
     @Override
     public void sendUserRegistered(UserRegisteredEvent event) {
@@ -41,9 +40,5 @@ public class KafkaProducerServiceImpl implements KafkaProducerService {
         log.info("Keycloak ID bodybuilder: {}",event.getUserId());
     }
 
-    @Override
-    public void sendCompanyName(SendCompanyNameEvent event) {
-        kafkaTemplate.send(SEND_COMPANY_NAME, event.getSellerId().toString(), event);
-        log.info("Company name bodybuilder: {}",event);
-    }
+
 }

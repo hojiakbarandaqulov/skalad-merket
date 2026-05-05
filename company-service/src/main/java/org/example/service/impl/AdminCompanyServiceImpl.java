@@ -121,7 +121,6 @@ public class AdminCompanyServiceImpl implements AdminCompanyService {
         response.setDistrictId(company.getDistrictId());
         response.setAddress(company.getAddress());
         response.setVerificationStatus(company.getVerificationStatus());
-        response.setIsBlocked(company.getIsBlocked());
         response.setVerifiedAt(company.getVerifiedAt());
         response.setCreatedAt(company.getCreatedDate());
         return response;

@@ -72,12 +72,6 @@ public class AuthServiceImpl implements AuthService {
         entity.setKeycloakId(keycloakId);
         Users save = userRepository.save(entity);
 
-        if (roles==RegistrationSelectRoles.SELLER){
-            if (dto.getCompanyName()==null){
-                throw new AppBadException("companyName required");
-            }
-            kafkaProducerService.sendCompanyName(new SendCompanyNameEvent(save.getId(),dto.getCompanyName()));
-        }
         keycloakService.addProfileIdAttribute(keycloakId, save.getId(), dto.getFirstName(), dto.getLastName(), dto.getUsername(), dto.getPassword());
         kafkaProducerService.sendUserRegistered(UserRegisteredEvent.builder()
                 .userId(entity.getId())

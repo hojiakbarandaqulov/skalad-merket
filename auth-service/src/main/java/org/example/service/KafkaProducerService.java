@@ -10,5 +10,4 @@ public interface KafkaProducerService {
     void sendUserVerified(Long userId);
     void sendKeycloakId(SuperAdminSendKeycloakId event);
 
-    void sendCompanyName(SendCompanyNameEvent sendCompanyNameEvent);
 }

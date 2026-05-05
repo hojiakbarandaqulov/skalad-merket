@@ -14,11 +14,13 @@ public interface CompanyRepository extends JpaRepository<Company, Long>, JpaSpec
 
     Optional<Company> findByOwnerUserIdAndDeletedFalse(Long userId);
 
+    List<Company> findAllByIdInAndDeletedAtIsNullAndIsBlockedFalseAndLatNotNullAndLngNotNull(List<Long> id);
+
     Company findBySlugAndDeletedAtIsNullAndVerificationStatusIn(String slug, List<VerificationStatus> verified);
 
-   Optional<Company> findByIdAndDeletedFalse(Long id);
+    Optional<Company> findByIdAndDeletedFalse(Long id);
 
-    Optional<Company> findByIdAndOwnerUserIdAndDeletedAtIsNull(Long id,Long ownerId);
+    Optional<Company> findByIdAndOwnerUserIdAndDeletedAtIsNull(Long id, Long ownerId);
 
     Optional<Company> findByIdAndDeletedAtIsNull(Long id);
 

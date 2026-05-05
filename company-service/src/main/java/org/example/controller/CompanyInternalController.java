@@ -2,8 +2,10 @@ package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.dto.admin.ReasonRequest;
+import org.example.dto.internal.CompanyIds;
 import org.example.dto.internal.CompanyInternalOwnershipResponse;
 import org.example.dto.internal.CompanyInternalSummaryResponse;
+import org.example.dto.map.CompanyMapResponse;
 import org.example.entity.Company;
 import org.example.enums.AppLanguage;
 import org.example.enums.VerificationStatus;
@@ -12,6 +14,7 @@ import org.example.repository.CompanyRepository;
 import org.example.service.AdminCompanyService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -77,5 +80,24 @@ public class CompanyInternalController {
     @PutMapping("/{companyId}/block")
     public void block(@PathVariable Long companyId, @RequestBody(required = false) ReasonRequest request) {
         adminCompanyService.block(companyId, request, AppLanguage.UZ);
+    }
+
+    @PostMapping("/map-summary")
+    public List<CompanyMapResponse> mapSummary(@RequestBody CompanyIds request) {
+        List<Company> allById = companyRepository.findAllByIdInAndDeletedAtIsNullAndIsBlockedFalseAndLatNotNullAndLngNotNull(request.getCompanyIds());
+        List<CompanyMapResponse> companyMapResponses = new LinkedList<>();
+        allById.forEach(company -> {
+            CompanyMapResponse companyMapResponse = new CompanyMapResponse();
+            companyMapResponse.setCompanyName(company.getName());
+            companyMapResponse.setSlug(company.getSlug());
+            companyMapResponse.setLogoUrl(company.getLogoPath());
+            companyMapResponse.setCompanyAddress(company.getAddress());
+            companyMapResponse.setCompanyId(company.getId());
+            companyMapResponse.setLng(company.getLng());
+            companyMapResponse.setLat(company.getLat());
+            companyMapResponse.setVerificationStatus(company.getVerificationStatus());
+            companyMapResponses.add(companyMapResponse);
+        });
+        return companyMapResponses;
     }
 }
