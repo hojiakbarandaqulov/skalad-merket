@@ -1,6 +1,9 @@
 package org.example.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.example.client.CompanyClient;
+import org.example.client.dto.CompanyMapSummaryRequest;
+import org.example.client.dto.CompanyMapSummaryResponse;
 import org.example.dto.*;
 import org.example.dto.banner.BannerResponse;
 import org.example.dto.product.ProductDto;
@@ -33,6 +36,7 @@ public class CatalogServiceImpl implements CatalogService {
     private final ProductServiceImpl productService;
     private final BannerService bannerService;
     private final ModelMapper modelMapper;
+    private final CompanyClient companyClient;
 
     @Override
     public PagedResponse<ProductResponse> getCatalog(String q, String category, Long regionId, String currency, int page, int perPage, AppLanguage language) {
@@ -114,11 +118,94 @@ public class CatalogServiceImpl implements CatalogService {
     @Override
     public PageImpl<ProductDto> getPopularProduct(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<Product> products = productRepository.findByDeletedAtIsNullOrderByIsPromotedDescViewsCountCacheDesc(pageable);
+        Page<Product> products = productRepository.findByModerationStatusAndDeletedAtIsNullOrderByIsPromotedDescViewsCountCacheDesc(ProductModerationStatus.APPROVED,pageable);
         List<ProductDto> list =products.getContent().stream()
                 .map(this::toPopularProductResponse)
                 .collect(Collectors.toList());
         return new PageImpl<>(list, pageable, products.getTotalElements());
+    }
+
+    @Override
+    public PagedResponse<CatalogMapItemResponse> getCatalogMap(String q, String category, Long regionId, Long districtId, int page, int perPage, AppLanguage language) {
+        int safePage = Math.max(page, 1);
+        int safePerPage = Math.min(Math.max(perPage, 1), 100);
+
+        Specification<Product> spec = (root, query, cb) -> cb.and(
+                cb.equal(root.get("moderationStatus"), ProductModerationStatus.APPROVED),
+                cb.isTrue(root.get("isActive")),
+                cb.isNull(root.get("deletedAt"))
+        );
+
+        if (q != null && !q.isBlank()) {
+            String keyword = "%" + q.trim().toLowerCase() + "%";
+            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("name")), keyword));
+        }
+
+        if (category != null && !category.isBlank()) {
+            try {
+                Long categoryId = Long.valueOf(category);
+                spec = spec.and((root, query, cb) -> cb.equal(root.get("categoryId"), categoryId));
+            } catch (NumberFormatException ignored) {
+            }
+        }
+
+        if (regionId != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("regionId"), regionId));
+        }
+
+        if (districtId != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("districtId"), districtId));
+        }
+
+        PageRequest pageable = PageRequest.of(safePage - 1, safePerPage);
+        Page<Product> productPage = productRepository.findAll(spec, pageable);
+
+        List<Long> companyIds = productPage.getContent().stream()
+                .map(Product::getCompanyId)
+                .filter(Objects::nonNull)
+                .distinct()
+                .toList();
+
+        if (companyIds.isEmpty()) {
+            return new PagedResponse<>(List.of(), new PageMeta(0, safePage, safePerPage, 0));
+        }
+
+        CompanyMapSummaryRequest request = new CompanyMapSummaryRequest();
+        request.setCompanyIds(companyIds);
+
+        List<CompanyMapSummaryResponse> summaries = companyClient.getMapSummaries(request);
+        Map<Long, CompanyMapSummaryResponse> summaryMap = summaries.stream()
+                .collect(Collectors.toMap(CompanyMapSummaryResponse::getCompanyId, c -> c, (a, b) -> a));
+
+        List<CatalogMapItemResponse> items = productPage.getContent().stream()
+                .map(product -> {
+                    CompanyMapSummaryResponse company = summaryMap.get(product.getCompanyId());
+                    if (company == null) {
+                        return null;
+                    }
+
+                    CatalogMapItemResponse item = new CatalogMapItemResponse();
+                    item.setProductId(product.getId());
+                    item.setProductName(product.getName());
+                    item.setProductSlug(product.getSlug());
+                    item.setCompanyId(product.getCompanyId());
+                    item.setCompanyName(company.getCompanyName());
+                    item.setCompanySlug(company.getSlug());
+                    item.setCompanyAddress(company.getCompanyAddress());
+                    item.setLat(company.getLat());
+                    item.setLng(company.getLng());
+                    item.setPrice(product.getPrice());
+                    item.setCurrency(product.getCurrency());
+                    item.setVerifiedCompany(company.getVerificationStatus());
+                    return item;
+                })
+                .filter(Objects::nonNull)
+                .toList();
+
+        return new PagedResponse<>(
+                items,
+                new PageMeta(productPage.getTotalElements(), safePage, safePerPage, productPage.getTotalPages())
+        );
     }
 
     private ProductDto toPopularProductResponse(Product p) {

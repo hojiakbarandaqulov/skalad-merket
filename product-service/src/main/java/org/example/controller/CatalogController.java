@@ -82,4 +82,16 @@ public class CatalogController {
         PageImpl<ProductDto> result = catalogService.getPopularProduct(page, size);
         return ApiResponse.successResponse(result);
     }
+
+    @GetMapping("/map")
+    public ApiResponse<PagedResponse<CatalogMapItemResponse>> getCatalogMap(
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) Long regionId,
+            @RequestParam(required = false) Long districtId,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(value = "per_page", defaultValue = "20") int perPage,
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
+        return ApiResponse.successResponse(catalogService.getCatalogMap(query, category, regionId, districtId, page, perPage, language));
+    }
 }

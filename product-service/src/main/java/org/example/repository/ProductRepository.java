@@ -52,7 +52,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     Optional<Product> findBySlugAndModerationStatusAndDeletedAtIsNull(String slug, ProductModerationStatus productModerationStatus);
 
-    Page<Product> findByDeletedAtIsNullOrderByIsPromotedDescViewsCountCacheDesc(Pageable pageable);
+    Page<Product> findByModerationStatusAndDeletedAtIsNullOrderByIsPromotedDescViewsCountCacheDesc(ProductModerationStatus moderationStatus, Pageable pageable);
 
     Page<Product> findByCompanyIdAndModerationStatusAndIsActiveTrueAndDeletedAtIsNullOrderByCreatedAtDesc(
             Long companyId,

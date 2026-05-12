@@ -21,6 +21,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/companies")
 public class CompanyController {
+
     private final CompanyService companyService;
 
     @PreAuthorize("hasRole('SELLER')")
@@ -128,14 +129,11 @@ public class CompanyController {
 
     @PostMapping("/{id}/submit-verification")
     @PreAuthorize("hasRole('SELLER')")
-    public ApiResponse<Map<String, String>> submitVerification(
+    public ApiResponse<?> submitVerification(
             @PathVariable Long id,
             @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
         companyService.submitVerification(id, language);
-        return ApiResponse.successResponse(Map.of(
-                "message", "Moderatsiyaga yuborildi",
-                "status", "PENDING_VERIFICATION"
-        ));
+        return new ApiResponse<>("Moderatsiyaga yuborildi",true);
     }
 
     @DeleteMapping("/{id}")

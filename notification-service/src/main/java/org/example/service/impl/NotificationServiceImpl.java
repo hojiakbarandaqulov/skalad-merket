@@ -9,10 +9,12 @@ import org.example.dto.notification.*;
 import org.example.entity.Notification;
 import org.example.entity.NotificationPreference;
 import org.example.entity.PushToken;
+import org.example.entity.UserNotification;
 import org.example.exp.AppBadException;
 import org.example.repository.NotificationPreferenceRepository;
 import org.example.repository.NotificationRepository;
 import org.example.repository.PushTokenRepository;
+import org.example.repository.UserNotificationRepository;
 import org.example.service.NotificationService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +34,7 @@ import static org.example.utils.SpringSecurityUtil.getProfileId;
 public class NotificationServiceImpl implements NotificationService {
 
     private final NotificationRepository notificationRepository;
+    private final UserNotificationRepository userNotificationRepository;
     private final NotificationPreferenceRepository preferenceRepository;
     private final PushTokenRepository pushTokenRepository;
     private final ObjectMapper objectMapper;
@@ -129,6 +133,16 @@ public class NotificationServiceImpl implements NotificationService {
             notification.setType(request.getType());
             notification.setPayloadJson(objectMapper.writeValueAsString(request.getPayload()));
             notification.setSentAt(LocalDateTime.now());
+            UserNotification byUserIdAndDeletedFalse = userNotificationRepository.findByUserIdAndDeletedFalse(requireCurrentUserId());
+            if (byUserIdAndDeletedFalse==null) {
+                List<Notification> list = new LinkedList<>();
+                list.add(notification);
+                UserNotification userNotification = new UserNotification();
+                userNotification.setUserId(requireCurrentUserId());
+                userNotification.setNotification(list);
+            }else {
+                throw new AppBadException("notification_id.is.already.in.use");
+            }
             return toResponse(notificationRepository.save(notification));
         } catch (Exception e) {
             throw new AppBadException("Failed to create notification");

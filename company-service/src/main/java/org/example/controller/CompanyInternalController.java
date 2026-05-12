@@ -26,6 +26,7 @@ public class CompanyInternalController {
     private final CompanyRepository companyRepository;
     private final AdminCompanyService adminCompanyService;
 
+
     @GetMapping("/{companyId}/ownership-check")
     public CompanyInternalOwnershipResponse ownershipCheck(@PathVariable Long companyId, @RequestParam Long buyerId) {
         Company company = companyRepository.findByIdAndDeletedAtIsNull(companyId).orElse(null);

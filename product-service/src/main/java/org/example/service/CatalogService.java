@@ -25,4 +25,7 @@ public interface CatalogService {
     PageImpl<ProductResponse> getSaleTypeFilterProduct(int page, int perPage, SaleType saleType, AppLanguage language);
 
     PageImpl<ProductDto> getPopularProduct(int page, int size);
+
+    PagedResponse<CatalogMapItemResponse> getCatalogMap(String query, String category, Long regionId, Long districtId, int page, int perPage, AppLanguage language);
+
 }
