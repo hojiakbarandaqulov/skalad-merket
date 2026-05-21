@@ -5,9 +5,10 @@ import org.example.dto.favorite.FavoriteCountResponse;
 import org.example.dto.favorite.FavoriteResponse;
 import org.example.dto.product.ProductResponse;
 import org.example.enums.AppLanguage;
+import org.springframework.data.domain.PageImpl;
 
 public interface FavoriteService {
-    PagedResponse<ProductResponse> getFavorites(int page, int perPage, AppLanguage language);
+    PageImpl<ProductResponse> getFavorites(int page, int perPage, AppLanguage language);
 
     FavoriteCountResponse getCount(AppLanguage language);
 

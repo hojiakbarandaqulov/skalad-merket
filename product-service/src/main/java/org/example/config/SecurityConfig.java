@@ -54,6 +54,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/products/search").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/products/all").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/banners/getAll").permitAll()
+                        .requestMatchers("/api/v1/favorites/**").hasRole("BUYER")
                         .anyRequest().authenticated()
                 ).oauth2ResourceServer(auth2 -> auth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));

@@ -133,15 +133,17 @@ public class NotificationServiceImpl implements NotificationService {
             notification.setType(request.getType());
             notification.setPayloadJson(objectMapper.writeValueAsString(request.getPayload()));
             notification.setSentAt(LocalDateTime.now());
-            UserNotification byUserIdAndDeletedFalse = userNotificationRepository.findByUserIdAndDeletedFalse(requireCurrentUserId());
-            if (byUserIdAndDeletedFalse==null) {
-                List<Notification> list = new LinkedList<>();
+            UserNotification userNotificationResult = userNotificationRepository.findByUserIdAndDeletedFalse(requireCurrentUserId());
+            List<Notification> list = new LinkedList<>();
+            if (userNotificationResult==null) {
                 list.add(notification);
                 UserNotification userNotification = new UserNotification();
                 userNotification.setUserId(requireCurrentUserId());
-                userNotification.setNotification(list);
+                userNotification.setNotifications(list);
+                userNotificationRepository.save(userNotification);
             }else {
-                throw new AppBadException("notification_id.is.already.in.use");
+                userNotificationResult.getNotifications().add(notification);
+                userNotificationRepository.save(userNotificationResult);
             }
             return toResponse(notificationRepository.save(notification));
         } catch (Exception e) {

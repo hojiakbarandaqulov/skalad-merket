@@ -3,6 +3,7 @@ package org.example.repository;
 import org.example.entity.Product;
 import org.example.enums.ProductModerationStatus;
 import org.example.enums.SaleType;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -38,12 +39,20 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
             ProductModerationStatus moderationStatus
     );
 
+    @Query("SELECT p FROM Product p " +
+            "JOIN Favorite f ON f.productId = p.id " +
+            "WHERE f.userId = :userId " +
+            "AND f.isActive = true " +
+            "AND p.isActive = true ")
+    Page<Product> findActiveFavoriteProducts(@Param("userId") Long userId, Pageable pageable);
+
     List<Product> findTop8ByModerationStatusAndIsActiveTrueAndDeletedAtIsNullOrderByCreatedAtDesc(ProductModerationStatus moderationStatus);
 
     List<Product> findTop8ByModerationStatusAndIsActiveTrueAndIsPromotedTrueAndDeletedAtIsNullOrderByCreatedAtDesc(ProductModerationStatus moderationStatus);
 
 
-    Page<Product> findAll(Specification<Product> specification, Pageable pageable);
+    @NotNull
+    Page<Product> findAll(Specification<Product> specification, @NotNull Pageable pageable);
 
     Optional<Product> findByIdAndIsActiveTrue(Long productId);
 

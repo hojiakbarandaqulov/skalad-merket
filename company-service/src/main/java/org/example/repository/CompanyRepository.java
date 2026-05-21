@@ -2,8 +2,12 @@ package org.example.repository;
 
 import org.example.entity.Company;
 import org.example.enums.VerificationStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,4 +31,11 @@ public interface CompanyRepository extends JpaRepository<Company, Long>, JpaSpec
     List<Company> findAllByOwnerUserIdAndDeletedAtIsNull(Long ownerUserId);
 
     long countByVerificationStatusAndDeletedAtIsNull(VerificationStatus verificationStatus);
+
+    @Query("SELECT c FROM Company c " +
+            "JOIN Favorite f ON f.companyId = c.id " +
+            "WHERE f.userId = :userId " +
+            "AND f.deleted = false " +
+            "AND c.deleted = false ")
+    Page<Company> findFavoriteCompanyDeletedFalse(@Param("userId") Long userId, Pageable pageable);
 }

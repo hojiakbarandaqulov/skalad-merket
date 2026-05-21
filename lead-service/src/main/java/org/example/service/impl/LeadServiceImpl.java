@@ -34,11 +34,8 @@ public class LeadServiceImpl implements LeadService {
 
     @Override
     public LeadResponse create(LeadCreateRequest request, AppLanguage language) {
-
-        // 1. Buyer ID olish
         Long buyerId = requireProfileId(language);
 
-        // 2. Product ID larni aniqlash (CART dan yoki to'g'ridan-to'g'ri)
         List<Long> productIds;
         if (request.getSource() == LeadSource.CART) {
             productIds = request.getProductIds();
@@ -50,7 +47,6 @@ public class LeadServiceImpl implements LeadService {
             throw new AppBadException(messageService.getMessage("lead.items.required", language));
         }
 
-        // 4. Productlarni olish (Feign Client orqali)
         List<ProductInternalSummaryResponse> products = productIds.stream()
                 .map(client::getById)
                 .toList();

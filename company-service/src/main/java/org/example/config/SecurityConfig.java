@@ -49,6 +49,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/companies/search").permitAll()
                         .requestMatchers("/api/v1/companies/*/products").permitAll()
                         .requestMatchers("/api/v1/companies/*").permitAll()
+                        .requestMatchers("/api/v1/favorites/**").hasRole("BUYER")
+
                         .anyRequest().authenticated()
                 ).oauth2ResourceServer(auth2 -> auth2
                         .jwt(jwt -> jwt

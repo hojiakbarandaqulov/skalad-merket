@@ -51,12 +51,12 @@ public class CompanyController {
     public ApiResponse<PageImpl<CompanyShortDTO>> search(
             @RequestParam(required = false) String q,
             @RequestParam(required = false) Boolean verified,
-            @RequestParam(required = false) Long category,
+//            @RequestParam(required = false) Long category,
             @RequestParam(required = false) Long regionId,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(value = "per_page", defaultValue = "20") int perPage,
             @RequestHeader(value = "Accept-Language", defaultValue = "UZ") AppLanguage language) {
-        return companyService.search(q, verified, category, regionId, page, perPage, language);
+        return companyService.search(q, verified,  regionId, page, perPage, language);
     }
 
     @PermitAll

@@ -17,7 +17,7 @@ public interface CompanyService {
 
     ApiResponse<PageImpl<CompanyShortDTO>> getPublicCompanies(int page, int perPage, AppLanguage language);
 
-    ApiResponse<PageImpl<CompanyShortDTO>> search(String q, Boolean verified, Long category, Long regionId, int page, int perPage, AppLanguage language);
+    ApiResponse<PageImpl<CompanyShortDTO>> search(String q, Boolean verified,  Long regionId, int page, int perPage, AppLanguage language);
 
     ApiResponse<CompanySlugMapResponse> getBySlug(String slug, AppLanguage language);
 

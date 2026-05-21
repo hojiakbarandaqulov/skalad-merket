@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     Page<Favorite> findByUserIdAndIsActiveTrue(Long userId, Pageable pageable);
 
+
+
     Optional<Favorite> findByUserIdAndProductIdAndIsActiveTrue(Long userId, Long productId);
 
     long countByProductIdAndIsActiveTrue(Long productId);

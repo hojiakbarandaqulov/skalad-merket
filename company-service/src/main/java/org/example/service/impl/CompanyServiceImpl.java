@@ -74,12 +74,12 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public ApiResponse<PageImpl<CompanyShortDTO>> getPublicCompanies(int page, int perPage, AppLanguage language) {
-        return ApiResponse.successResponse(getPublicCompanyPage(null, null, null,null, page, perPage, language));
+        return ApiResponse.successResponse(getPublicCompanyPage(null, null,null, page, perPage, language));
     }
 
     @Override
-    public ApiResponse<PageImpl<CompanyShortDTO>> search(String q, Boolean verified, Long category, Long regionId, int page, int perPage, AppLanguage language) {
-        return ApiResponse.successResponse(getPublicCompanyPage(q, verified, category, regionId, page, perPage, language));
+    public ApiResponse<PageImpl<CompanyShortDTO>> search(String q, Boolean verified,  Long regionId, int page, int perPage, AppLanguage language) {
+        return ApiResponse.successResponse(getPublicCompanyPage(q, verified, regionId, page, perPage, language));
     }
 
     @Override
@@ -210,7 +210,7 @@ public class CompanyServiceImpl implements CompanyService {
         return getPublicCompanyMapPage(regionId,q,verified,page,perPage,language);
     }
 
-    private PageImpl<CompanyShortDTO> getPublicCompanyPage(String q, Boolean verified, Long categoryId, Long regionId, int page, int perPage, AppLanguage language) {
+    private PageImpl<CompanyShortDTO> getPublicCompanyPage(String q, Boolean verified, Long regionId, int page, int perPage, AppLanguage language) {
         int p = normalizePage(page, language);
         int size = normalizePerPage(perPage, language);
 
@@ -232,10 +232,10 @@ public class CompanyServiceImpl implements CompanyService {
 
             spec = spec.and((r, qy, cb) -> cb.or(cb.like(cb.lower(r.get("name")), keyword), cb.like(cb.lower(r.get("slug")), keyword), cb.like(cb.lower(r.get("description")), keyword)));
         }
-
+/*
         if (categoryId != null) {
             spec=spec.and((r,qy, cb)-> cb.equal(r.get("categoryId"), categoryId));
-        }
+        }*/
 
         if (regionId != null) {
             spec = spec.and((r, qy, cb) -> cb.equal(r.get("regionId"), regionId));

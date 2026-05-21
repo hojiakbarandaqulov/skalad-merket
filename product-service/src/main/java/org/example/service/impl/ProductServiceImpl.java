@@ -218,7 +218,7 @@ public class ProductServiceImpl implements ProductService {
             throw new AppBadException(messageService.getMessage("company.not.owned", language));
         }
 
-        Pageable pageable = PageRequest.of(resolvedPage - 1, resolvedPerPage, Sort.by(Sort.Direction.DESC, "createdDate"));
+        Pageable pageable = PageRequest.of(resolvedPage - 1, resolvedPerPage, Sort.by(Sort.Direction.DESC, "createdAt"));
         Specification<Product> specification = notDeleted();
         specification = specification.and((root, query, cb) -> root.get("companyId").in(companyId != null ? List.of(companyId) : ownedCompanyIds));
 
