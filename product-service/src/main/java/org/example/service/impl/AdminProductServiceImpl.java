@@ -83,7 +83,7 @@ public class AdminProductServiceImpl implements AdminProductService {
         Specification<Product> specification = Specification.where(notDeleted())
                 .and((root, query, cb) -> cb.equal(root.get("moderationStatus"), ProductModerationStatus.PENDING));
 
-        return productRepository.findAll(specification, Pageable.unpaged(Sort.by(Sort.Direction.ASC, "createdDate")))
+        return productRepository.findAll(specification, Pageable.unpaged(Sort.by(Sort.Direction.ASC, "createdAt")))
                 .stream()
                 .map(this::toResponse)
                 .toList();
